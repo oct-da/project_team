@@ -11,8 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller("mainController")
 //@EnableAspectJAutoProxy  넣어야하나?
- 
-
 public class MainController {
 	@RequestMapping(value = "/main/main.do", method = { RequestMethod.POST, RequestMethod.GET })
 	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception {
