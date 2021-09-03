@@ -9,7 +9,7 @@ public interface MemberService {
 	public MemberVO login(Map  loginMap) throws Exception;
 	
 //	회원가입
-	public String addMember(MemberVO memberVO) throws Exception;
+	public void addMember(MemberVO memberVO) throws Exception;
 	
 //	ID중복검사(회원가입)
 	public String overlapped(String id) throws Exception;

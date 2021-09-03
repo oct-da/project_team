@@ -27,8 +27,8 @@ public class MemberServiceImpl implements MemberService{
 
 //	회원가입
 	@Override
-	public String addMember(MemberVO memberVO) throws Exception {
-		 return memberDAO.insertMember(memberVO); 
+	public void addMember(MemberVO memberVO) throws Exception {
+		 memberDAO.insertMember(memberVO); 
 		
 	}
 

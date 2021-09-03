@@ -62,13 +62,10 @@ function fn_overlapped(){
 				<td><input type="text" name="name" id="name" size="20" /></td>
 				</tr>
 				<tr class="dot_line">
-					
 				<td class="fixed_join">폰번</td>
-				<td></tr>
-
-
+				<td><input type="text" name="phone" id="phone" size="20" /></td>
 				</tr>
-					<tr class="dot_line">
+				<tr class="dot_line">
 					
 				<td class="fixed_join">이메일</td>
 					<td>
