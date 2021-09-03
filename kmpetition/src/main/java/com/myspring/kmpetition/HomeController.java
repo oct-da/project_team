@@ -33,6 +33,7 @@ public class HomeController {
 //	contextPath만 입력하고 접속했을 때 자동으로 메인 화면으로 리다이렉트 하기 위한 메서드
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public void home(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("Home컨의 home");
 		response.setContentType("text/html; charset=utf-8");
 		response.sendRedirect("main/main.do");
 		
@@ -40,6 +41,7 @@ public class HomeController {
 	
 	@RequestMapping(value={"/*/*Form.do", "/*Form.do"}, method = {RequestMethod.POST, RequestMethod.GET})
 	protected ModelAndView viewForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("Home컨의 viewForm");
 		String viewName=(String)request.getAttribute("viewName");
 		ModelAndView mav=new ModelAndView(viewName);
 		return mav;

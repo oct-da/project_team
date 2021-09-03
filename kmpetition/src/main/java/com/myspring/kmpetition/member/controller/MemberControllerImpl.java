@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myspring.kmpetition.member.service.MemberService;
@@ -25,10 +26,10 @@ public class MemberControllerImpl implements MemberController{
 	
 	@Override
 	@RequestMapping(value="/login.do")
-	public ModelAndView login(Map<String, String> loginMap, HttpServletRequest request, HttpServletResponse response)
+	public ModelAndView login(@RequestParam Map<String, String> loginMap, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		ModelAndView mav=new ModelAndView();
-		
+		System.out.println("Member컨의 login");
 //		아직 서비스 미구현
 //		memberVO=memberService.login(loginMap);
 		
@@ -37,6 +38,9 @@ public class MemberControllerImpl implements MemberController{
 		String pwd=loginMap.get("pwd");
 		memberVO.setId(id);
 		memberVO.setPwd(pwd);
+//		임시코드 끝
+	
+		
 		//로그인한 정보가 있고 id가 null이 아니면
 		if(memberVO!=null&&memberVO.getId()!=null) {
 			HttpSession session=request.getSession();
