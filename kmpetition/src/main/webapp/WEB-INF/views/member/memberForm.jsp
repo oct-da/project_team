@@ -6,8 +6,41 @@
 <html>
 <head>
 <meta charset="utf-8">
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-
+<!-- 제이쿼리를 사용하기 위한 srcipt -->
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+/* ID중복체크 함수 */
+function fn_overlapped(){
+    var _id=$("#id").val();
+    if(_id==''){
+   	 alert("ID를 입력하세요");
+   	 return;
+    }
+    $.ajax({
+       type:"post",
+       async:false,  
+       url:"${contextPath}/member/overlapped.do",
+       dataType:"text",
+       data: {id:_id},
+       success:function (data,textStatus){
+          if(data=='false'){
+       	    alert("사용할 수 있는 ID입니다.");
+       	    $('#btnOverlapped').prop("disabled", true);
+       	    $('#_member_id').prop("disabled", true);
+       	    $('#member_id').val(_id);
+          }else{
+        	  alert("사용할 수 없는 ID입니다.");
+          }
+       },
+       error:function(data,textStatus){
+          alert("에러가 발생했습니다.");ㅣ
+       },
+       complete:function(data,textStatus){
+          //alert("작업을완료 했습니다");
+       }
+    });  //end ajax	 
+ }	
+</script>
 </head>
 <body>
 	<h3>회원가입 화면</h3>
@@ -17,11 +50,11 @@
 				<tr class="dot_line">
 					<td class="fixed_join">아이디</td>
 					<td><input type="text" name="id" id="id" size="20" /> <input
-						type="button" id="btnOverlapped" value="중복체크" /></td>
+						type="button" id="btnOverlapped" value="중복체크" onClick="fn_overlapped()" />
 				</tr>
 				<tr class="dot_line">
 					<td class="fixed_join">비번</td>
-				<td><input type="text" name="pw" id="pw" size="20" /></td>
+				<td><input type="password" name="pwd" id="pwd" size="20" /></td>
 				</tr>
 				<tr class="dot_line">
 					
@@ -35,8 +68,7 @@
 
 
 				</tr>
-					<tr class="dot_
-				line">
+					<tr class="dot_line">
 					
 				<td class="fixed_join">이메일</td>
 					<td>
@@ -48,7 +80,7 @@
 		<table align=center>
 		<tr>
 			<td>
-				<input type="submit" value="회원 가입">
+				<input type="submit" value="완료">
 				<input type="reset" value="다시입력">
 			</td>
 		</tr>

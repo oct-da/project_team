@@ -30,6 +30,9 @@
 				<input  type="reset"  value="다시입력">
 			</td>
 		</tr>
+		<tr>
+			<a href="${contextPath }/member/memberForm.do">회원가입창으로 이동</a>
+		</tr>
 		</tbody>
 		</table>
 </form>	

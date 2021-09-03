@@ -9,4 +9,6 @@ import com.myspring.kmpetition.member.vo.MemberVO;
 public interface MemberDAO {
 
 	public MemberVO login(Map loginMap) throws DataAccessException;
+	public String insertMember(MemberVO member) throws DataAccessException;
+	public String overlapped(String id) throws DataAccessException;
 }
