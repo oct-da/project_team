@@ -13,8 +13,7 @@ public class MemberVO {
 	private String phone;
 	private String email;
 	private Date lastLogin;
-	private boolean enable;
-	
+	private String enable;
 	
 	public String getId() {
 		return id;
@@ -52,12 +51,13 @@ public class MemberVO {
 	public void setLastLogin(Date lastLogin) {
 		this.lastLogin = lastLogin;
 	}
-	public boolean isEnable() {
+	public String getEnable() {
 		return enable;
 	}
-	public void setEnable(boolean enable) {
+	public void setEnable(String enable) {
 		this.enable = enable;
 	}
-
+	
+	
 	
 }

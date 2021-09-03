@@ -31,14 +31,18 @@ public class MemberControllerImpl implements MemberController{
 		ModelAndView mav=new ModelAndView();
 		System.out.println("Member컨의 login");
 //		아직 서비스 미구현
-//		memberVO=memberService.login(loginMap);
+		memberVO=memberService.login(loginMap);
 		
 //		서비스 대신 임시코드
-		String id=loginMap.get("id");
-		String pwd=loginMap.get("pwd");
-		memberVO.setId(id);
-		memberVO.setPwd(pwd);
+//		String id=loginMap.get("id");
+//		String pwd=loginMap.get("pwd");
+//		memberVO.setId(id);
+//		memberVO.setPwd(pwd);
 //		임시코드 끝
+		
+		String id=memberVO.getId();
+		String pwd=memberVO.getPwd();
+		System.out.println(id+", "+pwd);
 	
 		
 		//로그인한 정보가 있고 id가 null이 아니면

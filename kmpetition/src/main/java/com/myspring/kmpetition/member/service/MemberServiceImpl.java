@@ -2,17 +2,23 @@ package com.myspring.kmpetition.member.service;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.myspring.kmpetition.member.dao.MemberDAO;
 import com.myspring.kmpetition.member.vo.MemberVO;
 
 @Service("memberService")
 public class MemberServiceImpl implements MemberService{
-
+	@Autowired
+	private MemberVO memberVO;
+	@Autowired
+	private MemberDAO memberDAO;
+	
 	@Override
 	public MemberVO login(Map loginMap) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return memberDAO.login(loginMap);
+		
 	}
 
 	@Override
