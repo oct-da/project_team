@@ -28,6 +28,7 @@ public class MemberControllerImpl implements MemberController {
 	@Autowired
 	private MemberVO memberVO;
 
+//	로그인
 	@Override
 	@RequestMapping(value = "/login.do")
 	public ModelAndView login(@RequestParam Map<String, String> loginMap, HttpServletRequest request,
@@ -70,6 +71,7 @@ public class MemberControllerImpl implements MemberController {
 		return null;
 	}
 
+//	회원가입
 	@Override
 	@RequestMapping(value = "/addMember.do", method = RequestMethod.POST)
 	public ResponseEntity addMember(@ModelAttribute("memberVO") MemberVO _memberVO, HttpServletRequest request,
@@ -98,7 +100,8 @@ public class MemberControllerImpl implements MemberController {
 		resEntity = new ResponseEntity(message, responseHeaders, HttpStatus.OK);
 		return resEntity;
 	}
-
+	
+//	ID중복검사 (회원가입시)
 	@Override
 	@RequestMapping(value = "/overlapped.do", method = RequestMethod.POST)
 	public ResponseEntity overlapped(@RequestParam String id, HttpServletRequest request, HttpServletResponse response)
@@ -110,6 +113,7 @@ public class MemberControllerImpl implements MemberController {
 		return resEntity;
 
 	}
+	
 
 	@Override
 	public ResponseEntity removeMember(@RequestParam String id, HttpServletRequest request,
