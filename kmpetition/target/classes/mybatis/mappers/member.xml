@@ -52,6 +52,22 @@
 		]]>
 	</select>
 	
+	<select id="findPwd" parameterType="java.util.Map" resultType="memberVO">
+		<![CDATA[ 
+			select * from t_member 
+			where name=#{name} and email=#{email} and id=#{id} 
+		]]>
+	</select>
+	
+	<!-- 비밀번호 찾기 후 입력한 새 비밀번호로 정보 변경 -->
+	<update id="updatePwd" parameterType="java.util.Map">
+		<![CDATA[
+			update t_member 
+			set pwd=#{pwd}
+			where id=#{id}
+		 ]]>
+	</update>
+	
 	
 	
 	<select id="selectAllMemberList" resultMap="memResult">

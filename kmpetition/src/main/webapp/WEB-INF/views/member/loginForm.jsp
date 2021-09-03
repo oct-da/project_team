@@ -7,7 +7,6 @@
 <html>
 <head>
 <meta charset="utf-8">
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 
 </head>
 <body>
@@ -35,7 +34,7 @@
 		</tr>
 		<tr>
 			<td><a href="${contextPath }/member/findIdForm.do">아이디찾기</a></td>
-			<td><a href="#">비밀번호 찾기(미구현)</a></td>
+			<td><a href="${contextPath }/member/findPwdForm.do">비밀번호 찾기</a></td>
 		</tr>
 		</tbody>
 		</table>

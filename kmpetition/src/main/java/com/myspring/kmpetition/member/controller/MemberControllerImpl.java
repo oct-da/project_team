@@ -135,7 +135,54 @@ public class MemberControllerImpl implements MemberController {
 		mav.addObject("findId", findId);
 		return mav;
 	}
+	
 
+//	비밀번호 찾기
+	@RequestMapping(value = "/findPwd.do", method = RequestMethod.POST)
+	public ModelAndView findPwd(@RequestParam Map<String, String> findMap, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		String viewName=(String) request.getAttribute("viewName");
+		ModelAndView mav=new ModelAndView(viewName);
+		MemberVO memberVO = memberService.findPwd(findMap);
+		String id=findMap.get("id");
+		mav.addObject("id", id);
+		String result=null;
+		if (memberVO!=null) {
+			result="true";
+			
+		}
+		mav.addObject("result", result);
+		return mav;
+	}
+	@RequestMapping(value = "/modPwd.do", method = RequestMethod.POST)
+	public ResponseEntity modPwd(@RequestParam Map<String, String> modMap, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		
+		response.setContentType("text/html; charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
+		String message = null;
+		ResponseEntity resEntity = null;
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+		try {
+			memberService.modPwd(modMap);
+			message = "<script>";
+			message += " alert('비밀번호 변경이 완료되었습니다. 로그인창으로 이동합니다.');";
+			message += " location.href='" + request.getContextPath() + "/member/loginForm.do';";
+			message += " </script>";
+
+		} catch (Exception e) {
+			message = "<script>";
+			message += " alert('작업 중 오류가 발생했습니다. 다시 시도해 주세요');";
+			message += " location.href='" + request.getContextPath() + "/member/findPwdForm.do';";
+			message += " </script>";
+			e.printStackTrace();
+		}
+		resEntity = new ResponseEntity(message, responseHeaders, HttpStatus.OK);
+		return resEntity;
+	}
+
+	
 	@Override
 	public ResponseEntity removeMember(@RequestParam String id, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {

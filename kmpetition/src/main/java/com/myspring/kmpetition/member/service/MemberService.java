@@ -19,8 +19,12 @@ public interface MemberService {
 	
 //	회원수정
 	public void modMember(MemberVO memberVO) throws Exception;
-	
+
 //	ID찾기
 	public MemberVO findId(Map<String, String> findMap) throws Exception;
-//	public MemberVO findId(MemberVO memberVO) throws Exception;
+//	비밀번호 찾기
+	public MemberVO findPwd(Map<String, String> findMap) throws Exception;
+//	비밀번호 찾기 결과, 비밀번호 변경
+	public void modPwd(Map<String, String> modMap) throws Exception;
+	
 }

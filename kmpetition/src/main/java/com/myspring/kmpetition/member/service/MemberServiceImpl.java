@@ -56,11 +56,14 @@ public class MemberServiceImpl implements MemberService{
 		System.out.println("service의 findid");
 		return memberDAO.selectForFindId(findMap);
 	}
-//	@Override
-//	public MemberVO findId(MemberVO memberVO) throws Exception{
-//		System.out.println("service의 findid");
-//		return memberDAO.selectForFindId(memberVO);
-//	}
-
+//	비밀번호 찾기
+	@Override
+	public MemberVO findPwd(Map<String, String> findMap) throws Exception{
+		return memberDAO.selectForFindPwd(findMap);
+	}
+//	비밀번호 찾기 결과, 비밀번호 변경
+	public void modPwd(Map<String, String> modMap) throws Exception{
+		memberDAO.updatePwd(modMap);
+	}
 	
 }
