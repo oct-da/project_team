@@ -31,7 +31,11 @@
 			</td>
 		</tr>
 		<tr>
-			<a href="${contextPath }/member/memberForm.do">회원가입창으로 이동</a>
+			<td><a href="${contextPath }/member/memberForm.do">회원가입창으로 이동</a></td>
+		</tr>
+		<tr>
+			<td><a href="${contextPath }/member/findIdForm.do">아이디찾기</a></td>
+			<td><a href="#">비밀번호 찾기(미구현)</a></td>
 		</tr>
 		</tbody>
 		</table>

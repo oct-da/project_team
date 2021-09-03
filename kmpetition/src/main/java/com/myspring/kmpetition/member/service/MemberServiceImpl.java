@@ -50,6 +50,17 @@ public class MemberServiceImpl implements MemberService{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public MemberVO findId(Map<String, String> findMap) throws Exception{
+		System.out.println("service의 findid");
+		return memberDAO.selectForFindId(findMap);
+	}
+//	@Override
+//	public MemberVO findId(MemberVO memberVO) throws Exception{
+//		System.out.println("service의 findid");
+//		return memberDAO.selectForFindId(memberVO);
+//	}
 
 	
 }

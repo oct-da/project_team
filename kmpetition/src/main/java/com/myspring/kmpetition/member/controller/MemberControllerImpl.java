@@ -114,6 +114,27 @@ public class MemberControllerImpl implements MemberController {
 
 	}
 	
+//	ID찾기
+	@RequestMapping(value = "/findId.do", method = RequestMethod.POST)
+	public ModelAndView findId(@RequestParam Map<String, String> findMap, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+//		public ModelAndView findId(@RequestParam MemberVO member, HttpServletRequest request, HttpServletResponse response)
+//				throws Exception {
+		System.out.println("member컨의 findid");
+		String viewName=(String) request.getAttribute("viewName");
+		ModelAndView mav=new ModelAndView(viewName);
+		MemberVO memberVO = memberService.findId(findMap);
+//		MemberVO memberVO = memberService.findId(member);
+		System.out.println("member컨의 findid의 service 이후");
+		String findId=null;
+		if (memberVO!=null) {
+			findId=memberVO.getId();
+			
+		}
+		System.out.println(findId);
+		mav.addObject("findId", findId);
+		return mav;
+	}
 
 	@Override
 	public ResponseEntity removeMember(@RequestParam String id, HttpServletRequest request,

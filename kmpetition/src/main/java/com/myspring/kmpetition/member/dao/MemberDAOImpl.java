@@ -39,4 +39,15 @@ public class MemberDAOImpl implements MemberDAO{
 			return "false";	//ID체크 합격(동일한 ID 없음)
 		}
 	}
+
+	@Override
+	public MemberVO selectForFindId(Map<String, String> findMap) throws DataAccessException {
+//	public MemberVO selectForFindId(MemberVO member) throws DataAccessException {
+		System.out.println("dao의 findid");
+		MemberVO memberVO=(MemberVO)sqlSession.selectOne("mapper.member.findId", findMap);
+//		MemberVO memberVO=(MemberVO)sqlSession.selectOne("mapper.member.findId", member);
+		return memberVO;
+	}
+	
+	
 }

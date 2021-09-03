@@ -15,6 +15,8 @@ public class MemberVO {
 	private Date lastLogin;
 	private String enable;
 	
+	
+	
 	public String getId() {
 		return id;
 	}
