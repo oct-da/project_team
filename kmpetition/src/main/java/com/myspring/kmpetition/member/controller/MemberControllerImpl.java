@@ -45,9 +45,6 @@ public class MemberControllerImpl implements MemberController {
 //		memberVO.setPwd(pwd);
 //		임시코드 끝
 
-		String id = memberVO.getId();
-		String pwd = memberVO.getPwd();
-		System.out.println(id + ", " + pwd);
 
 		// 로그인한 정보가 있고 id가 null이 아니면
 		if (memberVO != null && memberVO.getId() != null) {
@@ -55,7 +52,13 @@ public class MemberControllerImpl implements MemberController {
 			session.setAttribute("isLogOn", true);
 			session.setAttribute("memberInfo", memberVO);
 			mav.setViewName("redirect:/main/main.do");
-			// 로그인 정보가 없거나 id가 null이면(로그인 정보로 DB에서 조회가 안 되면)
+
+//			id, pwd 확인용(게터값이 null이면 에러남)
+			String id = memberVO.getId();
+			String pwd = memberVO.getPwd();
+			System.out.println(id + ", " + pwd);
+			
+		// 로그인 정보가 없거나 id가 null이면(로그인 정보로 DB에서 조회가 안 되면)
 		} else {
 			String message = "아이디나 비밀번호가 틀립니다. 다시 로그인해주세요.";
 			mav.addObject("message", message);
