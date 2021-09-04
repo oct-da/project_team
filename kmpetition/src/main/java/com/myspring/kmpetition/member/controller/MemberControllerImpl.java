@@ -17,12 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.myspring.kmpetition.HomeController;
 import com.myspring.kmpetition.member.service.MemberService;
 import com.myspring.kmpetition.member.vo.MemberVO;
 
 @Controller("memberController")
 @RequestMapping(value = "/member")
-public class MemberControllerImpl implements MemberController {
+public class MemberControllerImpl extends HomeController implements MemberController {
 	@Autowired
 	private MemberService memberService;
 	@Autowired
@@ -33,8 +34,10 @@ public class MemberControllerImpl implements MemberController {
 	@RequestMapping(value = "/login.do")
 	public ModelAndView login(@RequestParam Map<String, String> loginMap, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
+		
 		System.out.println("Member컨의 login");
+		
+		ModelAndView mav = new ModelAndView();
 //		아직 서비스 미구현
 		memberVO = memberService.login(loginMap);
 
@@ -199,5 +202,5 @@ public class MemberControllerImpl implements MemberController {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 }
