@@ -80,6 +80,7 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		return mav;
 	}
 
+	/*
 //	회원가입
 	@Override
 	@RequestMapping(value = "/addMember.do", method = RequestMethod.POST)
@@ -94,6 +95,55 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
 		try {
 			memberService.addMember(_memberVO);
+			message = "<script>";
+			message += " alert('회원 가입을 마쳤습니다.로그인창으로 이동합니다.');";
+			message += " location.href='" + request.getContextPath() + "/member/loginForm.do';";
+			message += " </script>";
+
+		} catch (Exception e) {
+			message = "<script>";
+			message += " alert('작업 중 오류가 발생했습니다. 다시 시도해 주세요');";
+			message += " location.href='" + request.getContextPath() + "/member/memberForm.do';";
+			message += " </script>";
+			e.printStackTrace();
+		}
+		resEntity = new ResponseEntity(message, responseHeaders, HttpStatus.OK);
+		return resEntity;
+	}
+	*/
+	
+
+//	회원가입. 이메일 드롭박스 테스트
+	@Override
+	@RequestMapping(value = "/addMember.do", method = RequestMethod.POST)
+	public ResponseEntity addMember(@RequestParam Map<String, String> memberMap, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+//		애너테이션으로 Form에서 온 정보는 _memberVO에 할당, 이 _memberVO를 Model 객체에 "memberVO"로 set한 상태
+		response.setContentType("text/html; charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
+		String message = null;
+		ResponseEntity resEntity = null;
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+		
+//		회원가입 시 쪼개져들어온 이메일값을 하나로 합쳐서 다시 지정
+		String email_id=memberMap.get("email_id");
+		String email_addr=memberMap.get("email_addr");
+		String email=email_id+"@"+email_addr;
+		memberMap.remove("email_id");
+		memberMap.remove("email_addr");
+		memberMap.put("email", email);
+		
+		/* 확인용 출력
+		System.out.println(memberMap.get("email"));
+		System.out.println(memberMap.get("id"));
+		System.out.println(memberMap.get("pwd"));
+		System.out.println(memberMap.get("name"));
+		System.out.println(memberMap.get("phone"));
+				*/
+		
+		try {
+			memberService.addMember(memberMap);
 			message = "<script>";
 			message += " alert('회원 가입을 마쳤습니다.로그인창으로 이동합니다.');";
 			message += " location.href='" + request.getContextPath() + "/member/loginForm.do';";

@@ -79,6 +79,18 @@
 			}
 		}); //end ajax	 
 	}
+
+	$(function() {
+		$('#select').change(function() {
+			if ($('#select').val() == 'directly') {
+				$('#textEmail').attr("disabled", false);
+				$('#textEmail').val("");
+				$('#textEmail').focus();
+			} else {
+				$('#textEmail').val($('#select').val());
+			}
+		})
+	});
 </script>
 
 </head>
@@ -106,11 +118,22 @@
 					<td class="fixed_join">폰번</td>
 					<td><input type="text" name="phone" id="phone" size="20" /></td>
 				</tr>
+
+
 				<tr class="dot_line">
 
 					<td class="fixed_join">이메일</td>
-					<td><input type="text" name="email" id="email" size="20" /> <input
-						type="button" id="btnCheckEmail" value="중복체크"
+					<td><input type="text" name="email_id" id="email" size="20" /> @
+						<input id="textEmail" name="email_addr" placeholder="이메일을 선택하세요."> <select
+						id="select">
+							<option value="" disabled selected>E-Mail 선택</option>
+							<option value="naver.com" id="naver.com">naver.com</option>
+							<option value="hanmail.net" id="hanmail.net">hanmail.net</option>
+							<option value="gmail.com" id="gmail.com">gmail.com</option>
+							<option value="nate.com" id="nate.com">nate.com</option>
+							<option value="directly" id="textEmail">직접 입력하기</option>
+					</select>
+					<TD><input type="button" id="btnCheckEmail" value="중복체크"
 						onClick="fn_checkEmail()" /></td>
 				</tr>
 

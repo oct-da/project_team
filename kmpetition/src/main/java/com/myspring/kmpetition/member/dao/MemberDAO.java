@@ -9,7 +9,11 @@ import com.myspring.kmpetition.member.vo.MemberVO;
 public interface MemberDAO {
 
 	public MemberVO login(Map loginMap) throws DataAccessException;
-	public void insertMember(MemberVO member) throws DataAccessException;
+//	public void insertMember(MemberVO member) throws DataAccessException;
+	
+//	이메일드롭박스 회원가입
+	public void insertMember(Map<String, String> memberMap) throws DataAccessException;
+	
 	public String overlapped(String id) throws DataAccessException;
 	public String checkEmail(String email) throws DataAccessException;
 	

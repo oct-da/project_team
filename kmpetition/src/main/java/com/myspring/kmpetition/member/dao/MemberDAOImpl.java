@@ -23,9 +23,17 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 //	회원가입
+//	@Override
+//	public void insertMember(MemberVO member) throws DataAccessException {
+//		sqlSession.selectOne("mapper.member.insertMember", member);
+//
+//	}
+	
+
+//	이멜 드롭박스 회원가입
 	@Override
-	public void insertMember(MemberVO member) throws DataAccessException {
-		sqlSession.selectOne("mapper.member.insertMember", member);
+	public void insertMember(Map<String, String> memberMap) throws DataAccessException {
+		sqlSession.selectOne("mapper.member.insertMember", memberMap);
 
 	}
 

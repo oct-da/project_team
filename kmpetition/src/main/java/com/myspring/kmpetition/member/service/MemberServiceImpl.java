@@ -26,11 +26,19 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 //	회원가입
+//	@Override
+//	public void addMember(MemberVO memberVO) throws Exception {
+//		 memberDAO.insertMember(memberVO); 
+//		
+//	}
+
+//	이메일드롭박스를 이용한 회원가입시
 	@Override
-	public void addMember(MemberVO memberVO) throws Exception {
-		 memberDAO.insertMember(memberVO); 
+	public void addMember(Map<String, String> memberMap) throws Exception {
+		memberDAO.insertMember(memberMap); 
 		
 	}
+	
 
 //	ID중복검사(회원가입)
 	@Override
@@ -41,6 +49,7 @@ public class MemberServiceImpl implements MemberService{
 	
 	
 //	이메일 중복검사(회원가입)
+
 
 	@Override
 	public String checkEmail(String email) throws Exception {
