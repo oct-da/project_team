@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.myspring.kmpetition.HomeController;
+import com.myspring.kmpetition.main.MainController;
 import com.myspring.kmpetition.member.service.MemberService;
 import com.myspring.kmpetition.member.vo.MemberVO;
 
 @Controller("memberController")
 @RequestMapping(value = "/member")
-public class MemberControllerImpl extends HomeController implements MemberController {
+public class MemberControllerImpl extends MainController implements MemberController {
 	@Autowired
 	private MemberService memberService;
 	@Autowired
