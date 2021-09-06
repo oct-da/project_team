@@ -44,8 +44,8 @@ function fn_overlapped(){
 
 /* 이메일 중복체크 */
 function fn_checkEmail(){
-    var _id=$("#id").val();
-    if(_id==''){
+    var _email=$("#email").val();
+    if(_email==''){
    	 alert("이메일을 입력하세요");
    	 return;
     }
@@ -54,13 +54,13 @@ function fn_checkEmail(){
        async:false,  
        url:"${contextPath}/member/checkEmail.do",
        dataType:"text",
-       data: {id:_id},
+       data: {email:_email},
        success:function (data,textStatus){
           if(data=='false'){
        	    alert("사용할 수 있는 이메일입니다.");
        	    $('#btnCheckEmail').prop("disabled", true);
        	    $('#email').prop("disabled", true);
-       	    $('#email').val(_id);
+       	    $('#email').val(_email);
           }else{
         	  alert("사용할 수 없는 이메일입니다.");
           }

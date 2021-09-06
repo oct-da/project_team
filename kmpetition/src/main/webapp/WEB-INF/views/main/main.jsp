@@ -21,7 +21,7 @@ MainController에서 동작합니다.
 </c:if>
 
 <c:if test="${isLogOn }">
-<a href="${contextPath }/myPage/modMemberForm.do">회원정보 수정</a>
+<a href="${contextPath }/mypage/modMemberForm.do">회원정보 수정</a>
 </c:if>
  </P>
 </body>
