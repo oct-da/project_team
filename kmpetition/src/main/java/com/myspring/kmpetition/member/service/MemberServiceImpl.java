@@ -38,6 +38,14 @@ public class MemberServiceImpl implements MemberService{
 		// TODO Auto-generated method stub
 		return memberDAO.overlapped(id);
 	}
+	
+	
+//	이메일 중복검사(회원가입)
+
+	@Override
+	public String checkEmail(String email) throws Exception {
+		return memberDAO.checkEmail(email);
+	}
 
 	@Override
 	public String deleteMember(String id) throws Exception {

@@ -34,11 +34,8 @@ public class MemberControllerImpl extends HomeController implements MemberContro
 	@RequestMapping(value = "/login.do")
 	public ModelAndView login(@RequestParam Map<String, String> loginMap, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		
 		System.out.println("Member컨의 login");
-		
 		ModelAndView mav = new ModelAndView();
-//		아직 서비스 미구현
 		memberVO = memberService.login(loginMap);
 
 //		서비스 대신 임시코드
@@ -70,11 +67,17 @@ public class MemberControllerImpl extends HomeController implements MemberContro
 		return mav;
 	}
 
+//	로그아웃
 	@Override
 	@RequestMapping(value = "/logout.do")
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		ModelAndView mav = new ModelAndView();
+		HttpSession session=request.getSession();
+		session.removeAttribute("isLogOn");
+		session.setAttribute("isLogOn", false);
+		session.removeAttribute("memberInfo");
+		mav.setViewName("redirect:/main/main.do");
+		return mav;
 	}
 
 //	회원가입
@@ -115,6 +118,18 @@ public class MemberControllerImpl extends HomeController implements MemberContro
 		System.out.println("Member컨의 overlapped");
 		ResponseEntity resEntity = null;
 		String result = memberService.overlapped(id);
+		resEntity = new ResponseEntity(result, HttpStatus.OK);
+		return resEntity;
+
+	}
+
+//	이메일중복검사 (회원가입시)
+	@RequestMapping(value = "/checkEmail.do", method = RequestMethod.POST)
+	public ResponseEntity checkEmail(@RequestParam String email, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		System.out.println("Member컨의 checkEmail");
+		ResponseEntity resEntity = null;
+		String result = memberService.checkEmail(email);
 		resEntity = new ResponseEntity(result, HttpStatus.OK);
 		return resEntity;
 

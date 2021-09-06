@@ -45,6 +45,14 @@
 		]]>
 	</select>
 	
+	
+	<select id="checkEmail" resultType="memberVO" parameterType="String">
+		<![CDATA[ 
+			select * from t_member 
+			where email=#{email} 
+		]]>
+	</select>
+	
 	<select id="findId" parameterType="java.util.Map" resultType="memberVO">
 		<![CDATA[ 
 			select * from t_member 

@@ -15,7 +15,14 @@
 <P>  
 MainController에서 동작합니다.
 </br>
+
+<c:if test="${!isLogOn }">
 <a href="${contextPath }/member/loginForm.do">로그인창으로 이동</a>
+</c:if>
+
+<c:if test="${isLogOn }">
+<a href="${contextPath }/myPage/modMemberForm.do">회원정보 수정</a>
+</c:if>
  </P>
 </body>
 </html>

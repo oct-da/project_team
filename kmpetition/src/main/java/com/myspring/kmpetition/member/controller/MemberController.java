@@ -25,6 +25,8 @@ public interface MemberController {
 	
 //	ID 중복 검사(회원가입)
 	public ResponseEntity overlapped(@RequestParam("id") String id,HttpServletRequest request, HttpServletResponse response) throws Exception;
+//	이메일 중복검사(회원가입)
+	public ResponseEntity checkEmail(@RequestParam String email, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 //	회원탈퇴
 	public ResponseEntity removeMember(@RequestParam("id") String id,HttpServletRequest request, HttpServletResponse response) throws Exception;

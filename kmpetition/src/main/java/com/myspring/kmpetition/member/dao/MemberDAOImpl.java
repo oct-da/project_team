@@ -39,6 +39,18 @@ public class MemberDAOImpl implements MemberDAO {
 			return "false"; // ID체크 합격(동일한 ID 없음)
 		}
 	}
+	
+	
+//	이메일 중복체크(회원가입)
+	@Override
+	public String checkEmail(String email) throws DataAccessException {
+		MemberVO memberVO = sqlSession.selectOne("mapper.member.checkEmail", email);
+		if (memberVO != null && memberVO.getId() != null) {
+			return "true"; // 이멜체크 불합격(이미 동일한 이메일 존재)
+		} else {
+			return "false"; // 이멜체크 합격(동일한 이메일 없음)
+		}
+	}
 
 	@Override
 	public MemberVO selectForFindId(Map<String, String> findMap) throws DataAccessException {
