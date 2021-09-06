@@ -32,8 +32,5 @@ public interface MemberController {
 //	회원수정
 	public ResponseEntity modMember(@ModelAttribute("member") MemberVO member,
             HttpServletRequest request, HttpServletResponse response) throws Exception;
-//	ㅠㅠ 
-//	브랜치를 tester를 생성하여 그것으로 변경함 
-//	pushshsh
 	
 }
