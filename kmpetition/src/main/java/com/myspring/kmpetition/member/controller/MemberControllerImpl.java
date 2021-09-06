@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.myspring.kmpetition.HomeController;
+import com.myspring.kmpetition.main.MainController;
 import com.myspring.kmpetition.member.service.MemberService;
 import com.myspring.kmpetition.member.vo.MemberVO;
 
 @Controller("memberController")
 @RequestMapping(value = "/member")
-public class MemberControllerImpl extends HomeController implements MemberController {
+public class MemberControllerImpl extends MainController implements MemberController {
 	@Autowired
 	private MemberService memberService;
 	@Autowired
@@ -34,11 +34,8 @@ public class MemberControllerImpl extends HomeController implements MemberContro
 	@RequestMapping(value = "/login.do")
 	public ModelAndView login(@RequestParam Map<String, String> loginMap, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		
 		System.out.println("Member컨의 login");
-		
 		ModelAndView mav = new ModelAndView();
-//		아직 서비스 미구현
 		memberVO = memberService.login(loginMap);
 
 //		서비스 대신 임시코드
@@ -70,13 +67,20 @@ public class MemberControllerImpl extends HomeController implements MemberContro
 		return mav;
 	}
 
+//	로그아웃
 	@Override
 	@RequestMapping(value = "/logout.do")
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		ModelAndView mav = new ModelAndView();
+		HttpSession session=request.getSession();
+		session.removeAttribute("isLogOn");
+		session.setAttribute("isLogOn", false);
+		session.removeAttribute("memberInfo");
+		mav.setViewName("redirect:/main/main.do");
+		return mav;
 	}
 
+	/*
 //	회원가입
 	@Override
 	@RequestMapping(value = "/addMember.do", method = RequestMethod.POST)
@@ -106,6 +110,55 @@ public class MemberControllerImpl extends HomeController implements MemberContro
 		resEntity = new ResponseEntity(message, responseHeaders, HttpStatus.OK);
 		return resEntity;
 	}
+	*/
+	
+
+//	회원가입. 이메일 드롭박스 테스트
+	@Override
+	@RequestMapping(value = "/addMember.do", method = RequestMethod.POST)
+	public ResponseEntity addMember(@RequestParam Map<String, String> memberMap, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+//		애너테이션으로 Form에서 온 정보는 _memberVO에 할당, 이 _memberVO를 Model 객체에 "memberVO"로 set한 상태
+		response.setContentType("text/html; charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
+		String message = null;
+		ResponseEntity resEntity = null;
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+		
+//		회원가입 시 쪼개져들어온 이메일값을 하나로 합쳐서 다시 지정
+		String email_id=memberMap.get("email_id");
+		String email_addr=memberMap.get("email_addr");
+		String email=email_id+"@"+email_addr;
+		memberMap.remove("email_id");
+		memberMap.remove("email_addr");
+		memberMap.put("email", email);
+		
+		/* 확인용 출력
+		System.out.println(memberMap.get("email"));
+		System.out.println(memberMap.get("id"));
+		System.out.println(memberMap.get("pwd"));
+		System.out.println(memberMap.get("name"));
+		System.out.println(memberMap.get("phone"));
+				*/
+		
+		try {
+			memberService.addMember(memberMap);
+			message = "<script>";
+			message += " alert('회원 가입을 마쳤습니다.로그인창으로 이동합니다.');";
+			message += " location.href='" + request.getContextPath() + "/member/loginForm.do';";
+			message += " </script>";
+
+		} catch (Exception e) {
+			message = "<script>";
+			message += " alert('작업 중 오류가 발생했습니다. 다시 시도해 주세요');";
+			message += " location.href='" + request.getContextPath() + "/member/memberForm.do';";
+			message += " </script>";
+			e.printStackTrace();
+		}
+		resEntity = new ResponseEntity(message, responseHeaders, HttpStatus.OK);
+		return resEntity;
+	}
 	
 //	ID중복검사 (회원가입시)
 	@Override
@@ -115,6 +168,18 @@ public class MemberControllerImpl extends HomeController implements MemberContro
 		System.out.println("Member컨의 overlapped");
 		ResponseEntity resEntity = null;
 		String result = memberService.overlapped(id);
+		resEntity = new ResponseEntity(result, HttpStatus.OK);
+		return resEntity;
+
+	}
+
+//	이메일중복검사 (회원가입시)
+	@RequestMapping(value = "/checkEmail.do", method = RequestMethod.POST)
+	public ResponseEntity checkEmail(@RequestParam String email, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		System.out.println("Member컨의 checkEmail");
+		ResponseEntity resEntity = null;
+		String result = memberService.checkEmail(email);
 		resEntity = new ResponseEntity(result, HttpStatus.OK);
 		return resEntity;
 
@@ -188,19 +253,5 @@ public class MemberControllerImpl extends HomeController implements MemberContro
 		return resEntity;
 	}
 
-	
-	@Override
-	public ResponseEntity removeMember(@RequestParam String id, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ResponseEntity modMember(@RequestParam MemberVO member, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 }

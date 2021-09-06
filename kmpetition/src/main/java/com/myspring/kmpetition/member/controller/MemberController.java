@@ -19,21 +19,18 @@ public interface MemberController {
 //	로그아웃
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
-//	회원가입
-	public ResponseEntity  addMember(@ModelAttribute("member") MemberVO member,
-            HttpServletRequest request, HttpServletResponse response) throws Exception;
+////	회원가입
+//	public ResponseEntity  addMember(@ModelAttribute("member") MemberVO member,
+//            HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+//	회원가입에서 이메일드롭박스 사용하기
+	public ResponseEntity  addMember(@RequestParam Map<String, String> memberMap,
+          HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
 	
 //	ID 중복 검사(회원가입)
 	public ResponseEntity overlapped(@RequestParam("id") String id,HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
-//	회원탈퇴
-	public ResponseEntity removeMember(@RequestParam("id") String id,HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
-//	회원수정
-	public ResponseEntity modMember(@ModelAttribute("member") MemberVO member,
-            HttpServletRequest request, HttpServletResponse response) throws Exception;
-//	ㅠㅠ 
-//	브랜치를 tester를 생성하여 그것으로 변경함 
-//	pushshsh
+//	이메일 중복검사(회원가입)
+	public ResponseEntity checkEmail(@RequestParam String email, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 }

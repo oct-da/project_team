@@ -23,9 +23,17 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 //	회원가입
+//	@Override
+//	public void insertMember(MemberVO member) throws DataAccessException {
+//		sqlSession.selectOne("mapper.member.insertMember", member);
+//
+//	}
+	
+
+//	이멜 드롭박스 회원가입
 	@Override
-	public void insertMember(MemberVO member) throws DataAccessException {
-		sqlSession.selectOne("mapper.member.insertMember", member);
+	public void insertMember(Map<String, String> memberMap) throws DataAccessException {
+		sqlSession.selectOne("mapper.member.insertMember", memberMap);
 
 	}
 
@@ -37,6 +45,18 @@ public class MemberDAOImpl implements MemberDAO {
 			return "true"; // ID체크 불합격(이미 동일한 ID 존재)
 		} else {
 			return "false"; // ID체크 합격(동일한 ID 없음)
+		}
+	}
+	
+	
+//	이메일 중복체크(회원가입)
+	@Override
+	public String checkEmail(String email) throws DataAccessException {
+		MemberVO memberVO = sqlSession.selectOne("mapper.member.checkEmail", email);
+		if (memberVO != null && memberVO.getId() != null) {
+			return "true"; // 이멜체크 불합격(이미 동일한 이메일 존재)
+		} else {
+			return "false"; // 이멜체크 합격(동일한 이메일 없음)
 		}
 	}
 

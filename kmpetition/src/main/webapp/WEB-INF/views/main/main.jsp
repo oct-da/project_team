@@ -5,7 +5,6 @@
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <html>
 <head>
-	<title>Home</title>
 </head>
 <body>
 <h1>
@@ -15,7 +14,7 @@
 <P>  
 MainController에서 동작합니다.
 </br>
-<a href="${contextPath }/member/loginForm.do">로그인창으로 이동</a>
+
  </P>
 </body>
 </html>

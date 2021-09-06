@@ -9,17 +9,18 @@ public interface MemberService {
 	public MemberVO login(Map  loginMap) throws Exception;
 	
 //	회원가입
-	public void addMember(MemberVO memberVO) throws Exception;
+//	public void addMember(MemberVO memberVO) throws Exception;
+	
+//	회원가입-이메일 드롭박스 이용
+	public void addMember(Map<String, String> memberMap) throws Exception;
+	
 	
 //	ID중복검사(회원가입)
 	public String overlapped(String id) throws Exception;
 	
-//	회원탈퇴
-	public String deleteMember(String id) throws Exception;
+//	이메일 중복검사(회원가입)
+	public String checkEmail(String email) throws Exception;
 	
-//	회원수정
-	public void modMember(MemberVO memberVO) throws Exception;
-
 //	ID찾기
 	public MemberVO findId(Map<String, String> findMap) throws Exception;
 //	비밀번호 찾기
