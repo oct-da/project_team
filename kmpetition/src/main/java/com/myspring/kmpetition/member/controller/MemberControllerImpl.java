@@ -204,18 +204,4 @@ public class MemberControllerImpl extends HomeController implements MemberContro
 	}
 
 	
-	@Override
-	public ResponseEntity removeMember(@RequestParam String id, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ResponseEntity modMember(@RequestParam MemberVO member, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 }

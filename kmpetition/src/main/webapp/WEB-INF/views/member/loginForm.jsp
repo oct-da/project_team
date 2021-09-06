@@ -39,6 +39,7 @@
 				<tr>
 					<td><a href="${contextPath }/member/memberForm.do">회원가입창으로
 							이동</a></td>
+							<td><a href="${contextPath }/main/main.do">메인으로 이동</a></td>
 				</tr>
 				<tr>
 					<td><a href="${contextPath }/member/findIdForm.do">아이디찾기</a></td>

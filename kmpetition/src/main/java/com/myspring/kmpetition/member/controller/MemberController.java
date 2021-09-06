@@ -28,11 +28,4 @@ public interface MemberController {
 //	이메일 중복검사(회원가입)
 	public ResponseEntity checkEmail(@RequestParam String email, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
-//	회원탈퇴
-	public ResponseEntity removeMember(@RequestParam("id") String id,HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
-//	회원수정
-	public ResponseEntity modMember(@ModelAttribute("member") MemberVO member,
-            HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
 }

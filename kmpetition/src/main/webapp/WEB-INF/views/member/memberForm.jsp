@@ -112,6 +112,7 @@ function fn_checkEmail(){
 			<td>
 				<input type="submit" value="완료">
 				<input type="reset" value="다시입력">
+				<td><a href="${contextPath }/main/main.do">메인으로 이동</a></td>
 			</td>
 		</tr>
 	</table>

@@ -47,17 +47,6 @@ public class MemberServiceImpl implements MemberService{
 		return memberDAO.checkEmail(email);
 	}
 
-	@Override
-	public String deleteMember(String id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void modMember(MemberVO memberVO) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	@Override
 	public MemberVO findId(Map<String, String> findMap) throws Exception{

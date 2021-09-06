@@ -17,12 +17,6 @@ public interface MemberService {
 //	이메일 중복검사(회원가입)
 	public String checkEmail(String email) throws Exception;
 	
-//	회원탈퇴
-	public String deleteMember(String id) throws Exception;
-	
-//	회원수정
-	public void modMember(MemberVO memberVO) throws Exception;
-
 //	ID찾기
 	public MemberVO findId(Map<String, String> findMap) throws Exception;
 //	비밀번호 찾기
