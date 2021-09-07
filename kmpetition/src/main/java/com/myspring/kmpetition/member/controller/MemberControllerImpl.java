@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.SimpleTimeZone;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -68,21 +69,11 @@ public class MemberControllerImpl extends MainController implements MemberContro
 			// 로그인한 정보가 있고 id가 null이 아니면
 			if (memberVO != null && memberVO.getId() != null) {
 				
-//---------------------최종 접속일 업데이트를 위한 코드
+//---------------------휴면 계정 판단용 코드 작업
 //			로그인 정보로 반환된 memberVO에서 해당 회원의 마지막 접속일인 loginDate를 구함.
 				Date loginDate = memberVO.getLast_login();
 
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-				/*
-				 * 테스트용도 // 오늘 날짜를 구함. Date today=new Date();
-				 * 
-				 * // loginDate를 SimpleDateFormat을 이용해 String으로 형변환함 String
-				 * strDate=sdf.format(loginDate);
-				 * 
-				 * System.out.println("loginDate:"+strDate);
-				 * System.out.println("simpleDate:"+sdf.format(today));
-				 */
 
 //			1달 전 날짜 구하기
 				Calendar cal = Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST"));
@@ -90,11 +81,9 @@ public class MemberControllerImpl extends MainController implements MemberContro
 				Date monthAgo = cal.getTime();
 				System.out.println("한 달 전 날짜:" + sdf.format(monthAgo));
 
-//			날짜 비교하기
+//			날짜 비교 용도의 변수
 				int compare = loginDate.compareTo(monthAgo);
 
-//			compare>=0 이면 한 달 이내에 접속한 계정
-//			compare<0 이면 한 달 동안 접속하지 않은 계정 == 휴면계정
 // ---------------------- 휴면계정 판단 코드 종료 
 
 				if (compare >= 0) {
@@ -106,6 +95,19 @@ public class MemberControllerImpl extends MainController implements MemberContro
 					session.setAttribute("isLogOn", true);
 					session.setAttribute("memberInfo", memberVO);
 					mav.setViewName("redirect:/main/main.do");
+					
+//					체크박스에 체크가 없이 값이 넘어오면 null값으로 넘어온다. 
+					String saveId=request.getParameter("saveId");
+					if(saveId!=null) {
+						Cookie c=new Cookie("saveId", loginMap.get("id"));
+						c.setMaxAge(60*60*24*7);	// 쿠키 유효기간 7일
+						response.addCookie(c);
+					}else {
+						Cookie c=new Cookie("saveId", loginMap.get("id"));
+						c.setMaxAge(0);	// 쿠키 유효기간 7일
+						response.addCookie(c);
+					}
+					
 
 //				id, pwd 확인용(게터값이 null이면 에러남)
 					String id = memberVO.getId();

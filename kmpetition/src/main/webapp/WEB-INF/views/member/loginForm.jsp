@@ -6,6 +6,21 @@
 <html>
 <head>
 <meta charset="utf-8">
+
+<%
+    String msg = (String)request.getAttribute("msg");
+    Cookie[] c = request.getCookies();
+    String cookieVal="";
+    if(c!=null){
+        for(Cookie i:c){
+            if(i.getName().equals("saveId")){
+                cookieVal=i.getValue();
+            }
+        }
+    }
+    
+%>
+
 <c:if test='${not empty message }'>
 	<script>
 		window.onload = function() {
@@ -25,7 +40,7 @@
 			<tbody>
 				<tr class="dot_line">
 					<td class="fixed_join">아이디</td>
-					<td><input type="text" name="id" id="id" size="20" />
+					<td><input type="text" name="id" value="<%=cookieVal !="" ? cookieVal : "" %>">
 				</tr>
 				<tr class="dot_line">
 					<td class="fixed_join">비번</td>
@@ -33,8 +48,13 @@
 				</tr>
 
 				<tr>
-					<td><input type="submit" value="로그인"> <input
-						type="reset" value="다시입력"></td>
+					<td>
+						<input type="checkbox" id="checkbox" class="keepLogin" name="saveId" <%=cookieVal!=""?"checked" : ""%> >
+						<label class="keepLogin">아이디 저장</label>
+					</td>
+					<td><input type="submit" value="로그인"> 
+						<input type="reset" value="다시입력">
+					</td>
 				</tr>
 				<tr>
 					<td><a href="${contextPath }/member/memberForm.do">회원가입창으로
