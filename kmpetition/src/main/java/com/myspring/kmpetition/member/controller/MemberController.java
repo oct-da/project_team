@@ -15,6 +15,9 @@ import com.myspring.kmpetition.member.vo.MemberVO;
 public interface MemberController {
 //	로그인
 	public ModelAndView login(@RequestParam Map<String, String> loginMap,HttpServletRequest request, HttpServletResponse response) throws Exception;
+//	휴면계정 활성화
+	public ResponseEntity awakeMember(@RequestParam Map<String, String> memberMap,
+	          HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 //	로그아웃
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception;

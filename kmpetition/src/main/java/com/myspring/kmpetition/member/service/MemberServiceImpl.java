@@ -11,27 +11,42 @@ import com.myspring.kmpetition.member.dao.MemberDAO;
 import com.myspring.kmpetition.member.vo.MemberVO;
 
 @Service("memberService")
-@Transactional(propagation=Propagation.REQUIRED)
-public class MemberServiceImpl implements MemberService{
+@Transactional(propagation = Propagation.REQUIRED)
+public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private MemberVO memberVO;
 	@Autowired
 	private MemberDAO memberDAO;
-	
+
 //	로그인
 	@Override
 	public MemberVO login(Map loginMap) throws Exception {
-		memberVO=memberDAO.login(loginMap);
+		memberVO = memberDAO.login(loginMap);
 //		if (memberVO != null && memberVO.getId() != null) {
 //			memberDAO.updateLastLogin(memberVO.getId());
 //		}
 		return memberVO;
+
+	}
+
+//	최종접속일 업데이트
+	@Override
+	public void updateDate(String id) throws Exception {
+		memberDAO.updateLastLogin(id);
+	}
+
+
+	@Override
+	public void awakeMember(Map<String, String> memberMap) throws Exception {
+//		휴면계정 활성화 폼에서 입력한 값으로 회원을 조회
+		MemberVO memberVO =memberDAO.selectForAwake(memberMap);
+//		해당 데이터와 일치하는 회원이 존재하면 해당 회원의 최종접속일 업데이트
+		if (memberVO!=null) {
+			memberDAO.updateLastLogin(memberVO.getId());
+		}
 		
 	}
 	
-//	최종접속일 업데이트
-	
-
 //	회원가입
 //	@Override
 //	public void addMember(MemberVO memberVO) throws Exception {
@@ -39,13 +54,13 @@ public class MemberServiceImpl implements MemberService{
 //		
 //	}
 
-//	이메일드롭박스를 이용한 회원가입시
+
+	// 이메일드롭박스를 이용한 회원가입시
 	@Override
 	public void addMember(Map<String, String> memberMap) throws Exception {
-		memberDAO.insertMember(memberMap); 
-		
+		memberDAO.insertMember(memberMap);
+
 	}
-	
 
 //	ID중복검사(회원가입)
 	@Override
@@ -53,30 +68,29 @@ public class MemberServiceImpl implements MemberService{
 		// TODO Auto-generated method stub
 		return memberDAO.overlapped(id);
 	}
-	
-	
-//	이메일 중복검사(회원가입)
 
+//	이메일 중복검사(회원가입)
 
 	@Override
 	public String checkEmail(String email) throws Exception {
 		return memberDAO.checkEmail(email);
 	}
 
-	
 	@Override
-	public MemberVO findId(Map<String, String> findMap) throws Exception{
+	public MemberVO findId(Map<String, String> findMap) throws Exception {
 		System.out.println("service의 findid");
 		return memberDAO.selectForFindId(findMap);
 	}
+
 //	비밀번호 찾기
 	@Override
-	public MemberVO findPwd(Map<String, String> findMap) throws Exception{
+	public MemberVO findPwd(Map<String, String> findMap) throws Exception {
 		return memberDAO.selectForFindPwd(findMap);
 	}
+
 //	비밀번호 찾기 결과, 비밀번호 변경
-	public void modPwd(Map<String, String> modMap) throws Exception{
+	public void modPwd(Map<String, String> modMap) throws Exception {
 		memberDAO.updatePwd(modMap);
 	}
-	
+
 }

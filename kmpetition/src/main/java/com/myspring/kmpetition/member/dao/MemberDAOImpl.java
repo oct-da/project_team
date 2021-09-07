@@ -27,6 +27,13 @@ public class MemberDAOImpl implements MemberDAO {
 		 sqlSession.update("mapper.member.updateLastLogin", id);
 
 	}
+
+
+	@Override
+	public MemberVO selectForAwake(Map<String, String> memberMap) throws DataAccessException {
+		return sqlSession.selectOne("mapper.member.selectForAwake", memberMap);
+		
+	}
 	
 //	회원가입
 //	@Override

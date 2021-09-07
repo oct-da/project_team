@@ -89,6 +89,10 @@ public class MemberControllerImpl extends MainController implements MemberContro
 			
 			if(compare>=0) {
 				System.out.println("한 달 동안 한 번 이상 접속했음.");
+//				해당 회원의 최종접속일을 오늘로 갱신
+				memberService.updateDate(memberVO.getId());
+				
+//				로그인 정보 저장 후 메인 화면으로 리다이렉트
 				session.setAttribute("isLogOn", true);
 				session.setAttribute("memberInfo", memberVO);
 				mav.setViewName("redirect:/main/main.do");
@@ -96,13 +100,13 @@ public class MemberControllerImpl extends MainController implements MemberContro
 //				id, pwd 확인용(게터값이 null이면 에러남)
 				String id = memberVO.getId();
 				String pwd = memberVO.getPwd();
-				System.out.println(id + ", " + pwd);
+				System.out.println("로그인 : " + id + ", " + pwd);
 				
 			}else {
 				System.out.println("한 달 동안 접속하지 않음. 휴면계정.");
 //				session.setAttribute("isSleepMember", true);
-				String message = "휴면계정입니다. 계정을 활성화해주세요.";
-				mav.addObject("message", message);
+//				String message = "휴면계정입니다. 계정을 활성화해주세요.";
+//				mav.addObject("message", message);
 				mav.setViewName("/member/awakeForm");
 			}
 
@@ -116,7 +120,49 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		return mav;
 	}
 
-//	로그아웃
+	
+	
+
+//	awakeForm에서 활성화할 계정 정보를 입력했을 때
+	@Override
+	@RequestMapping(value = "/awakeMember.do", method = RequestMethod.POST)
+	public ResponseEntity awakeMember(@RequestParam Map<String, String> memberMap,
+	          HttpServletRequest request, HttpServletResponse response) throws Exception{
+		response.setContentType("text/html; charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
+		String message = null;
+		ResponseEntity resEntity = null;
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+		System.out.println(memberMap.get("id"));
+		System.out.println(memberMap.get("pwd"));
+		System.out.println(memberMap.get("email"));
+		System.out.println(memberMap.get("name"));
+		try {
+			memberService.awakeMember(memberMap);
+			message = "<script>";
+			message += " alert('계정을 활성화했습니다. 로그인 화면으로 이동합니다.');";
+			message += " location.href='" + request.getContextPath() + "/member/loginForm.do';";
+			message += " </script>";
+		} catch (Exception e) {
+			
+		message = "<script>";
+		message += " alert('작업 중 오류가 발생했습니다. 다시 시도해 주세요');";
+		message += " location.href='" + request.getContextPath() + "/member/awakeForm.do';";
+		message += " </script>";
+		e.printStackTrace();
+		}
+	resEntity = new ResponseEntity(message, responseHeaders, HttpStatus.OK);
+	return resEntity;
+	}
+
+
+
+
+
+
+
+	//	로그아웃
 	@Override
 	@RequestMapping(value = "/logout.do")
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
