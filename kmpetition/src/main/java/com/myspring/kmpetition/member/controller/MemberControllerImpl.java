@@ -50,84 +50,91 @@ public class MemberControllerImpl extends MainController implements MemberContro
 			HttpServletResponse response) throws Exception {
 		System.out.println("Member컨의 login");
 		ModelAndView mav = new ModelAndView();
+		HttpSession session = request.getSession();
 		
-		memberVO = memberService.login(loginMap);
-
-		// 로그인한 정보가 있고 id가 null이 아니면
-		if (memberVO != null && memberVO.getId() != null) {
-			HttpSession session = request.getSession();
+		if (loginMap.get("id").equals("admin") && loginMap.get("pwd").equals("admin")) {
 			
+			session.setAttribute("isLogOn", true);
+			session.setAttribute("isAdmin", true);
+			
+			String message = "admin 계정으로 로그인";
+			mav.addObject("adminMessage", message);
+			
+			mav.setViewName("redirect:/main/main.do");
+			
+		} else { // 1번 if(admin 구별)
+			memberVO = memberService.login(loginMap);
+
+			// 로그인한 정보가 있고 id가 null이 아니면
+			if (memberVO != null && memberVO.getId() != null) {
+				
 //---------------------최종 접속일 업데이트를 위한 코드
 //			로그인 정보로 반환된 memberVO에서 해당 회원의 마지막 접속일인 loginDate를 구함.
-			Date loginDate=memberVO.getLast_login();
+				Date loginDate = memberVO.getLast_login();
 
-			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-			
-			/* 테스트용도
-//			오늘 날짜를 구함.
-			Date today=new Date();
-			
-//			loginDate를 SimpleDateFormat을 이용해 String으로 형변환함
-			String strDate=sdf.format(loginDate);
-			
-			System.out.println("loginDate:"+strDate);
-			System.out.println("simpleDate:"+sdf.format(today));
-			*/
-			
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+				/*
+				 * 테스트용도 // 오늘 날짜를 구함. Date today=new Date();
+				 * 
+				 * // loginDate를 SimpleDateFormat을 이용해 String으로 형변환함 String
+				 * strDate=sdf.format(loginDate);
+				 * 
+				 * System.out.println("loginDate:"+strDate);
+				 * System.out.println("simpleDate:"+sdf.format(today));
+				 */
+
 //			1달 전 날짜 구하기
-			Calendar cal=Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST"));
-			cal.add(Calendar.MONTH, -1);
-			Date monthAgo=cal.getTime();
-			System.out.println("한 달 전 날짜:"+sdf.format(monthAgo));
-			
+				Calendar cal = Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST"));
+				cal.add(Calendar.MONTH, -1);
+				Date monthAgo = cal.getTime();
+				System.out.println("한 달 전 날짜:" + sdf.format(monthAgo));
+
 //			날짜 비교하기
-			int compare=loginDate.compareTo(monthAgo);
-			
+				int compare = loginDate.compareTo(monthAgo);
+
 //			compare>=0 이면 한 달 이내에 접속한 계정
 //			compare<0 이면 한 달 동안 접속하지 않은 계정 == 휴면계정
 // ---------------------- 휴면계정 판단 코드 종료 
-			
-			if(compare>=0) {
-				System.out.println("한 달 동안 한 번 이상 접속했음.");
+
+				if (compare >= 0) {
+					System.out.println("한 달 동안 한 번 이상 접속했음.");
 //				해당 회원의 최종접속일을 오늘로 갱신
-				memberService.updateDate(memberVO.getId());
-				
+					memberService.updateDate(memberVO.getId());
+
 //				로그인 정보 저장 후 메인 화면으로 리다이렉트
-				session.setAttribute("isLogOn", true);
-				session.setAttribute("memberInfo", memberVO);
-				mav.setViewName("redirect:/main/main.do");
+					session.setAttribute("isLogOn", true);
+					session.setAttribute("memberInfo", memberVO);
+					mav.setViewName("redirect:/main/main.do");
 
 //				id, pwd 확인용(게터값이 null이면 에러남)
-				String id = memberVO.getId();
-				String pwd = memberVO.getPwd();
-				System.out.println("로그인 : " + id + ", " + pwd);
-				
-			}else {
-				System.out.println("한 달 동안 접속하지 않음. 휴면계정.");
+					String id = memberVO.getId();
+					String pwd = memberVO.getPwd();
+					System.out.println("로그인 : " + id + ", " + pwd);
+
+				} else { // 3번 if == 휴면계정 판단
+					System.out.println("한 달 동안 접속하지 않음. 휴면계정.");
 //				session.setAttribute("isSleepMember", true);
 //				String message = "휴면계정입니다. 계정을 활성화해주세요.";
 //				mav.addObject("message", message);
-				mav.setViewName("/member/awakeForm");
+					mav.setViewName("/member/awakeForm");
+				}
+
+				// 로그인 정보가 없거나 id가 null이면(로그인 정보로 DB에서 조회가 안 되면)
+			} else { // 2번 if (조회된 회원 정보가 없는 경우)
+				String message = "아이디나 비밀번호가 틀립니다. 다시 로그인해주세요.";
+				mav.addObject("message", message);
+				mav.setViewName("/member/loginForm");
 			}
-
-
-		// 로그인 정보가 없거나 id가 null이면(로그인 정보로 DB에서 조회가 안 되면)
-		} else {
-			String message = "아이디나 비밀번호가 틀립니다. 다시 로그인해주세요.";
-			mav.addObject("message", message);
-			mav.setViewName("/member/loginForm");
 		}
 		return mav;
 	}
 
-	
-	
-
 //	awakeForm에서 활성화할 계정 정보를 입력했을 때
 	@Override
 	@RequestMapping(value = "/awakeMember.do", method = RequestMethod.POST)
-	public ResponseEntity awakeMember(@RequestParam Map<String, String> memberMap,
-	          HttpServletRequest request, HttpServletResponse response) throws Exception{
+	public ResponseEntity awakeMember(@RequestParam Map<String, String> memberMap, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
 		String message = null;
@@ -145,24 +152,18 @@ public class MemberControllerImpl extends MainController implements MemberContro
 			message += " location.href='" + request.getContextPath() + "/member/loginForm.do';";
 			message += " </script>";
 		} catch (Exception e) {
-			
-		message = "<script>";
-		message += " alert('작업 중 오류가 발생했습니다. 다시 시도해 주세요');";
-		message += " location.href='" + request.getContextPath() + "/member/awakeForm.do';";
-		message += " </script>";
-		e.printStackTrace();
+
+			message = "<script>";
+			message += " alert('작업 중 오류가 발생했습니다. 다시 시도해 주세요');";
+			message += " location.href='" + request.getContextPath() + "/member/awakeForm.do';";
+			message += " </script>";
+			e.printStackTrace();
 		}
-	resEntity = new ResponseEntity(message, responseHeaders, HttpStatus.OK);
-	return resEntity;
+		resEntity = new ResponseEntity(message, responseHeaders, HttpStatus.OK);
+		return resEntity;
 	}
 
-
-
-
-
-
-
-	//	로그아웃
+	// 로그아웃
 	@Override
 	@RequestMapping(value = "/logout.do")
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -339,59 +340,51 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		return resEntity;
 	}
 
-	
-	
-	
-	
-	
-	
-	
 	/*-------------------- 파일 업로드 테스트용--------------------*/
 	private static final String CURR_FILE_REPO_PATH = "C:\\team_file";
 
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public ModelAndView upload(MultipartHttpServletRequest multipartRequest,
-            HttpServletResponse response) throws Exception {
+	public ModelAndView upload(MultipartHttpServletRequest multipartRequest, HttpServletResponse response)
+			throws Exception {
 		multipartRequest.setCharacterEncoding("utf-8");
-		Map map=new HashMap();
-		Enumeration enu=multipartRequest.getParameterNames();
-		
-		while(enu.hasMoreElements()) {
-			String name=(String)enu.nextElement();
-			String value=multipartRequest.getParameter(name);
+		Map map = new HashMap();
+		Enumeration enu = multipartRequest.getParameterNames();
+
+		while (enu.hasMoreElements()) {
+			String name = (String) enu.nextElement();
+			String value = multipartRequest.getParameter(name);
 			map.put(name, value);
 		}
-		
-		List fileList=fileProcess(multipartRequest);
+
+		List fileList = fileProcess(multipartRequest);
 		map.put("fileList", fileList);
-		
-		ModelAndView mav=new ModelAndView();
-		mav.addObject("map",map);
+
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("map", map);
 		mav.setViewName("/main/result");
 		return mav;
-}
-	
-    private List<String> fileProcess(MultipartHttpServletRequest multipartRequest) 
-        throws Exception{
-    	List<String> fileList=new ArrayList<String>();
-    	Iterator<String> fileNames=multipartRequest.getFileNames();
-    	
-    	while(fileNames.hasNext()) {
-    		String fileName=fileNames.next();
-    		MultipartFile mFile=multipartRequest.getFile(fileName);
-    		String originalFileName=mFile.getOriginalFilename();
-    		fileList.add(originalFileName);
-    		File file=new File(CURR_FILE_REPO_PATH+"\\"+fileName);
-    		if(mFile.getSize()!=0) {
-    			if(!file.exists()) {
-    				if(file.getParentFile().mkdir()) {
-    					file.createNewFile();
-    				}
-    			}
-    			mFile.transferTo(new File(CURR_FILE_REPO_PATH+"\\"+originalFileName));
-    		}
-    	}
-    	return fileList;
-    	
-    }
+	}
+
+	private List<String> fileProcess(MultipartHttpServletRequest multipartRequest) throws Exception {
+		List<String> fileList = new ArrayList<String>();
+		Iterator<String> fileNames = multipartRequest.getFileNames();
+
+		while (fileNames.hasNext()) {
+			String fileName = fileNames.next();
+			MultipartFile mFile = multipartRequest.getFile(fileName);
+			String originalFileName = mFile.getOriginalFilename();
+			fileList.add(originalFileName);
+			File file = new File(CURR_FILE_REPO_PATH + "\\" + fileName);
+			if (mFile.getSize() != 0) {
+				if (!file.exists()) {
+					if (file.getParentFile().mkdir()) {
+						file.createNewFile();
+					}
+				}
+				mFile.transferTo(new File(CURR_FILE_REPO_PATH + "\\" + originalFileName));
+			}
+		}
+		return fileList;
+
+	}
 }
