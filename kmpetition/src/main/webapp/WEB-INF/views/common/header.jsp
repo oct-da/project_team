@@ -29,7 +29,7 @@
 						<li><a href="${contextPath}/mypage/modMemberForm.do">마이페이지</a></li>
 					</c:when>
 					<c:when test="${isLogOn==true and isAdmin==true }">
-						<li><a href="#">관리자페이지(미구현)</a></li>
+						<li><a href="${contextPath}/admin/memberList.do">관리자페이지(미구현)</a></li>
 						<li><a href="${contextPath}/member/logout.do">로그아웃</a></li>
 					</c:when>
 					<c:otherwise>

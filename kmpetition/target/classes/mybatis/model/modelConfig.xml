@@ -6,5 +6,6 @@
 	<typeAliases>
 	<!-- VO 클래스들을 여기에 typeAlias로 추가 -->
 		<typeAlias type="com.myspring.kmpetition.member.vo.MemberVO"  alias="memberVO" />
+		<typeAlias type="com.myspring.kmpetition.board.vo.NoticeVO"  alias="noticeVO" />
 	</typeAliases>
 </configuration>
