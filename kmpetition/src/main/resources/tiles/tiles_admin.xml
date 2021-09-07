@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+       
+<tiles-definitions>
+	  <definition name="/admin/memberList" extends="baseLayout">
+         <put-attribute name="title" value="관리자페이지_전체회원조회" />
+         <put-attribute name="body" value="/WEB-INF/views/admin/memberList.jsp" />
+      </definition>  
+      
+      
+</tiles-definitions>
