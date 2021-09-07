@@ -21,9 +21,16 @@ public class MemberServiceImpl implements MemberService{
 //	로그인
 	@Override
 	public MemberVO login(Map loginMap) throws Exception {
-		return memberDAO.login(loginMap);
+		memberVO=memberDAO.login(loginMap);
+//		if (memberVO != null && memberVO.getId() != null) {
+//			memberDAO.updateLastLogin(memberVO.getId());
+//		}
+		return memberVO;
 		
 	}
+	
+//	최종접속일 업데이트
+	
 
 //	회원가입
 //	@Override

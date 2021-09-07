@@ -12,7 +12,7 @@ public class MemberVO {
 	private String name;
 	private String phone;
 	private String email;
-	private Date lastLogin;
+	private Date last_login;
 	private String enable;
 	
 	
@@ -47,17 +47,17 @@ public class MemberVO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Date getLastLogin() {
-		return lastLogin;
-	}
-	public void setLastLogin(Date lastLogin) {
-		this.lastLogin = lastLogin;
-	}
 	public String getEnable() {
 		return enable;
 	}
 	public void setEnable(String enable) {
 		this.enable = enable;
+	}
+	public Date getLast_login() {
+		return last_login;
+	}
+	public void setLast_login(Date last_login) {
+		this.last_login = last_login;
 	}
 	
 	

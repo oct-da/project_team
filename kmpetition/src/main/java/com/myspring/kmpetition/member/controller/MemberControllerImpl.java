@@ -1,12 +1,16 @@
 package com.myspring.kmpetition.member.controller;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.SimpleTimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,34 +41,73 @@ public class MemberControllerImpl extends MainController implements MemberContro
 	private MemberVO memberVO;
 
 //	로그인
+//	1. id,pwd로 DB조회하여 회원인지 여부 확인
+//	2. 회원이 맞으면 마지막 접속일과 오늘 날짜를 대조해서 휴면회원인지 검사
+//	2. 휴면회원이 아니라면 마지막 접속일 업데이트, 정상로그인
 	@Override
 	@RequestMapping(value = "/login.do")
 	public ModelAndView login(@RequestParam Map<String, String> loginMap, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		System.out.println("Member컨의 login");
 		ModelAndView mav = new ModelAndView();
+		
 		memberVO = memberService.login(loginMap);
-
-//		서비스 대신 임시코드
-//		String id=loginMap.get("id");
-//		String pwd=loginMap.get("pwd");
-//		memberVO.setId(id);
-//		memberVO.setPwd(pwd);
-//		임시코드 끝
 
 		// 로그인한 정보가 있고 id가 null이 아니면
 		if (memberVO != null && memberVO.getId() != null) {
 			HttpSession session = request.getSession();
-			session.setAttribute("isLogOn", true);
-			session.setAttribute("memberInfo", memberVO);
-			mav.setViewName("redirect:/main/main.do");
+			
+//---------------------최종 접속일 업데이트를 위한 코드
+//			로그인 정보로 반환된 memberVO에서 해당 회원의 마지막 접속일인 loginDate를 구함.
+			Date loginDate=memberVO.getLast_login();
 
-//			id, pwd 확인용(게터값이 null이면 에러남)
-			String id = memberVO.getId();
-			String pwd = memberVO.getPwd();
-			System.out.println(id + ", " + pwd);
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+			
+			/* 테스트용도
+//			오늘 날짜를 구함.
+			Date today=new Date();
+			
+//			loginDate를 SimpleDateFormat을 이용해 String으로 형변환함
+			String strDate=sdf.format(loginDate);
+			
+			System.out.println("loginDate:"+strDate);
+			System.out.println("simpleDate:"+sdf.format(today));
+			*/
+			
+//			1달 전 날짜 구하기
+			Calendar cal=Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST"));
+			cal.add(Calendar.MONTH, -1);
+			Date monthAgo=cal.getTime();
+			System.out.println("한 달 전 날짜:"+sdf.format(monthAgo));
+			
+//			날짜 비교하기
+			int compare=loginDate.compareTo(monthAgo);
+			
+//			compare>=0 이면 한 달 이내에 접속한 계정
+//			compare<0 이면 한 달 동안 접속하지 않은 계정 == 휴면계정
+// ---------------------- 휴면계정 판단 코드 종료 
+			
+			if(compare>=0) {
+				System.out.println("한 달 동안 한 번 이상 접속했음.");
+				session.setAttribute("isLogOn", true);
+				session.setAttribute("memberInfo", memberVO);
+				mav.setViewName("redirect:/main/main.do");
 
-			// 로그인 정보가 없거나 id가 null이면(로그인 정보로 DB에서 조회가 안 되면)
+//				id, pwd 확인용(게터값이 null이면 에러남)
+				String id = memberVO.getId();
+				String pwd = memberVO.getPwd();
+				System.out.println(id + ", " + pwd);
+				
+			}else {
+				System.out.println("한 달 동안 접속하지 않음. 휴면계정.");
+//				session.setAttribute("isSleepMember", true);
+				String message = "휴면계정입니다. 계정을 활성화해주세요.";
+				mav.addObject("message", message);
+				mav.setViewName("/member/awakeForm");
+			}
+
+
+		// 로그인 정보가 없거나 id가 null이면(로그인 정보로 DB에서 조회가 안 되면)
 		} else {
 			String message = "아이디나 비밀번호가 틀립니다. 다시 로그인해주세요.";
 			mav.addObject("message", message);

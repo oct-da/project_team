@@ -30,6 +30,14 @@
 			 
 		]]>
 	</select>
+	<update id="updateLastLogin" parameterType="String">
+		<![CDATA[ 
+			update t_member 
+			set last_login=sysdate 
+			where id=#{id} 
+		]]>
+		
+	</update>
 	
 	<!-- 회원가입 
 	<insert id="insertMember" parameterType="memberVO">

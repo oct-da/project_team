@@ -18,19 +18,24 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public MemberVO login(Map loginMap) throws DataAccessException {
 		System.out.println("DAO의 login");
-		MemberVO member =  sqlSession.selectOne("mapper.member.login", loginMap);
+		MemberVO member = sqlSession.selectOne("mapper.member.login", loginMap);
 		return member;
 	}
 
+	@Override
+	public void updateLastLogin(String id) throws DataAccessException {
+		 sqlSession.update("mapper.member.updateLastLogin", id);
+
+	}
+	
 //	회원가입
 //	@Override
 //	public void insertMember(MemberVO member) throws DataAccessException {
 //		sqlSession.selectOne("mapper.member.insertMember", member);
 //
 //	}
-	
 
-//	이멜 드롭박스 회원가입
+	// 이멜 드롭박스 회원가입
 	@Override
 	public void insertMember(Map<String, String> memberMap) throws DataAccessException {
 		sqlSession.selectOne("mapper.member.insertMember", memberMap);
@@ -47,8 +52,7 @@ public class MemberDAOImpl implements MemberDAO {
 			return "false"; // ID체크 합격(동일한 ID 없음)
 		}
 	}
-	
-	
+
 //	이메일 중복체크(회원가입)
 	@Override
 	public String checkEmail(String email) throws DataAccessException {
@@ -77,10 +81,8 @@ public class MemberDAOImpl implements MemberDAO {
 
 	@Override
 	public void updatePwd(Map<String, String> modMap) throws DataAccessException {
-		sqlSession.update("mapper.member.updatePwd",modMap);
-		
+		sqlSession.update("mapper.member.updatePwd", modMap);
+
 	}
-	
-	
 
 }
