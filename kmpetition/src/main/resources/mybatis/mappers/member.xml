@@ -10,7 +10,7 @@
 		<result property="name" column="name" />
 		<result property="phone" column="phone" />
 		<result property="email" column="email" />
-		<result property="last_login" column="last_login" />
+		<result property="lastlogin" column="lastlogin" />
 		<result property="enable" column="enable" />
 	</resultMap>
 
@@ -24,7 +24,7 @@
 	<select id="login" resultType="memberVO"
 		parameterType="java.util.Map">
 	    <![CDATA[
-			select * from t_member 
+			select * from member 
 			 where id=#{id}
 			 and pwd=#{pwd}			
 			 
@@ -32,8 +32,8 @@
 	</select>
 	<update id="updateLastLogin" parameterType="String">
 		<![CDATA[ 
-			update t_member 
-			set last_login=sysdate 
+			update member 
+			set lastlogin=now() 
 			where id=#{id} 
 		]]>
 		
@@ -41,7 +41,7 @@
 	
 	<select id="selectForAwake" parameterType="java.util.Map" resultMap="memResult">
 		<![CDATA[
-			select * from t_member 
+			select * from member 
 			where id=#{id} and pwd=#{pwd} and email=#{email} and name=#{name}			
 			 
 		]]>
@@ -50,7 +50,7 @@
 	<!-- 회원가입 
 	<insert id="insertMember" parameterType="memberVO">
 		<![CDATA[
-			insert into t_member(id, pwd, name, phone, email) 
+			insert into member(id, pwd, name, phone, email) 
 			values(#{id}, #{pwd}, #{name}, #{phone}, #{email})
 		]]>
 	</insert>
@@ -59,7 +59,7 @@
 	<!-- 이메일 드롭박스 테스트용 회원가입 -->
 	<insert id="insertMember" parameterType="java.util.Map">
 		<![CDATA[
-			insert into t_member(id, pwd, name, phone, email) 
+			insert into member(id, pwd, name, phone, email) 
 			values(#{id}, #{pwd}, #{name}, #{phone}, #{email})
 		]]>
 	</insert>
@@ -70,7 +70,7 @@
 	<!-- 회원가입시 아이디 중복체크 -->
 	<select id="checkId" resultType="memberVO" parameterType="String">
 		<![CDATA[ 
-			select * from t_member 
+			select * from member 
 			where id=#{id} 
 		]]>
 	</select>
@@ -78,7 +78,7 @@
 	<!-- 회원가입시 이메일 중복체크 -->
 	<select id="checkEmail" resultType="memberVO" parameterType="String">
 		<![CDATA[ 
-			select * from t_member 
+			select * from member 
 			where email=#{email} 
 		]]>
 	</select>
@@ -86,7 +86,7 @@
 	<!-- 아이디찾기 -->
 	<select id="findId" parameterType="java.util.Map" resultType="memberVO">
 		<![CDATA[ 
-			select * from t_member 
+			select * from member 
 			where name=#{name} and email=#{email} 
 		]]>
 	</select>
@@ -94,7 +94,7 @@
 	<!-- 비밀번호 찾기 -->
 	<select id="findPwd" parameterType="java.util.Map" resultType="memberVO">
 		<![CDATA[ 
-			select * from t_member 
+			select * from member 
 			where name=#{name} and email=#{email} and id=#{id} 
 		]]>
 	</select>
@@ -102,7 +102,7 @@
 	<!-- 비밀번호 찾기 후 입력한 새 비밀번호로 정보 변경 -->
 	<update id="updatePwd" parameterType="java.util.Map">
 		<![CDATA[
-			update t_member 
+			update member 
 			set pwd=#{pwd}
 			where id=#{id}
 		 ]]>
@@ -111,21 +111,21 @@
 	
 	
 	<select id="selectAllMemberList" resultMap="memResult">
-	<![CDATA[ select * from t_member order by joinDate desc ]]>
+	<![CDATA[ select * from member order by joinDate desc ]]>
 	</select>
 	<select id="selectName" resultType="String">
-	<![CDATA[ select name from t_member where id = 'hong' ]]>
+	<![CDATA[ select name from member where id = 'hong' ]]>
 	</select>
 	<select id="selectPwd" resultType="int">
-	<![CDATA[ select pwd from t_member where id = 'hong' ]]>
+	<![CDATA[ select pwd from member where id = 'hong' ]]>
 	</select>
 	<select id="selectMemberById" resultType="memberVO"
 		parameterType="String">
-	<![CDATA[ select * from t_member where id = #{id} ]]>
+	<![CDATA[ select * from member where id = #{id} ]]>
 	</select>
 	<select id="selectMemberByPwd" resultMap="memResult"
 		parameterType="int">
-	<![CDATA[ select * from t_member where pwd = #{pwd} ]]>
+	<![CDATA[ select * from member where pwd = #{pwd} ]]>
 	</select>
 
 

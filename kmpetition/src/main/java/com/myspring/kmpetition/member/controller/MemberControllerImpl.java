@@ -71,7 +71,7 @@ public class MemberControllerImpl extends MainController implements MemberContro
 				
 //---------------------휴면 계정 판단용 코드 작업
 //			로그인 정보로 반환된 memberVO에서 해당 회원의 마지막 접속일인 loginDate를 구함.
-				Date loginDate = memberVO.getLast_login();
+				Date loginDate = memberVO.getLastlogin();
 
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 

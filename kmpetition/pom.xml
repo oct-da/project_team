@@ -9,7 +9,7 @@
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
-		<java-version>1.6</java-version>
+		<java-version>1.8</java-version>
 		<org.springframework-version>3.1.1.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
@@ -52,27 +52,6 @@
 		</dependency>
 
 
-		<!-- 타일즈 설정 lib -->
-		<!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-core -->
-		<dependency>
-			<groupId>org.apache.tiles</groupId>
-			<artifactId>tiles-core</artifactId>
-			<version>2.2.2</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-jsp -->
-		<dependency>
-			<groupId>org.apache.tiles</groupId>
-			<artifactId>tiles-jsp</artifactId>
-			<version>2.2.2</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-servlet -->
-		<dependency>
-			<groupId>org.apache.tiles</groupId>
-			<artifactId>tiles-servlet</artifactId>
-			<version>2.2.2</version>
-		</dependency>
-
-
 		<!-- jquery 라이브러리 -->
 		<dependency>
 			<groupId>org.webjars</groupId>
@@ -81,22 +60,12 @@
 		</dependency>
 
 
-		<!-- JDBC 설정하기 -->
-		<dependency>
-			<groupId>oracle.jdbc</groupId>
-			<artifactId>OracleDriver</artifactId>
-			<version>12.1.0.2.0</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ojdbc7.jar</systemPath>
-		</dependency>
+		<!-- 오라클용 JDBC 설정하기 <dependency> <groupId>oracle.jdbc</groupId> <artifactId>OracleDriver</artifactId> 
+			<version>12.1.0.2.0</version> <scope>system</scope> <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ojdbc7.jar</systemPath> 
+			</dependency> -->
 
-		<!-- MySQL 관련 lib 설정 -->
-		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.49</version>
-		</dependency>
+
+
 
 		<!-- 데이터 소스 관련 lib 설정 -->
 		<!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
@@ -119,19 +88,38 @@
 		</dependency>
 
 
+		<!-- MySQL lib 설정 -->
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.49</version>
+		</dependency>
+
+
 		<!-- 마이바티스 관련 lib 설정 -->
+		<!-- MyBatis 프레임워크 -->
 		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis</artifactId>
 			<version>3.4.6</version>
 		</dependency>
+		<!-- Spring과 MyBatis를 연결하는 lib -->
 		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis-spring</artifactId>
 			<version>1.3.2</version>
 		</dependency>
+
+		<!-- DB와 연결을 지원하는 JDBC 선언 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+
 
 		<!-- JDBC의 데이터소스 사용 목적 lib -->
 		<!-- commons-dbcp -->
@@ -141,12 +129,6 @@
 			<version>1.4</version>
 		</dependency>
 
-		<!-- DB와 연결을 지원하는 선언 -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-			<version>${org.springframework-version}</version>
-		</dependency>
 
 
 		<!-- beans 생성에 필요한 선언 -->
@@ -155,6 +137,7 @@
 			<artifactId>spring-beans</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
+
 
 		<!-- Spring -->
 		<dependency>
