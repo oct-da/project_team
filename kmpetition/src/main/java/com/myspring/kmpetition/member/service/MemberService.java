@@ -10,7 +10,7 @@ public interface MemberService {
 //	정상 로그인 시 최종접속일 업데이트
 	public void updateDate(String id) throws Exception;
 //	휴면계정 활성화
-	public void awakeMember(Map<String, String> memberMap) throws Exception;
+	public String awakeMember(MemberVO memberVO) throws Exception;
 	
 //	회원가입
 //	public void addMember(MemberVO memberVO) throws Exception;

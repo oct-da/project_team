@@ -28,8 +28,8 @@
 			success : function(data, textStatus) {
 				if (data == 'false') {
 					alert("사용할 수 있는 ID입니다.");
-					$('#btnOverlapped').prop("disabled", true);
-					$('#id').prop("disabled", true);
+					$('#btnOverlapped').prop("readolny", true);
+					$('#id').prop("readolny", true);
 					$('#id').val(_id);
 				} else {
 					alert("사용할 수 없는 ID입니다.");
@@ -63,8 +63,8 @@
 			success : function(data, textStatus) {
 				if (data == 'false') {
 					alert("사용할 수 있는 이메일입니다.");
-					$('#btnCheckEmail').prop("disabled", true);
-					$('#email').prop("disabled", true);
+					$('#btnCheckEmail').prop("readolny", true);
+					$('#email').prop("readolny", true);
 					$('#email').val(_email);
 				} else {
 					alert("사용할 수 없는 이메일입니다.");

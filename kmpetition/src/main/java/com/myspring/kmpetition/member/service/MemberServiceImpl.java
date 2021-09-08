@@ -37,13 +37,24 @@ public class MemberServiceImpl implements MemberService {
 
 
 	@Override
-	public void awakeMember(Map<String, String> memberMap) throws Exception {
+	public String awakeMember(MemberVO memberVO) throws Exception {
+		String result="false";
+		System.out.println("서비스의 awakeMember 진입");
+		
 //		휴면계정 활성화 폼에서 입력한 값으로 회원을 조회
-		MemberVO memberVO =memberDAO.selectForAwake(memberMap);
+		memberVO =memberDAO.selectForAwake(memberVO);
+		
+		System.out.println("서비스의 awakeMember 통과, 접속일 업데이트 전");
+//		System.out.println("아이디 : "+memberVO.getId()+", 최종접속일 : "+memberVO.getLastlogin());
+		
 //		해당 데이터와 일치하는 회원이 존재하면 해당 회원의 최종접속일 업데이트
 		if (memberVO!=null) {
+			
 			memberDAO.updateLastLogin(memberVO.getId());
+			System.out.println("서비스의 awakeMember 통과, 접속일 업데이트 후");
+			result="true";
 		}
+		return result;
 		
 	}
 	

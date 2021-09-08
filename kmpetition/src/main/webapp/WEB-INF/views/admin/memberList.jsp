@@ -29,7 +29,7 @@
 	<td>${member.name }</td>
 	<td>${member.email }</td>
 	<td>${member.phone }</td>
-	<td>${member.last_login }</td>
+	<td>${member.lastlogin }</td>
 </tr>		
 	
 	</c:forEach>

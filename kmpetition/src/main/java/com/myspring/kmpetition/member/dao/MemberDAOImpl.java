@@ -24,14 +24,20 @@ public class MemberDAOImpl implements MemberDAO {
 
 	@Override
 	public void updateLastLogin(String id) throws DataAccessException {
+		System.out.println("dao의 접속일업뎃 메서드 진입");
 		 sqlSession.update("mapper.member.updateLastLogin", id);
 
 	}
 
 
 	@Override
-	public MemberVO selectForAwake(Map<String, String> memberMap) throws DataAccessException {
-		return sqlSession.selectOne("mapper.member.selectForAwake", memberMap);
+	public MemberVO selectForAwake(MemberVO memberVO) throws DataAccessException {
+		System.out.println("dao의 조회작업 진입");
+//		System.out.println("id : "+memberMap.get("id"));
+//		System.out.println("pwd : "+memberMap.get("pwd"));
+//		System.out.println("email : "+memberMap.get("email"));
+//		System.out.println("name : " + memberMap.get("name"));
+		return sqlSession.selectOne("mapper.member.selectForAwake", memberVO);
 		
 	}
 	

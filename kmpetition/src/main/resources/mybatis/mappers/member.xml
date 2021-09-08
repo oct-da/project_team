@@ -11,7 +11,6 @@
 		<result property="phone" column="phone" />
 		<result property="email" column="email" />
 		<result property="lastlogin" column="lastlogin" />
-		<result property="enable" column="enable" />
 	</resultMap>
 
 
@@ -33,18 +32,21 @@
 	<update id="updateLastLogin" parameterType="String">
 		<![CDATA[ 
 			update member 
-			set lastlogin=now() 
+			set lastlogin=curdate() 
 			where id=#{id} 
 		]]>
 		
 	</update>
 	
-	<select id="selectForAwake" parameterType="java.util.Map" resultMap="memResult">
-		<![CDATA[
+	<select id="selectForAwake" parameterType="memberVO" resultMap="memResult">
+		<!-- name에서 오류 -->
 			select * from member 
-			where id=#{id} and pwd=#{pwd} and email=#{email} and name=#{name}			
+			where id=#{id} 
+				 and pwd=#{pwd} 
+				and email=#{email} 
+				and name=#{name} 	
 			 
-		]]>
+		
 	</select>
 	
 	<!-- 회원가입 
@@ -59,8 +61,8 @@
 	<!-- 이메일 드롭박스 테스트용 회원가입 -->
 	<insert id="insertMember" parameterType="java.util.Map">
 		<![CDATA[
-			insert into member(id, pwd, name, phone, email) 
-			values(#{id}, #{pwd}, #{name}, #{phone}, #{email})
+			insert into member(id, pwd, name, phone, email, lastlogin) 
+			values(#{id}, #{pwd}, #{name}, #{phone}, #{email}, curdate())
 		]]>
 	</insert>
 	

@@ -5,7 +5,7 @@
 
 <update id="updateMember" parameterType="memberVO">
 	<![CDATA[
-		update t_member 
+		update member 
 		set pwd=#{pwd}, name=#{name}, phone=#{phone}, email=#{email} 
 		where id=#{id}
 	 ]]>

@@ -16,7 +16,7 @@ public interface MemberController {
 //	로그인
 	public ModelAndView login(@RequestParam Map<String, String> loginMap,HttpServletRequest request, HttpServletResponse response) throws Exception;
 //	휴면계정 활성화
-	public ResponseEntity awakeMember(@RequestParam Map<String, String> memberMap,
+	public ResponseEntity awakeMember(@ModelAttribute("memberVO") MemberVO memberVO,
 	          HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 //	로그아웃

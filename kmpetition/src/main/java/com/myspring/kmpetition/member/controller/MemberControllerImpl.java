@@ -22,6 +22,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,23 +53,23 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		System.out.println("Member컨의 login");
 		ModelAndView mav = new ModelAndView();
 		HttpSession session = request.getSession();
-		
+
 		if (loginMap.get("id").equals("admin") && loginMap.get("pwd").equals("admin")) {
-			
+
 			session.setAttribute("isLogOn", true);
 			session.setAttribute("isAdmin", true);
-			
+
 			String message = "admin 계정으로 로그인";
 			mav.addObject("adminMessage", message);
-			
+
 			mav.setViewName("redirect:/main/main.do");
-			
+
 		} else { // 1번 if(admin 구별)
 			memberVO = memberService.login(loginMap);
 
 			// 로그인한 정보가 있고 id가 null이 아니면
 			if (memberVO != null && memberVO.getId() != null) {
-				
+
 //---------------------휴면 계정 판단용 코드 작업
 //			로그인 정보로 반환된 memberVO에서 해당 회원의 마지막 접속일인 loginDate를 구함.
 				Date loginDate = memberVO.getLastlogin();
@@ -79,8 +80,9 @@ public class MemberControllerImpl extends MainController implements MemberContro
 				Calendar cal = Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST"));
 				cal.add(Calendar.MONTH, -1);
 				Date monthAgo = cal.getTime();
-				System.out.println("한 달 전 날짜:" + sdf.format(monthAgo));
 
+//				System.out.println("한 달 전 날짜:" + sdf.format(monthAgo));
+				System.out.println("회원 최종접속일 : " + loginDate);
 //			날짜 비교 용도의 변수
 				int compare = loginDate.compareTo(monthAgo);
 
@@ -95,19 +97,18 @@ public class MemberControllerImpl extends MainController implements MemberContro
 					session.setAttribute("isLogOn", true);
 					session.setAttribute("memberInfo", memberVO);
 					mav.setViewName("redirect:/main/main.do");
-					
+
 //					체크박스에 체크가 없이 값이 넘어오면 null값으로 넘어온다. 
-					String saveId=request.getParameter("saveId");
-					if(saveId!=null) {
-						Cookie c=new Cookie("saveId", loginMap.get("id"));
-						c.setMaxAge(60*60*24*7);	// 쿠키 유효기간 7일
+					String saveId = request.getParameter("saveId");
+					if (saveId != null) {
+						Cookie c = new Cookie("saveId", loginMap.get("id"));
+						c.setMaxAge(60 * 60 * 24 * 7); // 쿠키 유효기간 7일
 						response.addCookie(c);
-					}else {
-						Cookie c=new Cookie("saveId", loginMap.get("id"));
-						c.setMaxAge(0);	// 쿠키 유효기간 7일
+					} else {
+						Cookie c = new Cookie("saveId", loginMap.get("id"));
+						c.setMaxAge(0); // 쿠키 유효기간 7일
 						response.addCookie(c);
 					}
-					
 
 //				id, pwd 확인용(게터값이 null이면 에러남)
 					String id = memberVO.getId();
@@ -135,7 +136,7 @@ public class MemberControllerImpl extends MainController implements MemberContro
 //	awakeForm에서 활성화할 계정 정보를 입력했을 때
 	@Override
 	@RequestMapping(value = "/awakeMember.do", method = RequestMethod.POST)
-	public ResponseEntity awakeMember(@RequestParam Map<String, String> memberMap, HttpServletRequest request,
+	public ResponseEntity awakeMember(@ModelAttribute("memberVO") MemberVO memberVO, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
@@ -143,16 +144,23 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		ResponseEntity resEntity = null;
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
-		System.out.println(memberMap.get("id"));
-		System.out.println(memberMap.get("pwd"));
-		System.out.println(memberMap.get("email"));
-		System.out.println(memberMap.get("name"));
+		System.out.println("id : "+memberVO.getId());
+		System.out.println("pwd : "+memberVO.getPwd());
+		System.out.println("email : "+memberVO.getEmail());
+		System.out.println("name : " + memberVO.getName());
 		try {
-			memberService.awakeMember(memberMap);
-			message = "<script>";
-			message += " alert('계정을 활성화했습니다. 로그인 화면으로 이동합니다.');";
-			message += " location.href='" + request.getContextPath() + "/member/loginForm.do';";
-			message += " </script>";
+			String result = memberService.awakeMember(memberVO);
+			if (result.equals("true")) {
+				message = "<script>";
+				message += " alert('계정을 활성화했습니다. 로그인 화면으로 이동합니다.');";
+				message += " location.href='" + request.getContextPath() + "/member/loginForm.do';";
+				message += " </script>";
+			} else {
+				message = "<script>";
+				message += " alert('조회된 회원이 없습니다. 다시 시도해 주세요.');";
+				message += " location.href='" + request.getContextPath() + "/member/awakeForm.do';";
+				message += " </script>";
+			}
 		} catch (Exception e) {
 
 			message = "<script>";
@@ -283,7 +291,8 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		System.out.println("member컨의 findid");
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
-		MemberVO memberVO = memberService.findId(findMap);
+//		MemberVO memberVO = memberService.findId(findMap);
+		memberVO = memberService.findId(findMap);
 //		MemberVO memberVO = memberService.findId(member);
 		System.out.println("member컨의 findid의 service 이후");
 		String findId = null;
@@ -302,7 +311,7 @@ public class MemberControllerImpl extends MainController implements MemberContro
 			HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
-		MemberVO memberVO = memberService.findPwd(findMap);
+		memberVO = memberService.findPwd(findMap);
 		String id = findMap.get("id");
 		mav.addObject("id", id);
 		String result = null;
