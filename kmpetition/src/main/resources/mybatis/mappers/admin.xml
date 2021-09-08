@@ -20,11 +20,25 @@
 	</resultMap>
 	
 	
-	<select id="selectAllMember" resultMap="memResult">
+	<!-- <select id="selectAllMember" resultMap="memResult">
 		<![CDATA[ 
 			select * from member 
 		]]>
-		
+	</select> -->
 	
+	
+	<!-- 페이징 적용한 sql -->
+	<select id="selectAllMember" parameterType="Integer" resultMap="memResult">
+		<![CDATA[ 
+			select * from member 
+			order by lastlogin desc 
+			limit #{startNum}, 10 
+		]]>
+	</select>
+	
+	<select id="selectTotMember" resultType="Integer">
+		<![CDATA[ 
+			select count(*) from member 
+		]]>
 	</select>
 </mapper>

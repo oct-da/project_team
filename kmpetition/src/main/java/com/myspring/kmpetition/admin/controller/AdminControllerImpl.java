@@ -1,6 +1,9 @@
 package com.myspring.kmpetition.admin.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,34 +20,65 @@ import com.myspring.kmpetition.member.vo.MemberVO;
 
 @Controller("adminController")
 @RequestMapping("/admin")
-public class AdminControllerImpl implements AdminController{
+public class AdminControllerImpl implements AdminController {
 	@Autowired
 	private AdminService adminService;
-	
+
 //	관리자페이지 중 회원정보조회 페이지
 	@Override
-	@RequestMapping(value="/memberList")
+	@RequestMapping(value = "/memberList")
 	public ModelAndView memberList(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav=new ModelAndView();
-		HttpSession session=request.getSession();
-		Boolean isAdmin=(Boolean) session.getAttribute("isAdmin");
-		
-		if(isAdmin==true) {
-			List<MemberVO> memberList = adminService.memberList();
-			mav.addObject("memberList", memberList);
-			mav.setViewName("/admin/memberList");
+		ModelAndView mav = new ModelAndView();
+		HttpSession session = request.getSession();
+		Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
+
+		if (isAdmin == true) {
+//			--------------------------페이징 전 코드-------------------
+//			List<MemberVO> memberList = adminService.memberList();
+//			mav.addObject("memberList", memberList);
+//			mav.setViewName("/admin/memberList");
+//			-----------------------------------------------코드 끝
 			
-//			--------확인용 출력------------
-//			for(MemberVO mem : memberList) 
-//				System.out.println(mem.getId());
-//			----------------------테스트 끝
 			
-		}else {
-			String message="잘못된 요청입니다.";
+			String viewName= (String) request.getAttribute("viewName");
+			mav.setViewName(viewName);
+
+			try {
+
+				String _section = request.getParameter("section");
+				String _pageNum = request.getParameter("pageNum");
+				int section = Integer.parseInt(((_section == null) ? "1" : _section));
+				int pageNum = Integer.parseInt(((_pageNum == null) ? "1" : _pageNum));
+				Map<String, Integer> pagingMap = new HashMap<String, Integer>();
+				pagingMap.put("section", section);
+				pagingMap.put("pageNum", pageNum);
+
+				Map memberMap = adminService.memberList(pagingMap);
+				memberMap.put("section", section);
+				memberMap.put("pageNum", pageNum);
+				mav.addObject("memberMap", memberMap);
+				
+//				---------출력용 테스트-------------
+				List memberList=(List) memberMap.get("memberList");
+				
+				for(int i=1; i<=memberList.size(); i++) {
+					MemberVO mem = (MemberVO) memberList.get(i);
+					System.out.println(mem.getId());
+					
+				}
+				
+
+			} catch (Exception e) {
+
+				// TODO: handle exception
+			}
+
+		} else {
+			String message = "잘못된 요청입니다.";
 			mav.addObject("message", message);
 			mav.setViewName("/main/main");
 		}
-		
+
 		return mav;
 	}
 
@@ -67,7 +101,5 @@ public class AdminControllerImpl implements AdminController{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
 
 }
