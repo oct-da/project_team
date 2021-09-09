@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -44,9 +45,6 @@ public class BoardControllerImpl extends MainController implements BoardControll
 		
 		Map noticeMap = boardService.noticeList(pagingMap);
 		
-		System.out.println("noticeList가 null인가?");
-		System.out.println(noticeMap.get("noticeList")==null);
-		
 		int startNum=(pageNum-1)*10+(section-1)*100+1;
 		noticeMap.put("startNum", startNum);
 		noticeMap.put("section", section);
@@ -58,6 +56,10 @@ public class BoardControllerImpl extends MainController implements BoardControll
 //		pageNum : 페이지번호(1~10)
 //		noticeMap : 해당 섹션, 페이지에 해당하는 noticeVO (최대 10개)
 //		totNotice : 총 게시물 개수
+		
+		HttpSession session=request.getSession();
+		System.out.println("admin인가?");
+		System.out.println(session.getAttribute("isAdmin"));
 		return mav;
 	}
 
@@ -72,6 +74,9 @@ public class BoardControllerImpl extends MainController implements BoardControll
 		return mav;
 	}
 
+	
+	
+	
 	@Override
 	public ModelAndView boardList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub

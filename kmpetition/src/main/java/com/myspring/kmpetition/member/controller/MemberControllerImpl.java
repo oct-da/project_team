@@ -161,6 +161,7 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		ModelAndView mav = new ModelAndView();
 		HttpSession session = request.getSession();
 		session.removeAttribute("isLogOn");
+		session.removeAttribute("isAdmin");
 		session.setAttribute("isLogOn", false);
 		session.removeAttribute("memberInfo");
 		mav.setViewName("redirect:/main/main.do");

@@ -44,9 +44,8 @@ public class AdminServiceImpl implements AdminService {
 
 //	Notice 새 글 추가 (1.새글 추가/ 2.추가한 새글 상세창으로 이동하기 위해 새글의 articleNO 반환)
 	@Override
-	public int addNotice(NoticeVO noticeVO) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public void addNotice(NoticeVO noticeVO) throws Exception {
+		dao.insertNotice(noticeVO);
 	}
 
 //	Notice 게시물 삭제

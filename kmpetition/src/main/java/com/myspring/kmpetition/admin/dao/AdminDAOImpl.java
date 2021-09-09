@@ -40,7 +40,7 @@ public class AdminDAOImpl implements AdminDAO{
 
 	@Override
 	public void insertNotice(NoticeVO noticeVO) throws DataAccessException {
-		// TODO Auto-generated method stub
+		sqlSession.selectOne("mapper.admin.selectTotMember");
 		
 	}
 

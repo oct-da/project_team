@@ -8,6 +8,10 @@
          <put-attribute name="title" value="관리자페이지_전체회원조회" />
          <put-attribute name="body" value="/WEB-INF/views/admin/memberList.jsp" />
       </definition>  
+      <definition name="/admin/noticeForm" extends="baseLayout">
+         <put-attribute name="title" value="관리자페이지_전체회원조회" />
+         <put-attribute name="body" value="/WEB-INF/views/admin/noticeForm.jsp" />
+      </definition>  
       
       
 </tiles-definitions>

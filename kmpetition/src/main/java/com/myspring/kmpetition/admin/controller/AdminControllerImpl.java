@@ -1,8 +1,6 @@
 package com.myspring.kmpetition.admin.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,21 +10,25 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myspring.kmpetition.admin.service.AdminService;
-import com.myspring.kmpetition.member.vo.MemberVO;
+import com.myspring.kmpetition.board.vo.NoticeVO;
+import com.myspring.kmpetition.main.MainController;
 
 @Controller("adminController")
-@RequestMapping("/admin")
-public class AdminControllerImpl implements AdminController {
+@RequestMapping(value="/admin")
+public class AdminControllerImpl extends MainController implements AdminController {
 	@Autowired
 	private AdminService adminService;
 
 //	관리자페이지 중 회원정보조회 페이지
 	@Override
-	@RequestMapping(value = "/memberList")
+	@RequestMapping(value = "/memberList.do")
 	public ModelAndView memberList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		HttpSession session = request.getSession();
@@ -71,11 +73,32 @@ public class AdminControllerImpl implements AdminController {
 		return mav;
 	}
 
-//	
 	@Override
-	public ModelAndView addNotice(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	@RequestMapping(value = "/addNotice.do", method = RequestMethod.POST)
+	public ModelAndView addNotice(@ModelAttribute("noticeVO") NoticeVO noticeVO, MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		ModelAndView mav=new ModelAndView();
+		HttpSession session=request.getSession();
+		
+		if((boolean)session.getAttribute("isAdmin")==true) {
+			try{
+				adminService.addNotice(noticeVO);
+			}catch (Exception e) {
+				e.printStackTrace();
+				String message="잘못된 요청입니다.";
+				mav.addObject("errMsg",message);
+				mav.setViewName("/board/noticeForm");
+			}
+			
+		}else {
+			String message="잘못된 요청입니다.";
+			mav.addObject("errMsg",message);
+			mav.setViewName("/board/noticeList");
+		}
+		
+		
+		
+		return mav;
 	}
 
 	@Override
