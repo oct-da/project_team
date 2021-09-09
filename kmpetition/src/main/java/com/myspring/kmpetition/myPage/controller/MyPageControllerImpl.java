@@ -14,12 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.myspring.kmpetition.main.MainController;
 import com.myspring.kmpetition.member.vo.MemberVO;
 import com.myspring.kmpetition.myPage.service.MyPageService;
 
 @Controller("MyPageController")
 @RequestMapping("/mypage")
-public class MyPageControllerImpl implements MyPageController{
+public class MyPageControllerImpl extends MainController implements MyPageController{
 	
 	@Autowired
 	private MyPageService myPageService;
@@ -28,14 +29,14 @@ public class MyPageControllerImpl implements MyPageController{
 	
 	
 //	회원정보수정 페이지로 이동
-	@Override
-	@RequestMapping(value="/modMemberForm", method = {RequestMethod.POST, RequestMethod.GET})
-	public ModelAndView modMemberForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String viewName=(String)request.getAttribute("viewName");
-		ModelAndView mav = new ModelAndView(viewName);
-		return mav;
-		
-	}
+//	@Override
+//	@RequestMapping(value="/modMemberForm", method = {RequestMethod.POST, RequestMethod.GET})
+//	public ModelAndView modMemberForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		String viewName=(String)request.getAttribute("viewName");
+//		ModelAndView mav = new ModelAndView(viewName);
+//		return mav;
+//		
+//	}
 
 	@Override
 	@RequestMapping(value="/modMember", method = RequestMethod.POST)

@@ -73,18 +73,18 @@ public class MemberControllerImpl extends MainController implements MemberContro
 //---------------------휴면 계정 판단용 코드 작업
 //			로그인 정보로 반환된 memberVO에서 해당 회원의 마지막 접속일인 loginDate를 구함.
 				Date loginDate = memberVO.getLastlogin();
-
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-//			1달 전 날짜 구하기
-				Calendar cal = Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST"));
-				cal.add(Calendar.MONTH, -1);
-				Date monthAgo = cal.getTime();
-
-//				System.out.println("한 달 전 날짜:" + sdf.format(monthAgo));
-				System.out.println("회원 최종접속일 : " + loginDate);
-//			날짜 비교 용도의 변수
-				int compare = loginDate.compareTo(monthAgo);
+//
+//				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//
+////			1달 전 날짜 구하기
+//				Calendar cal = Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST"));
+//				cal.add(Calendar.MONTH, -1);
+//				Date monthAgo = cal.getTime();
+//
+////				System.out.println("한 달 전 날짜:" + sdf.format(monthAgo));
+//				System.out.println("회원 최종접속일 : " + loginDate);
+////			날짜 비교 용도의 변수
+				int compare = checkLoginDate(loginDate);
 
 // ---------------------- 휴면계정 판단 코드 종료 
 
@@ -98,8 +98,12 @@ public class MemberControllerImpl extends MainController implements MemberContro
 					session.setAttribute("memberInfo", memberVO);
 					mav.setViewName("redirect:/main/main.do");
 
+//					ID저장 처리 
 //					체크박스에 체크가 없이 값이 넘어오면 null값으로 넘어온다. 
 					String saveId = request.getParameter("saveId");
+					checkSaveId(saveId, loginMap, response);
+					
+					/*
 					if (saveId != null) {
 						Cookie c = new Cookie("saveId", loginMap.get("id"));
 						c.setMaxAge(60 * 60 * 24 * 7); // 쿠키 유효기간 7일
@@ -109,6 +113,7 @@ public class MemberControllerImpl extends MainController implements MemberContro
 						c.setMaxAge(0); // 쿠키 유효기간 7일
 						response.addCookie(c);
 					}
+					*/
 
 //				id, pwd 확인용(게터값이 null이면 에러남)
 					String id = memberVO.getId();
@@ -144,9 +149,9 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		ResponseEntity resEntity = null;
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
-		System.out.println("id : "+memberVO.getId());
-		System.out.println("pwd : "+memberVO.getPwd());
-		System.out.println("email : "+memberVO.getEmail());
+		System.out.println("id : " + memberVO.getId());
+		System.out.println("pwd : " + memberVO.getPwd());
+		System.out.println("email : " + memberVO.getEmail());
 		System.out.println("name : " + memberVO.getName());
 		try {
 			String result = memberService.awakeMember(memberVO);
@@ -186,30 +191,6 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		return mav;
 	}
 
-	/*
-	 * // 회원가입
-	 * 
-	 * @Override
-	 * 
-	 * @RequestMapping(value = "/addMember.do", method = RequestMethod.POST) public
-	 * ResponseEntity addMember(@ModelAttribute("memberVO") MemberVO _memberVO,
-	 * HttpServletRequest request, HttpServletResponse response) throws Exception {
-	 * // 애너테이션으로 Form에서 온 정보는 _memberVO에 할당, 이 _memberVO를 Model 객체에 "memberVO"로
-	 * set한 상태 response.setContentType("text/html; charset=UTF-8");
-	 * request.setCharacterEncoding("utf-8"); String message = null; ResponseEntity
-	 * resEntity = null; HttpHeaders responseHeaders = new HttpHeaders();
-	 * responseHeaders.add("Content-Type", "text/html; charset=utf-8"); try {
-	 * memberService.addMember(_memberVO); message = "<script>"; message +=
-	 * " alert('회원 가입을 마쳤습니다.로그인창으로 이동합니다.');"; message += " location.href='" +
-	 * request.getContextPath() + "/member/loginForm.do';"; message += " </script>";
-	 * 
-	 * } catch (Exception e) { message = "<script>"; message +=
-	 * " alert('작업 중 오류가 발생했습니다. 다시 시도해 주세요');"; message += " location.href='" +
-	 * request.getContextPath() + "/member/memberForm.do';"; message +=
-	 * " </script>"; e.printStackTrace(); } resEntity = new ResponseEntity(message,
-	 * responseHeaders, HttpStatus.OK); return resEntity; }
-	 */
-
 //	회원가입. 이메일 드롭박스 테스트
 	@Override
 	@RequestMapping(value = "/addMember.do", method = RequestMethod.POST)
@@ -230,14 +211,6 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		memberMap.remove("email_id");
 		memberMap.remove("email_addr");
 		memberMap.put("email", email);
-
-		/*
-		 * 확인용 출력 System.out.println(memberMap.get("email"));
-		 * System.out.println(memberMap.get("id"));
-		 * System.out.println(memberMap.get("pwd"));
-		 * System.out.println(memberMap.get("name"));
-		 * System.out.println(memberMap.get("phone"));
-		 */
 
 		try {
 			memberService.addMember(memberMap);
@@ -286,15 +259,11 @@ public class MemberControllerImpl extends MainController implements MemberContro
 	@RequestMapping(value = "/findId.do", method = RequestMethod.POST)
 	public ModelAndView findId(@RequestParam Map<String, String> findMap, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-//		public ModelAndView findId(@RequestParam MemberVO member, HttpServletRequest request, HttpServletResponse response)
-//				throws Exception {
-		System.out.println("member컨의 findid");
+//		System.out.println("member컨의 findid");
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
-//		MemberVO memberVO = memberService.findId(findMap);
 		memberVO = memberService.findId(findMap);
-//		MemberVO memberVO = memberService.findId(member);
-		System.out.println("member컨의 findid의 service 이후");
+//		System.out.println("member컨의 findid의 service 이후");
 		String findId = null;
 		if (memberVO != null) {
 			findId = memberVO.getId();
@@ -317,7 +286,6 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		String result = null;
 		if (memberVO != null) {
 			result = "true";
-
 		}
 		mav.addObject("result", result);
 		return mav;
@@ -349,6 +317,37 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		}
 		resEntity = new ResponseEntity(message, responseHeaders, HttpStatus.OK);
 		return resEntity;
+	}
+
+	@Override
+	public int checkLoginDate(Date loginDate) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+//		1달 전 날짜 구하기
+		Calendar cal = Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST"));
+		cal.add(Calendar.MONTH, -1);
+		Date monthAgo = cal.getTime();
+
+//			System.out.println("한 달 전 날짜:" + sdf.format(monthAgo));
+		System.out.println("회원 최종접속일 : " + loginDate);
+//		날짜 비교 용도의 변수
+		int compare = loginDate.compareTo(monthAgo);
+		return compare;
+	}
+
+	@Override
+	public void checkSaveId(String saveId, Map loginMap, HttpServletResponse response) throws Exception {
+
+		if (saveId != null) {
+			Cookie c = new Cookie("saveId", (String) loginMap.get("id"));
+			c.setMaxAge(60 * 60 * 24 * 7); // 쿠키 유효기간 7일
+			response.addCookie(c);
+		} else {
+			Cookie c = new Cookie("saveId", (String) loginMap.get("id"));
+			c.setMaxAge(0); // 쿠키 유효기간 7일
+			response.addCookie(c);
+		}
+
 	}
 
 	/*-------------------- 파일 업로드 테스트용--------------------*/

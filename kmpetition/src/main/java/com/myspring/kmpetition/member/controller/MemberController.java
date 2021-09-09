@@ -1,5 +1,6 @@
 package com.myspring.kmpetition.member.controller;
 
+import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,4 +37,7 @@ public interface MemberController {
 //	이메일 중복검사(회원가입)
 	public ResponseEntity checkEmail(@RequestParam String email, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
+	
+	public int checkLoginDate(Date loginDate);
+	public void checkSaveId(String saveId, Map loginMap, HttpServletResponse response) throws Exception;
 }
