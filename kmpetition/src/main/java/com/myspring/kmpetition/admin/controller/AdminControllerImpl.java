@@ -83,6 +83,7 @@ public class AdminControllerImpl extends MainController implements AdminControll
 		if((boolean)session.getAttribute("isAdmin")==true) {
 			try{
 				adminService.addNotice(noticeVO);
+				mav.setViewName("/board/noticeList");
 			}catch (Exception e) {
 				e.printStackTrace();
 				String message="잘못된 요청입니다.";
