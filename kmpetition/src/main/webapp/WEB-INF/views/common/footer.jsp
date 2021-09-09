@@ -8,6 +8,7 @@
 <div style="padding-left: 200px; background-color: #64A0FF;">
 	</br>
 	<p>footer</p>
+	<a href="${contextPath }/board/noticeList.do">공지사항</a>
 	</br>
 </div>
 

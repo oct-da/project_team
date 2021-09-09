@@ -39,7 +39,6 @@ public class AdminControllerImpl implements AdminController {
 //			mav.setViewName("/admin/memberList");
 //			-----------------------------------------------코드 끝
 			
-			
 			String viewName= (String) request.getAttribute("viewName");
 			mav.setViewName(viewName);
 
@@ -61,24 +60,14 @@ public class AdminControllerImpl implements AdminController {
 				memberMap.put("pageNum", pageNum);
 				mav.addObject("memberMap", memberMap);
 				
-//				---------출력용 테스트-----------------------------
-//				List memberList=(List) memberMap.get("memberList");
-//				for(int i=1; i<=memberList.size(); i++) {
-//					MemberVO mem = (MemberVO) memberList.get(i);
-////					System.out.println(mem.getId());
-//				}
-//				-------------------------------------끝------
-				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
 		} else {
 			String message = "잘못된 요청입니다.";
 			mav.addObject("message", message);
 			mav.setViewName("/main/main");
 		}
-
 		return mav;
 	}
 

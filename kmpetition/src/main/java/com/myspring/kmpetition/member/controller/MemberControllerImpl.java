@@ -70,24 +70,11 @@ public class MemberControllerImpl extends MainController implements MemberContro
 			// 로그인한 정보가 있고 id가 null이 아니면
 			if (memberVO != null && memberVO.getId() != null) {
 
-//---------------------휴면 계정 판단용 코드 작업
-//			로그인 정보로 반환된 memberVO에서 해당 회원의 마지막 접속일인 loginDate를 구함.
 				Date loginDate = memberVO.getLastlogin();
-//
-//				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//
-////			1달 전 날짜 구하기
-//				Calendar cal = Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST"));
-//				cal.add(Calendar.MONTH, -1);
-//				Date monthAgo = cal.getTime();
-//
-////				System.out.println("한 달 전 날짜:" + sdf.format(monthAgo));
-//				System.out.println("회원 최종접속일 : " + loginDate);
-////			날짜 비교 용도의 변수
+//				날짜 비교 용도
 				int compare = checkLoginDate(loginDate);
 
-// ---------------------- 휴면계정 판단 코드 종료 
-
+//				compare 값을 통해 휴면계정인지 판단
 				if (compare >= 0) {
 					System.out.println("한 달 동안 한 번 이상 접속했음.");
 //				해당 회원의 최종접속일을 오늘로 갱신
@@ -101,24 +88,13 @@ public class MemberControllerImpl extends MainController implements MemberContro
 //					ID저장 처리 
 //					체크박스에 체크가 없이 값이 넘어오면 null값으로 넘어온다. 
 					String saveId = request.getParameter("saveId");
+					
+//					메서드를 통해 ID저장에 체크가 되어있었으면 쿠키에 저장
 					checkSaveId(saveId, loginMap, response);
 					
-					/*
-					if (saveId != null) {
-						Cookie c = new Cookie("saveId", loginMap.get("id"));
-						c.setMaxAge(60 * 60 * 24 * 7); // 쿠키 유효기간 7일
-						response.addCookie(c);
-					} else {
-						Cookie c = new Cookie("saveId", loginMap.get("id"));
-						c.setMaxAge(0); // 쿠키 유효기간 7일
-						response.addCookie(c);
-					}
-					*/
 
 //				id, pwd 확인용(게터값이 null이면 에러남)
-					String id = memberVO.getId();
-					String pwd = memberVO.getPwd();
-					System.out.println("로그인 : " + id + ", " + pwd);
+					System.out.println("로그인 : " + memberVO.getId() + ", " + memberVO.getPwd());
 
 				} else { // 3번 if == 휴면계정 판단
 					System.out.println("한 달 동안 접속하지 않음. 휴면계정.");
