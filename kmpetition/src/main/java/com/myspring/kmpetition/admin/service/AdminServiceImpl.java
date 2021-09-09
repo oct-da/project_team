@@ -29,13 +29,13 @@ public class AdminServiceImpl implements AdminService {
 //	회원목록조회------------페이징 추가해서 테스트 
 	@Override
 	public Map memberList(Map<String, Integer> pagingMap) throws Exception {
-		System.out.println("서비스의 멤버리스트 진입");
+//		System.out.println("서비스의 멤버리스트 진입");
 		Map memberMap=new HashedMap();
 		List<MemberVO> memberList=dao.selectAllMember(pagingMap);
-		System.out.println("서비스의 멤버조회 완료");
+//		System.out.println("서비스의 멤버조회 완료");
 		
 		int totMember=dao.selectTotMember();
-		System.out.println("서비스의 총 멤버수 완료");
+//		System.out.println("서비스의 총 멤버수 완료");
 		
 		memberMap.put("memberList", memberList);
 		memberMap.put("totMember", totMember);

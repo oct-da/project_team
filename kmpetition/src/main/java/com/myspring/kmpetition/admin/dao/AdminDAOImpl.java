@@ -22,6 +22,7 @@ public class AdminDAOImpl implements AdminDAO{
 //		
 //	}
 	
+//	페이징처리한 selectAllMember
 	public List selectAllMember(Map pagingMap) throws DataAccessException{
 		System.out.println("dao의 멤버조회 진입");
 

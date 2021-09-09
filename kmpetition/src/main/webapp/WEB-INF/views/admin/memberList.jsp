@@ -7,6 +7,7 @@
 <c:set  var="totArticles"  value="${memberMap.totMember}" />
 <c:set  var="section"  value="${memberMap.section}" />
 <c:set  var="pageNum"  value="${memberMap.pageNum}" />
+<c:set  var="startNum"  value="${memberMap.startNum}" />
 
 
 <!DOCTYPE html>
@@ -40,7 +41,7 @@
   <c:when test="${memberList !=null }" >
     <c:forEach  var="article" items="${memberList }" varStatus="articleNum" >
      <tr align="center">
-	<td width="5%">${totArticles+1-articleNum.count}</td>
+	<td width="5%">${startNum-1+articleNum.count}</td>
 	<td width="10%">${article.id }</td>
 	<td width="10%">${article.name }</td>
 	<td width="10%">${article.email }</td>
@@ -61,11 +62,11 @@
         <c:when test="${totArticles >100 }">  <!-- 글 개수가 100 초과인경우 -->
 	      <c:forEach   var="page" begin="1" end="10" step="1" >
 	         <c:if test="${section >1 && page==1 }">
-	          <a class="no-uline" href="${contextPath }/admin/memberList.do?section=${section-1}&pageNum=${(section-1)*10 +1 }">&nbsp; pre </a>
+	          <a class="no-uline" href="${contextPath }/admin/memberList.do?section=${section-1}&pageNum=1">&nbsp; pre </a>
 	         </c:if>
 	          <a class="no-uline" href="${contextPath }/admin/memberList.do?section=${section}&pageNum=${page}">${(section-1)*10 +page } </a>
 	         <c:if test="${page ==10 }">
-	          <a class="no-uline" href="${contextPath }/admin/memberList.do?section=${section+1}&pageNum=${section*10+1}">&nbsp; next</a>
+	          <a class="no-uline" href="${contextPath }/admin/memberList.do?section=${section+1}&pageNum=1">&nbsp; next</a>
 	         </c:if>
 	      </c:forEach>
         </c:when>

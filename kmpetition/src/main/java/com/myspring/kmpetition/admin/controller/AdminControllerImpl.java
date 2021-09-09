@@ -53,24 +53,24 @@ public class AdminControllerImpl implements AdminController {
 				pagingMap.put("section", section);
 				pagingMap.put("pageNum", pageNum);
 
+//				memberMap에는 memberList와 totMember가 들어 있음.
 				Map memberMap = adminService.memberList(pagingMap);
+				int startNum=(pageNum-1)*10+(section-1)*100+1;
+				memberMap.put("startNum", startNum);
 				memberMap.put("section", section);
 				memberMap.put("pageNum", pageNum);
 				mav.addObject("memberMap", memberMap);
 				
-//				---------출력용 테스트-------------
-				List memberList=(List) memberMap.get("memberList");
+//				---------출력용 테스트-----------------------------
+//				List memberList=(List) memberMap.get("memberList");
+//				for(int i=1; i<=memberList.size(); i++) {
+//					MemberVO mem = (MemberVO) memberList.get(i);
+////					System.out.println(mem.getId());
+//				}
+//				-------------------------------------끝------
 				
-				for(int i=1; i<=memberList.size(); i++) {
-					MemberVO mem = (MemberVO) memberList.get(i);
-					System.out.println(mem.getId());
-					
-				}
-				
-
 			} catch (Exception e) {
-
-				// TODO: handle exception
+				e.printStackTrace();
 			}
 
 		} else {
