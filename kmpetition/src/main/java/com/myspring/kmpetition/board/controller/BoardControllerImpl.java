@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myspring.kmpetition.board.service.BoardService;
@@ -35,6 +37,7 @@ public class BoardControllerImpl extends MainController implements BoardControll
 		String _pageNum = request.getParameter("pageNum");
 		int section = Integer.parseInt(((_section == null) ? "1" : _section));
 		int pageNum = Integer.parseInt(((_pageNum == null) ? "1" : _pageNum));
+		System.out.println(section+", "+pageNum);
 		Map<String, Integer> pagingMap = new HashMap<String, Integer>();
 		pagingMap.put("section", section);
 		pagingMap.put("pageNum", pageNum);
@@ -59,10 +62,14 @@ public class BoardControllerImpl extends MainController implements BoardControll
 	}
 
 	@Override
-	public ModelAndView noticeDetail(int articleNO, HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping(value = "/noticeDetail", method = RequestMethod.GET)
+	public ModelAndView noticeDetail(@RequestParam("articleNO") int articleNO, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		String viewName=(String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView(viewName);
+		NoticeVO noticeVO = boardService.noticeDetail(articleNO);
+		mav.addObject("noticeVO", noticeVO);
+		return mav;
 	}
 
 	@Override
@@ -72,28 +79,28 @@ public class BoardControllerImpl extends MainController implements BoardControll
 	}
 
 	@Override
-	public ModelAndView boardDetail(int articleNO, HttpServletRequest request, HttpServletResponse response)
+	public ModelAndView boardDetail(@RequestParam("articleNO") int articleNO, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ModelAndView addBoard(Map articleMap, HttpServletRequest request, HttpServletResponse response)
+	public ModelAndView addBoard(@RequestParam Map articleMap, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ModelAndView modBoard(NoticeVO noticeVO, HttpServletRequest request, HttpServletResponse response)
+	public ModelAndView modBoard(@ModelAttribute("noticeVO") NoticeVO noticeVO, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ResponseEntity removeBoard(int articleNO, HttpServletRequest request, HttpServletResponse response)
+	public ResponseEntity removeBoard(@RequestParam("articleNO")int articleNO, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
