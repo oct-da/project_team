@@ -1,7 +1,6 @@
 package com.myspring.kmpetition.board.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myspring.kmpetition.board.service.BoardService;
+import com.myspring.kmpetition.board.vo.BoardVO;
 import com.myspring.kmpetition.board.vo.NoticeVO;
 import com.myspring.kmpetition.main.MainController;
 
@@ -109,13 +109,28 @@ public class BoardControllerImpl extends MainController implements BoardControll
 	}
 
 	@Override
+	@RequestMapping(value="/boardDetail.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView boardDetail(@RequestParam("articleNO") int articleNO, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		String viewName=(String)request.getAttribute("viewName");
+		ModelAndView mav=new ModelAndView();
+		BoardVO boardVO=boardService.articleDetail(articleNO);
+		System.out.println("글 공개여부 : "+boardVO.isVisible());
+		if (boardVO.isVisible()!=true) {
+			String errMsg="비공개 게시글";
+			mav.addObject(errMsg);
+			mav.setViewName("redirect:/board/boardList.do");
+			System.out.println("비공개 게시글입니다.");
+		}else {
+			mav.addObject("boardVO", boardVO);
+			mav.setViewName(viewName);
+			System.out.println("선택한 글제목 : "+boardVO.getTitle());
+		}
+		return mav;
 	}
 
 	@Override
+	@RequestMapping(value="/addBoard.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView addBoard(@RequestParam Map articleMap, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		// TODO Auto-generated method stub

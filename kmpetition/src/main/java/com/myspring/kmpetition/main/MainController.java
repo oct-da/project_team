@@ -1,12 +1,20 @@
 package com.myspring.kmpetition.main;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -17,6 +25,8 @@ import org.springframework.web.servlet.ModelAndView;
 //@EnableAspectJAutoProxy  넣어야하나?
 //@RequestMapping(value = "/main")
 public class MainController {
+	private final String Path = "C:\\test";
+	
 	@RequestMapping(value = "/main/main.do", method = { RequestMethod.POST, RequestMethod.GET })
 	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("Main컨의 main");
@@ -44,5 +54,9 @@ public class MainController {
 		ModelAndView mav=new ModelAndView(viewName);
 		return mav;
 	}
+	
+	
+
+	
 	
 }
