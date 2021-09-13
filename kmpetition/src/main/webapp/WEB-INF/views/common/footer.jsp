@@ -10,5 +10,7 @@
 	<p>footer</p>
 	<a href="${contextPath }/board/noticeList.do">공지사항</a>
 	</br>
+	<a href="${contextPath }/board/boardList.do">문의게시판</a>
+	</br>
 </div>
 

@@ -78,9 +78,34 @@ public class BoardControllerImpl extends MainController implements BoardControll
 	
 	
 	@Override
+	@RequestMapping(value="/boardList.do", method = RequestMethod.GET)
 	public ModelAndView boardList(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		String viewName= (String) request.getAttribute("viewName");
+		ModelAndView mav =new ModelAndView(viewName);
+		HttpSession session = request.getSession();
+		
+		try {
+			String _section = request.getParameter("section");
+			String _pageNum = request.getParameter("pageNum");
+			int section = Integer.parseInt(((_section == null) ? "1" : _section));
+			int pageNum = Integer.parseInt(((_pageNum == null) ? "1" : _pageNum));
+			Map<String, Integer> pagingMap = new HashMap<String, Integer>();
+			pagingMap.put("section", section);
+			pagingMap.put("pageNum", pageNum);
+
+//			articleMap에는 articleList와 totArticle가 들어 있음.
+			Map articleMap=boardService.articleList(pagingMap);
+			int startNum=(pageNum-1)*10+(section-1)*100+1;
+			articleMap.put("startNum", startNum);
+			articleMap.put("section", section);
+			articleMap.put("pageNum", pageNum);
+			mav.addObject("articleMap", articleMap);
+			System.out.println("boardList 수행 완료");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mav;
 	}
 
 	@Override
