@@ -40,7 +40,7 @@ public class AdminDAOImpl implements AdminDAO{
 
 	@Override
 	public void insertNotice(NoticeVO noticeVO) throws DataAccessException {
-		sqlSession.selectOne("mapper.admin.selectTotMember");
+		sqlSession.insert("mapper.admin.insertNotice", noticeVO);
 		
 	}
 

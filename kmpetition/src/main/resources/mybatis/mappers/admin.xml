@@ -47,6 +47,7 @@
 			insert into notice(title, content, createdate) 
 			values(#{title}, #{content}, curdate()) 
 		]]>
-	
 	</insert>
+		
+	
 </mapper>

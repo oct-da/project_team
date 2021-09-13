@@ -83,12 +83,12 @@ public class AdminControllerImpl extends MainController implements AdminControll
 		if((boolean)session.getAttribute("isAdmin")==true) {
 			try{
 				adminService.addNotice(noticeVO);
-				mav.setViewName("/board/noticeList");
+				mav.setViewName("redirect:/board/noticeList.do");
 			}catch (Exception e) {
 				e.printStackTrace();
 				String message="잘못된 요청입니다.";
 				mav.addObject("errMsg",message);
-				mav.setViewName("/board/noticeForm");
+				mav.setViewName("/admin/noticeForm");
 			}
 			
 		}else {
@@ -96,9 +96,6 @@ public class AdminControllerImpl extends MainController implements AdminControll
 			mav.addObject("errMsg",message);
 			mav.setViewName("/board/noticeList");
 		}
-		
-		
-		
 		return mav;
 	}
 

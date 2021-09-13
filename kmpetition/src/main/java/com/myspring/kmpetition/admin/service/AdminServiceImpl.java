@@ -42,7 +42,7 @@ public class AdminServiceImpl implements AdminService {
 		return memberMap;
 	}
 
-//	Notice 새 글 추가 (1.새글 추가/ 2.추가한 새글 상세창으로 이동하기 위해 새글의 articleNO 반환)
+//	Notice 새 글 추가
 	@Override
 	public void addNotice(NoticeVO noticeVO) throws Exception {
 		dao.insertNotice(noticeVO);
