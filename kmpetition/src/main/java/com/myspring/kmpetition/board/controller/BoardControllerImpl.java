@@ -139,7 +139,7 @@ public class BoardControllerImpl extends MainController implements BoardControll
 		ModelAndView mav = new ModelAndView();
 		int articleNO = boardService.createArticleNO()+1;
 		HttpSession session = request.getSession();
-		System.out.println(article.isVisible());
+		System.out.println("공개글인가? : " +article.isVisible());
 		System.out.println("작성아이디 : "+article.getId());
 		
 //		articleNO는 insert할 때 자동증가니까 생략
