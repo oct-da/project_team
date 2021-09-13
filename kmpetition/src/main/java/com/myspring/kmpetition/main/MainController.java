@@ -17,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.myspring.kmpetition.board.vo.UploadVO;
+
 
 // 컨텍스트만으로 접속 시 메인으로 보내주는 컨트롤러. 
 // 모든 컨트롤러에 상속되어 viewForm의 기능을 더해주는 컨트롤러.
@@ -57,6 +59,77 @@ public class MainController {
 	
 	
 
+	// 파일 업로드 메소드
+	// 파일 이름 형식 'articleNO'_'fileName'.'확장자'
+	// 중복파일 이름 형식 'articleNO'_'fileName'('num').'확장자'
+	public List<UploadVO> uploadFile(int articleNO, List<String> nameList, MultipartHttpServletRequest request) {
+
+		if (nameList == null) {
+
+			nameList = new ArrayList<String>();
+		}
+		
+		List<UploadVO> uploadList = new ArrayList<UploadVO>();
+
+		// 첨부 파일 이름을 iterator 형식으로 가져오기
+		Iterator<String> fileNames = request.getFileNames();
+
+		// 문의 글 번호에 해당하는 경로 생성
+		if (!new File(Path).exists()) {
+
+			new File(Path).mkdirs();
+		}
+
+		// 모든 첨부파일에 대해 저장작업
+		while (fileNames.hasNext()) {
+			
+			// request로부터 파일 이름과 첨부파일 가져오기
+			String tagName = fileNames.next();
+			
+			System.out.println("파일이름? "+tagName );
+			
+			MultipartFile file = request.getFile(tagName);
+			String fileName = file.getOriginalFilename();
+			int dot = fileName.lastIndexOf(".");	//마지막 .의 인덱스
+			int end = fileName.length();	//파일이름의 총 길이
+			String saveFileName = articleNO + "_" + fileName;	//파일의 저장될 이름(글번호_파일이름)
+			String name = fileName.substring(0, dot);	//이름은 마지막. 전까지(확장자 제외)
+			String extension = fileName.substring(dot, end);	//확장자이름 (예: .txt)
+
+			// 중복된 파일 이름 변경하기
+			int i = 1;
+
+			while (nameList.contains(saveFileName)) {
+
+				i += 1;
+				saveFileName = articleNO + "_" + name + "(" + i + ")" + extension;
+			}
+
+			// 확정된 파일 이름 저장
+			nameList.add(saveFileName);
+
+			// 파일 생성위치 지정
+			File target = new File(Path, saveFileName);
+
+			// 문의 글 경로에 파일 생성
+			try {
+
+				FileCopyUtils.copy(file.getBytes(), target);
+			}
+
+			catch (Exception e) {
+
+				e.printStackTrace();
+			}
+			
+			UploadVO uploadVO = new UploadVO();
+			uploadVO.setArticleNO(articleNO);
+			uploadVO.setUploadfile(saveFileName);
+			uploadList.add(uploadVO);
+		}
+
+		return uploadList;
+	}
 	
 	
 }

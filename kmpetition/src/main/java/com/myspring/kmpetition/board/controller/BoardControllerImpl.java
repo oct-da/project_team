@@ -1,6 +1,7 @@
 package com.myspring.kmpetition.board.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,11 +15,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myspring.kmpetition.board.service.BoardService;
 import com.myspring.kmpetition.board.vo.BoardVO;
 import com.myspring.kmpetition.board.vo.NoticeVO;
+import com.myspring.kmpetition.board.vo.UploadVO;
 import com.myspring.kmpetition.main.MainController;
 
 @Controller("boardController")
@@ -131,10 +134,43 @@ public class BoardControllerImpl extends MainController implements BoardControll
 
 	@Override
 	@RequestMapping(value="/addBoard.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView addBoard(@RequestParam Map articleMap, HttpServletRequest request, HttpServletResponse response)
+	public ModelAndView addBoard(@ModelAttribute("article") BoardVO article, MultipartHttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		ModelAndView mav = new ModelAndView();
+		int articleNO = boardService.createArticleNO()+1;
+		HttpSession session = request.getSession();
+		System.out.println(article.isVisible());
+		System.out.println("작성아이디 : "+article.getId());
+		
+//		articleNO는 insert할 때 자동증가니까 생략
+//		createdate는 매퍼에서 crudate()로 들어가니까 생략.
+		
+		// 파일 업로드 이후 DB에 등록할 목록 생성. MainController에 있는 메서드 활용.
+//		add로 첫생성하는 레코드이므로 nameList는 null로 보내기. 
+		List<UploadVO> uploadList = uploadFile(articleNO, null, request);
+		
+		// 데이터 베이스에 문의글/첨부파일 정보 입력하기
+		Map articleMap = new HashMap();
+		articleMap.put("article", article);
+		articleMap.put("upload", uploadList);
+		
+		try {
+			boardService.addArticle(articleMap);
+			
+			String msg="게시글 등록 완료";
+			System.out.println(msg);
+			mav.addObject("msg", msg);
+			mav.setViewName("redirect:/board/boardDetail.do?articleNO="+articleNO);
+		}catch(Exception e) {
+			e.printStackTrace();
+			String errMsg="게시글 등록 중 오류 발생";
+			System.out.println(errMsg);
+			mav.addObject("errMsg", errMsg);
+			mav.setViewName("redirect:/board/boadForm.do");
+		}
+		
+		
+		return mav;
 	}
 
 	@Override
