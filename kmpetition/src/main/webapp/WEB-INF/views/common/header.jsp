@@ -38,6 +38,7 @@
 					</c:otherwise>
 				</c:choose>
 				<li><a href="#">고객센터</a></li>
+				<li><a href="${contextPath}/board/searchForm.do">검색화면</a></li>
 			</ul>
 		</div>
 		<br>

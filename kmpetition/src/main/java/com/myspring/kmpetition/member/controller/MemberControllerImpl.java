@@ -327,6 +327,7 @@ public class MemberControllerImpl extends MainController implements MemberContro
 
 	}
 
+	
 	/*-------------------- 파일 업로드 테스트용--------------------*/
 	private static final String CURR_FILE_REPO_PATH = "C:\\team_file";
 

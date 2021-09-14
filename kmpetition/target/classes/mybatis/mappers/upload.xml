@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.upload">
+
+	<resultMap type="uploadVO" id="upResult">
+		<result property="articleNO" column="articleNO" />
+		<result property="uploadfile" column="uploadfile" />
+	</resultMap>
+
+	<select id="selectArticleUploadList" parameterType="int"
+		resultType="String">
+		select UPLOADFILE
+		from BOARDUPLOAD
+		where
+		ARTICLENO=#{articleNO}
+	</select>
+
+	<select id="selectReplyUploadList" parameterType="int"
+		resultType="String">
+		select UPLOADFILE
+		from REPLYUPLOAD
+		where
+		ARTICLENO=#{articleNO}
+	</select>
+
+	<insert id="insertArticleUpload" parameterType="List">
+		insert into BOARDUPLOAD
+		VALUES
+		<foreach collection="list" item="item" separator=" , ">
+			(#{item.articleNO}, #{item.uploadfile})
+		</foreach>
+	</insert>
+
+	<delete id="deleteArticleUpload" parameterType="List">
+		delete from BOARDUPLOAD
+		<where>
+			UPLOADFILE IN
+			<foreach collection="list" item="item" separator=" , " open="(" close=")">
+				#{item.uploadfile}				
+			</foreach>
+		</where>
+	</delete>
+
+</mapper>

@@ -13,6 +13,10 @@
 				"<br>" + "<input type='file' name='file" + cnt + "' />");
 		cnt++;
 	}
+	
+	function fn_download() {
+		window.location ='${contextPath}/downloadFile.do?fileName=sample.txt';
+	}
 </script>
 
 </head>
@@ -35,9 +39,13 @@
 			</form>
 
 		</c:if>
-
+		
 		</br>
-
+		</br>
+		</br>
+		
+		 <input type="button" name="download" value="파일다운로드 버튼" onclick="fn_download()">
+		 <a href="${contextPath}/downloadFile.do?fileName=sample.txt">파일다운 링크</a> 
 	</P>
 </body>
 </html>
