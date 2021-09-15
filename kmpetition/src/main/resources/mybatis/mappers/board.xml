@@ -28,6 +28,10 @@
 		<result property="reply" column="reply" />
 		<result property="visible" column="visible" />
 	</resultMap>
+	<resultMap type="uploadVO" id="uploadResult">
+		<result property="articleNO" column="articleNO" />
+		<result property="uploadfile" column="uploadfile" />
+	</resultMap>
 	
 	
 	<!-- 페이징 적용한 sql -->
@@ -76,6 +80,12 @@
 			where articleNO=#{articleNO} 
 		]]>
 	</select>
+	<select id="selectArticleFile" parameterType="Integer" resultMap="uploadResult">
+		<![CDATA[ 
+			select * from boardupload  
+			where articleNO=#{articleNO} 
+		]]>
+	</select>
 	
 	<select id="maxArticleNO" resultType="Integer">
 		<![CDATA[ 
@@ -83,8 +93,21 @@
 		]]>
 	</select>
 	
+	
 	<insert id="insertArticle" parameterType="boardVO">
 		insert into BOARD(id, title, content, createDate, visible)
 		VALUES (#{id}, #{title}, #{content}, curdate(), #{visible})
 	</insert>
+	
+	<!-- SQL문에 List나 배열을 전달하면 자동으로 Map에 전달됨. 이 때 List는 list를 키로 사용. 교재 p.882 -->
+	<insert id="insertArticleUpload" parameterType="java.util.Map">
+		insert into BOARDUPLOAD(articleNO, uploadfile) 
+		VALUES 
+		<foreach collection="list" item="item" separator=", " >
+			(#{articleNO}, #{uploadfile})
+		</foreach>
+	</insert>
+	
+	
+	
 </mapper>

@@ -21,7 +21,9 @@ public interface BoardDAO {
 //	1:1문의 게시판 관련
 	public List selectAllBoard(Map<String, Integer> pagingMap) throws DataAccessException;
 	public int selectTotBoard() throws DataAccessException;
+	
 	public BoardVO articleDetail(int articleNO) throws DataAccessException;
+	public List<UploadVO> articleFile(int articleNO) throws DataAccessException;
 	
 	public void insertBoard(BoardVO boardVO) throws DataAccessException;
 	public int selectArticleNO() throws DataAccessException;

@@ -129,6 +129,7 @@ public class MainController {
 //	첨부파일 다운로드
 	@RequestMapping(value = "/downloadFile.do")
 	public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent, String fileName) {
+		System.out.println("Main의 downloadFile 진입");
 //		파일 경로
 		Resource resource = new FileSystemResource(Path +"\\"+ fileName);
 		if(!resource.exists()) return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
@@ -140,7 +141,7 @@ public class MainController {
 		try {		// 한글파일명 인코딩
 			String downloadName = null;
 			if (userAgent.contains("Trident")) {	// internet explore 일 때 
-				downloadName = URLEncoder.encode(resourceName, "utf-8").replaceAll("\\+", "");
+				downloadName = URLEncoder.encode(resourceName, "utf-8");
 			}
 			else {	
 				downloadName = new String(resourceName.getBytes("utf-8"), "iso-8859-1");
@@ -149,6 +150,7 @@ public class MainController {
 			headers.add("content-disposition", "attachment; filename=" + downloadName);
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("에러발생");
 		}
 		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
 	}

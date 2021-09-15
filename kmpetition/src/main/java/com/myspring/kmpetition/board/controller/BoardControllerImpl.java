@@ -117,7 +117,8 @@ public class BoardControllerImpl extends MainController implements BoardControll
 			throws Exception {
 		String viewName=(String)request.getAttribute("viewName");
 		ModelAndView mav=new ModelAndView();
-		BoardVO boardVO=boardService.articleDetail(articleNO);
+		Map articleMap=boardService.articleDetail(articleNO);
+		BoardVO boardVO=(BoardVO) articleMap.get("boardVO");
 		System.out.println("글 공개여부 : "+boardVO.isVisible());
 		if (boardVO.isVisible()!=true) {
 			String errMsg="비공개 게시글";
@@ -125,7 +126,7 @@ public class BoardControllerImpl extends MainController implements BoardControll
 			mav.setViewName("redirect:/board/boardList.do");
 			System.out.println("비공개 게시글입니다.");
 		}else {
-			mav.addObject("boardVO", boardVO);
+			mav.addObject("articleMap", articleMap);
 			mav.setViewName(viewName);
 			System.out.println("선택한 글제목 : "+boardVO.getTitle());
 		}
@@ -134,15 +135,25 @@ public class BoardControllerImpl extends MainController implements BoardControll
 
 	@Override
 	@RequestMapping(value="/addBoard.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView addBoard(@ModelAttribute("article") BoardVO article, MultipartHttpServletRequest request, HttpServletResponse response)
+	public ModelAndView addBoard(@RequestParam Map articleMap, MultipartHttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		ModelAndView mav = new ModelAndView();
-		int articleNO = boardService.createArticleNO()+1;
 		HttpSession session = request.getSession();
+		
+		BoardVO article = new BoardVO();
+		int articleNO = boardService.createArticleNO()+1;
+		article.setArticleNO(articleNO);
+		article.setId((String) articleMap.get("id"));
+		article.setTitle((String) articleMap.get("title"));
+		article.setContent((String) articleMap.get("content"));
+		
+		if(articleMap.get("visible").equals("on")) {
+			article.setVisible(true);
+		}
+		
 		System.out.println("공개글인가? : " +article.isVisible());
 		System.out.println("작성아이디 : "+article.getId());
 		
-//		articleNO는 insert할 때 자동증가니까 생략
 //		createdate는 매퍼에서 crudate()로 들어가니까 생략.
 		
 		// 파일 업로드 이후 DB에 등록할 목록 생성. MainController에 있는 메서드 활용.
@@ -150,12 +161,12 @@ public class BoardControllerImpl extends MainController implements BoardControll
 		List<UploadVO> uploadList = uploadFile(articleNO, null, request);
 		
 		// 데이터 베이스에 문의글/첨부파일 정보 입력하기
-		Map articleMap = new HashMap();
-		articleMap.put("article", article);
-		articleMap.put("upload", uploadList);
+		Map addArticleMap = new HashMap();
+		addArticleMap.put("article", article);
+		addArticleMap.put("uploadList", uploadList);
 		
 		try {
-			boardService.addArticle(articleMap);
+			boardService.addArticle(addArticleMap);
 			
 			String msg="게시글 등록 완료";
 			System.out.println(msg);
@@ -166,10 +177,8 @@ public class BoardControllerImpl extends MainController implements BoardControll
 			String errMsg="게시글 등록 중 오류 발생";
 			System.out.println(errMsg);
 			mav.addObject("errMsg", errMsg);
-			mav.setViewName("redirect:/board/boadForm.do");
+			mav.setViewName("redirect:/board/boardForm.do");
 		}
-		
-		
 		return mav;
 	}
 

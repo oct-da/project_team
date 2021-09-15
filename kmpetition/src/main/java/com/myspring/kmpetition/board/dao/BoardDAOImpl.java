@@ -78,6 +78,12 @@ public class BoardDAOImpl implements BoardDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("mapper.board.selectBoard", articleNO);
 	}
+	
+	@Override
+	public List<UploadVO> articleFile(int articleNO) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("mapper.board.selectArticleFile", articleNO);
+	}
 
 	
 	
@@ -86,6 +92,7 @@ public class BoardDAOImpl implements BoardDAO{
 		System.out.println(boardVO.getId());
 		System.out.println(boardVO.getTitle());
 		System.out.println(boardVO.getContent());
+		
 		sqlSession.insert("mapper.board.insertArticle", boardVO);
 		
 	}

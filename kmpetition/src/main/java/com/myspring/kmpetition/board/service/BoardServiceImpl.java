@@ -1,6 +1,7 @@
 package com.myspring.kmpetition.board.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,15 +52,22 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public BoardVO articleDetail(int articleNO) throws Exception {
+	public Map articleDetail(int articleNO) throws Exception {
 		// TODO Auto-generated method stub
-		return dao.articleDetail(articleNO);
+//		return dao.articleDetail(articleNO);
+		BoardVO bvo = dao.articleDetail(articleNO);
+		List<UploadVO> uploadList=dao.articleFile(articleNO);
+		Map articleMap=new HashMap();
+		articleMap.put("boardVO", bvo);
+		articleMap.put("uploadList",uploadList);
+		return articleMap;
+		
 	}
 
 	@Override
-	public void addArticle(Map articleMap) throws Exception {
-		BoardVO articleVO = (BoardVO) articleMap.get("article");
-		List<UploadVO> uploadList = (ArrayList<UploadVO>) articleMap.get("upload");
+	public void addArticle(Map addArticleMap) throws Exception {
+		BoardVO articleVO = (BoardVO) addArticleMap.get("article");
+		List<UploadVO> uploadList = (ArrayList<UploadVO>) addArticleMap.get("uploadList");
 		
 		dao.insertBoard(articleVO);
 		if(uploadList.size()!=0) {

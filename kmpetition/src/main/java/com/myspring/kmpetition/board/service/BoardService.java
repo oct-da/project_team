@@ -14,8 +14,9 @@ public interface BoardService {
 	
 //	1:1 문의 게시판 관련
 	public Map articleList(Map<String, Integer> pagingMap) throws Exception;
-	public BoardVO articleDetail(int articleNO) throws Exception;
-	public void addArticle(Map articleMap) throws Exception;
+//	public BoardVO articleDetail(int articleNO) throws Exception;
+	public Map articleDetail(int articleNO) throws Exception;
+	public void addArticle(Map addArticleMap) throws Exception;
 	public void modArticle(BoardVO articleVO) throws Exception;
 	public void removeArticle(int articleNO) throws Exception;
 	public int createArticleNO() throws Exception;;
