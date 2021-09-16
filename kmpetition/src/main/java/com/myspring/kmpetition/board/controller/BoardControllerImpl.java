@@ -1,5 +1,6 @@
 package com.myspring.kmpetition.board.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,7 +24,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.myspring.kmpetition.board.service.BoardService;
 import com.myspring.kmpetition.board.vo.BoardVO;
 import com.myspring.kmpetition.board.vo.NoticeVO;
-import com.myspring.kmpetition.board.vo.PetitionVO;
 import com.myspring.kmpetition.board.vo.UploadVO;
 import com.myspring.kmpetition.main.MainController;
 
@@ -216,6 +216,25 @@ public class BoardControllerImpl extends MainController implements BoardControll
 		String[] search = request.getParameterValues("searchWord");
 		String[] except = request.getParameterValues("exceptWord");
 		List<String> searchWord = new ArrayList<String>();
+		
+		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
+		String startDate=null;
+		String endDate=null;
+		
+		if (searchMap.get("startDate") == "") {
+			searchMap.put("startDate", null);
+		}else {
+			startDate=(String) searchMap.get("startDate");
+			System.out.println("startDate:"+startDate);
+		}
+		
+		if (searchMap.get("endDate") == "") {
+			searchMap.put("endDate", null);
+		}else {
+			endDate=(String) searchMap.get("endDate");
+			System.out.println("endDate:"+endDate);
+		}
+		
 
 		if (search != null) {
 			if (search[0] == "") {
@@ -248,14 +267,6 @@ public class BoardControllerImpl extends MainController implements BoardControll
 			exceptWord = null;
 		}
 
-		if (searchMap.get("startDate") == "") {
-			searchMap.put("startDate", null);
-		}
-		if (searchMap.get("endDate") == "") {
-			searchMap.put("endDate", null);
-		}
-		
-		String startDate = (String) searchMap.get("startDate");
 		
 //		리스트에서 다른 페이지로 넘어왔을 때 검색조건 불러오기
 //		검색조건을 입력한 경우(조건 3개 중 하나라도 null이 아니면) 입력한 값을 searchMap에 넣어주고 세션에 바인딩
@@ -270,7 +281,9 @@ public class BoardControllerImpl extends MainController implements BoardControll
 			searchMap = (Map) session.getAttribute("searchMap");
 			System.out.println("작동2");
 		}
-
+		System.out.println("startDate 검사------");
+		System.out.println("startDate==null ? : "+(startDate==null));
+		
 		searchMap.put("section", section);
 		searchMap.put("pageNum", pageNum);
 		Map petitionMap = boardService.searchList(searchMap);

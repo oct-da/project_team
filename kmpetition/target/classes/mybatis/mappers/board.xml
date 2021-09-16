@@ -169,13 +169,15 @@
 
 
 <select id="searchNum" parameterType="java.util.Map" resultType="java.lang.Integer">
-		select count(p.NO)  
-   		from PETITION as p 
-   			join petitionraw as pr 
-   			on p.NO = pr.NO 
+		select count(NO) 
+   		from PETITION
   		where
   		<!-- 1. searchWord 또는 exceptWord가 존재하면 -->
       <if test="searchWord != null  or exceptWord != null ">
+         NO in (select NO
+            from PETITIONRAW
+            where
+            
             <!-- (1). searchWord가 존재하면 -->
             <if test="searchWord != null">
                rawdata like
@@ -199,7 +201,10 @@
             
        	 	<!-- 1-2. searchWord 또는 exceptWord가 있고 startDate가 존재하면 -->
 			<if test="startDate != null">
-        	  and
+        	 ) and
+        	 </if>
+        	 <if test="startDate == null">
+        	  )
         	 </if>
       </if>
       
@@ -208,8 +213,6 @@
       subdate between #{startDate} and #{endDate} 
       </if>
       </select>
-
-
 
 	
 </mapper>

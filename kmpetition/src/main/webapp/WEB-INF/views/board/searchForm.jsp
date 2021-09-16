@@ -58,12 +58,7 @@
 				<td width="150" align="center" bgcolor="#FF9933">종료기간</td>
 				<td><input type=date name="endDate" /></td>
 			</tr>
-			<tr>
-				<td colspan='2' width="150" align="center" bgcolor="#FF9933">기간은 yyyy-MM-dd 형태로 적어주세요</td>
-			</tr>
 			
-
-
 			<tr id="tr_btn">
 				<td><input type="submit" value="검색"></td>
 					
