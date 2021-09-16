@@ -1,6 +1,7 @@
 package com.myspring.kmpetition.board.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,6 +94,22 @@ public class BoardServiceImpl implements BoardService{
 	public void removeArticle(int articleNO) throws Exception {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public Map searchList(Map searchMap) throws Exception {
+		List<String> searchWord = (List<String>) searchMap.get("searchWord");
+		List<String> exceptWord = (List<String>) searchMap.get("exceptWord");
+		String startDate=(String) searchMap.get("startDate");
+		String endDate=(String) searchMap.get("endDate");
+		
+		List petitionList = dao.selectSearch(searchMap);
+		int totSearchList=dao.selectSearchNum(searchMap);
+		
+		Map petitionMap=new HashedMap();
+		petitionMap.put("petitionList", petitionList);
+		petitionMap.put("totSearchList", totSearchList);
+		return petitionMap;
 	}
 
 	

@@ -32,6 +32,12 @@
 		<result property="articleNO" column="articleNO" />
 		<result property="uploadfile" column="uploadfile" />
 	</resultMap>
+	<resultMap type="petitionVO" id="petitionResult">
+		<result property="NO" column="NO" />
+		<result property="code" column="code" />
+		<result property="title" column="title" />
+		<result property="subdate" column="subdate" />
+	</resultMap>
 	
 	
 	<!-- 페이징 적용한 sql -->
@@ -109,5 +115,101 @@
 	</insert>
 	
 	
+	<select id="selectSearchList" parameterType="java.util.Map" resultMap="petitionResult">
+		select *
+   		from PETITION
+  		where
+  		<!-- 1. searchWord 또는 exceptWord가 존재하면 -->
+      <if test="searchWord != null  or exceptWord != null ">
+         NO in (select NO
+            from PETITIONRAW
+            where
+            
+            <!-- (1). searchWord가 존재하면 -->
+            <if test="searchWord != null">
+               rawdata like
+               <foreach item="item" collection="searchWord" separator="and rawdata like">
+                  CONCAT('%',#{item},'%')
+               </foreach>
+               
+               <!-- (1-2). searchWord가 존재하고 exceptWord도 존재하면 -->
+               <if test ="exceptWord != null">
+               and
+               </if>    
+            </if>
+            
+            <!-- (2). exceptWord가 존재하면(searchWord는 null)    -->
+            <if test="exceptWord != null">
+               rawdata not like
+               <foreach item="item" collection="exceptWord" separator="and rawdata not like">
+                  CONCAT('%',#{item},'%')
+               </foreach>
+            </if>
+            
+		<choose>
+       	 	<!-- 1-2. searchWord 또는 exceptWord가 있고 startDate가 존재하면 -->
+			<when test="startDate != null">
+        	 ) and
+        	 </when>
+        	 
+        	 <!-- 1-2. searchWord 또는 exceptWord가 있고 startDate가 존재하지 않으면 -->
+        	 <otherwise>
+        	 ) limit #{startNum}, 10
+        	 </otherwise>
+         </choose>
+      </if>
+      
+      <!-- 2. searchWord, exceptWord는 없고 startDate가 존재하면 -->
+      <if test="startDate != null">
+      subdate between #{startDate} and #{endDate} 
+      limit #{startNum}, 10
+      </if>
+</select>
+
+
+
+<select id="searchNum" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(p.NO)  
+   		from PETITION as p 
+   			join petitionraw as pr 
+   			on p.NO = pr.NO 
+  		where
+  		<!-- 1. searchWord 또는 exceptWord가 존재하면 -->
+      <if test="searchWord != null  or exceptWord != null ">
+            <!-- (1). searchWord가 존재하면 -->
+            <if test="searchWord != null">
+               rawdata like
+               <foreach item="item" collection="searchWord" separator="and rawdata like">
+                  CONCAT('%',#{item},'%')
+               </foreach>
+               
+               <!-- (1-2). searchWord가 존재하고 exceptWord도 존재하면 -->
+               <if test ="exceptWord != null">
+               and
+               </if>    
+            </if>
+            
+            <!-- (2). exceptWord가 존재하면(searchWord는 null)    -->
+            <if test="exceptWord != null">
+               rawdata not like
+               <foreach item="item" collection="exceptWord" separator="and rawdata not like">
+                  CONCAT('%',#{item},'%')
+               </foreach>
+            </if>
+            
+       	 	<!-- 1-2. searchWord 또는 exceptWord가 있고 startDate가 존재하면 -->
+			<if test="startDate != null">
+        	  and
+        	 </if>
+      </if>
+      
+      <!-- 2. searchWord, exceptWord는 없고 startDate가 존재하면 -->
+      <if test="startDate != null">
+      subdate between #{startDate} and #{endDate} 
+      </if>
+      </select>
+
+
+
 	
 </mapper>

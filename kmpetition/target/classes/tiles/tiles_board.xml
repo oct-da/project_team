@@ -27,7 +27,11 @@
       <definition name="/board/searchForm" extends="baseLayout">
          <put-attribute name="title" value="검색 샘플" />
          <put-attribute name="body" value="/WEB-INF/views/board/searchForm.jsp" />
-      </definition>     
+      </definition>    
+      <definition name="/board/search" extends="baseLayout">
+         <put-attribute name="title" value="검색 결과 페이지" />
+         <put-attribute name="body" value="/WEB-INF/views/board/search.jsp" />
+      </definition>  
       
       
 </tiles-definitions>

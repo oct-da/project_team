@@ -1,5 +1,6 @@
 package com.myspring.kmpetition.board.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.myspring.kmpetition.board.vo.BoardVO;
 import com.myspring.kmpetition.board.vo.NoticeVO;
+import com.myspring.kmpetition.board.vo.PetitionVO;
 import com.myspring.kmpetition.board.vo.UploadVO;
 
 @Repository("boardDAO")
@@ -123,7 +125,26 @@ public class BoardDAOImpl implements BoardDAO{
 	}
 	
 	
-	
+	@Override
+	public List selectSearch(Map searchMap) throws DataAccessException {
+		int section=(Integer)searchMap.get("section");
+		int pageNum=(Integer)searchMap.get("pageNum");
+		int startNum=(pageNum-1)*10+(section-1)*100;
+		searchMap.put("startNum", startNum);
+		List<PetitionVO> searchList = sqlSession.selectList("mapper.board.selectSearchList", searchMap);
+		
+		return searchList;
+	}
+	@Override
+	public int selectSearchNum(Map searchMap) throws DataAccessException {
+		int section=(Integer)searchMap.get("section");
+		int pageNum=(Integer)searchMap.get("pageNum");
+		int startNum=(pageNum-1)*10+(section-1)*100;
+		searchMap.put("startNum", startNum);
+		Integer totSearch= sqlSession.selectOne("mapper.board.searchNum", searchMap);
+		System.out.println("totSearch : "+totSearch);
+		return totSearch;
+	}
 	
 	
 }

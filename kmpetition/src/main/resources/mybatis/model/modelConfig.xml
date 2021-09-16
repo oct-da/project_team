@@ -9,5 +9,6 @@
 		<typeAlias type="com.myspring.kmpetition.board.vo.NoticeVO"  alias="noticeVO" />
 		<typeAlias type="com.myspring.kmpetition.board.vo.BoardVO"  alias="boardVO" />
 		<typeAlias type="com.myspring.kmpetition.board.vo.UploadVO"  alias="uploadVO" />
+		<typeAlias type="com.myspring.kmpetition.board.vo.PetitionVO"  alias="petitionVO" />
 	</typeAliases>
 </configuration>

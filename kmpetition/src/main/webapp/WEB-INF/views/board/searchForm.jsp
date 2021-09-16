@@ -51,12 +51,12 @@
 			</tr>
 			<tr>
 				<td width="150" align="center" bgcolor="#FF9933">시작기간</td>
-				<td><input type=text  name="startDate"/></td>
+				<td><input type=date  name="startDate"/></td>
 			</tr>
 
 			<tr>
 				<td width="150" align="center" bgcolor="#FF9933">종료기간</td>
-				<td><input type=text name="endDate" /></td>
+				<td><input type=date name="endDate" /></td>
 			</tr>
 			<tr>
 				<td colspan='2' width="150" align="center" bgcolor="#FF9933">기간은 yyyy-MM-dd 형태로 적어주세요</td>

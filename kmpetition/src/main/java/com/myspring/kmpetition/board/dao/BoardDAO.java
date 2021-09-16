@@ -32,4 +32,6 @@ public interface BoardDAO {
 	public BoardVO updateBoard(Map articleMap) throws DataAccessException;
 	public void deleteBoard(int articleNO) throws DataAccessException;
 	
+	public List selectSearch(Map SearchMap) throws DataAccessException;
+	public int selectSearchNum(Map SearchMap) throws DataAccessException;
 }

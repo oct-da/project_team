@@ -23,7 +23,7 @@
         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
         <property name="url"
-            value="jdbc:mysql://127.0.0.1:3306/kmpetition?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=UTC">
+            value="jdbc:mysql://192.168.0.37:3306/testbase?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=UTC">
             
         </property>
         <property name="username" value="root"></property>
