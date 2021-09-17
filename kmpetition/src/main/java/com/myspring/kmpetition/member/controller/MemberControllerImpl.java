@@ -1,5 +1,6 @@
 package com.myspring.kmpetition.member.controller;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -306,25 +307,19 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
 		String result=null;
 		HistoryVO historyVO=new HistoryVO();
-		
-		SimpleDateFormat sf = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
-		Date now=new Date();
-//		String now2=sf.format(now);
 
-		java.sql.Date now2=new java.sql.Date(now.getTime());
-		historyVO.setViewDate(now2);
+		long time = new Date().getTime();
+		Timestamp now = new Timestamp(time);
+		System.out.println(now);
+		
+		historyVO.setViewDate(now);
 		
 		historyVO.setId((String) historyMap.get("id"));
 		historyVO.setTitle((String) historyMap.get("title"));
 		historyVO.setUrl((String) historyMap.get("url"));
 		
-//		Date date_parsed = input_format.parse(str_source);
-		
 		
 		try {
-//			MemberVO mem=(MemberVO) session.getAttribute("memberInfo");
-//			String id=mem.getId();
-//			historyVO.setId(id);
 		
 			memberService.saveHistory(historyVO);
 		

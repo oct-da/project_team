@@ -18,6 +18,11 @@
 		<result property="content" column="content" />
 		<result property="createdate" column="createdate" />
 	</resultMap>
+	<resultMap type="replyVO" id="replyResult">
+		<result property="articleNO" column="articleNO" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+	</resultMap>
 	
 	
 	
