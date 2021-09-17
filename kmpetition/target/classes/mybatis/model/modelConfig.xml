@@ -12,6 +12,6 @@
 		<typeAlias type="com.myspring.kmpetition.board.vo.ReplyVO"  alias="replyVO" />
 		<typeAlias type="com.myspring.kmpetition.board.vo.PetitionVO"  alias="petitionVO" />
 		<typeAlias type="com.myspring.kmpetition.member.vo.HistoryVO"  alias="historyVO" />
-		
+		<typeAlias type="com.myspring.kmpetition.member.vo.EnableVO"  alias="enableVO" />
 	</typeAliases>
 </configuration>

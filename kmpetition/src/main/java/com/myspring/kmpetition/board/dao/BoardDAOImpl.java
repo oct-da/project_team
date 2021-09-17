@@ -1,6 +1,5 @@
 package com.myspring.kmpetition.board.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.myspring.kmpetition.board.vo.BoardVO;
 import com.myspring.kmpetition.board.vo.NoticeVO;
 import com.myspring.kmpetition.board.vo.PetitionVO;
+import com.myspring.kmpetition.board.vo.ReplyVO;
 import com.myspring.kmpetition.board.vo.UploadVO;
 
 @Repository("boardDAO")
@@ -80,12 +80,23 @@ public class BoardDAOImpl implements BoardDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("mapper.board.selectBoard", articleNO);
 	}
-	
 	@Override
 	public List<UploadVO> articleFile(int articleNO) throws DataAccessException {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("mapper.board.selectArticleFile", articleNO);
 	}
+	@Override
+	public ReplyVO selectReply(int articleNO) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("mapper.board.selectReply", articleNO);
+	}
+	@Override
+	public List<UploadVO> selectReplyFile(int articleNO) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("mapper.board.selectReplyFile", articleNO);
+	}
+	
+	
 
 	
 	

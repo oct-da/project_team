@@ -2,12 +2,18 @@ package com.myspring.kmpetition.member.service;
 
 import java.util.Map;
 
+import com.myspring.kmpetition.member.vo.EnableVO;
 import com.myspring.kmpetition.member.vo.HistoryVO;
 import com.myspring.kmpetition.member.vo.MemberVO;
 
 public interface MemberService {
 //	로그인
 	public MemberVO login(Map  loginMap) throws Exception;
+	public int getFailCount(String id) throws Exception;
+	public void setFailCount(EnableVO enable) throws Exception;
+	public void setDisableTime(EnableVO enable)  throws Exception;
+	public String getDisableTime(String id) throws Exception;
+	
 //	정상 로그인 시 최종접속일 업데이트
 	public void updateDate(String id) throws Exception;
 //	휴면계정 활성화

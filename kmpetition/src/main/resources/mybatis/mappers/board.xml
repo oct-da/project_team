@@ -38,6 +38,11 @@
 		<result property="title" column="title" />
 		<result property="subdate" column="subdate" />
 	</resultMap>
+	<resultMap type="replyVO" id="replyResult">
+		<result property="articleNO" column="articleNO" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+	</resultMap>
 	
 	
 	<!-- 페이징 적용한 sql -->
@@ -80,6 +85,8 @@
 	
 	<!-- ~~~~~~~~~문의게시판~~~~~~~~~~ -->
 	
+	
+	<!-- 1:1문의 게시판 게시글 상세 관련 -->
 	<select id="selectBoard" parameterType="Integer" resultMap="boardResult">
 		<![CDATA[ 
 			select * from board  
@@ -92,6 +99,22 @@
 			where articleNO=#{articleNO} 
 		]]>
 	</select>
+	
+	<select id="selectReply" parameterType="Integer" resultMap="replyResult">
+		<![CDATA[ 
+			select * from reply  
+			where articleNO=#{articleNO} 
+		]]>
+	</select>
+	<select id="selectReplyFile" parameterType="Integer" resultMap="uploadResult">
+		<![CDATA[ 
+			select * from replyupload  
+			where articleNO=#{articleNO} 
+		]]>
+	</select>
+	
+	
+	
 	
 	<select id="maxArticleNO" resultType="Integer">
 		<![CDATA[ 
@@ -113,6 +136,26 @@
 			(#{articleNO}, #{uploadfile})
 		</foreach>
 	</insert>
+	
+	
+	
+	
+	<update id="updateArticle" parameterType="boardVO">
+		update BOARD
+		set TITLE=#{title}, CONTENT=#{content}, #{visible}
+		where ARTICLENO=#{articleNO}
+		and REPLY=FALSE
+	</update>
+	
+	<delete id="deleteArticle" parameterType="int">
+		delete from BOARD
+		where articleNO=#{articleNO}
+	</delete>
+	
+	
+	
+	
+	
 	
 	
 	<select id="selectSearchList" parameterType="java.util.Map" resultMap="petitionResult">

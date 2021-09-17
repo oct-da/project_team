@@ -144,6 +144,30 @@
 			values(#{id}, #{url}, #{title}, #{viewDate})
 		]]>
 	</insert>
+	
+		<select id="selectFailCount" parameterType="String" resultType="Int">
+		select FAILCOUNT
+		from ENABLE
+		where ID=#{id}
+	</select>
+	
+	<update id="updateFailCount" parameterType="enableVO">
+		update ENABLE
+		set FAILCOUNT=#{failcount}
+		where ID=#{id}
+	</update>
+	
+	<update id="updateTime" parameterType="enableVO">
+		update ENABLE
+		set TIME=#{time}
+		where ID=#{id}
+	</update>
+	
+	<select id="selectTime" parameterType="String" resultType="String">
+		select TIME
+		from ENABLE
+		where ID=#{id}
+	</select>
 
 
 </mapper>

@@ -4,12 +4,18 @@ import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 
+import com.myspring.kmpetition.member.vo.EnableVO;
 import com.myspring.kmpetition.member.vo.HistoryVO;
 import com.myspring.kmpetition.member.vo.MemberVO;
 
 public interface MemberDAO {
 
 	public MemberVO login(Map loginMap) throws DataAccessException;
+	public int selectFailCount(String id)  throws DataAccessException;
+	public void updateFailCount(EnableVO enable)  throws DataAccessException;
+	public void updateTime(EnableVO enable) throws DataAccessException;
+	public String selectTime(String id)  throws DataAccessException;
+	
 	public void updateLastLogin(String id) throws DataAccessException;
 	
 	public MemberVO selectForAwake(MemberVO memberVO) throws DataAccessException;

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.myspring.kmpetition.member.vo.EnableVO;
 import com.myspring.kmpetition.member.vo.HistoryVO;
 import com.myspring.kmpetition.member.vo.MemberVO;
 
@@ -23,6 +24,28 @@ public class MemberDAOImpl implements MemberDAO {
 		return member;
 	}
 
+	public int selectFailCount(String id) {
+		
+		return sqlSession.selectOne("mapper.member.selectFailCount", id);
+	}
+	
+	public void updateFailCount(EnableVO enable) {
+		
+		sqlSession.update("mapper.member.updateFailCount", enable);
+	}
+	
+	public void updateTime(EnableVO enable) {
+		
+		sqlSession.update("mapper.member.updateTime", enable);
+	}
+	
+	public String selectTime(String id) {
+		
+		return sqlSession.selectOne("mapper.member.selectTime", id);
+	}
+	
+	
+	
 	@Override
 	public void updateLastLogin(String id) throws DataAccessException {
 		System.out.println("dao의 접속일업뎃 메서드 진입");

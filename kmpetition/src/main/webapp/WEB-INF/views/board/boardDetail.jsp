@@ -6,6 +6,8 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <c:set var="boardVO" value="${articleMap.boardVO}" />
 <c:set var="uploadList" value="${articleMap.uploadList}" />
+<c:set var="replyVO" value="${articleMap.replyVO}" />
+<c:set var="replyUploadList" value="${articleMap.replyUploadList}" />
 
  <script  src="http://code.jquery.com/jquery-latest.min.js"></script> 
    <script type="text/javascript" >
@@ -30,6 +32,23 @@
 	     form.submit();
      }
      
+     function fn_replyForm(articleNO) {
+		var action="${contextPath}/admin/replyForm.do";
+		var form = document.createElement("form");
+ 	  	form.setAttribute("method", "post");
+  	    form.setAttribute("action", action);
+  	 	 
+  	 	var noInput = document.createElement("input");
+  	 	noInput.setAttribute("type","hidden");
+  	 	noInput.setAttribute("name","articleNO");
+  	 	noInput.setAttribute("value", articleNO);
+  		
+  	    form.appendChild(noInput);
+  	    document.body.appendChild(form);
+  	    
+  	    form.submit();
+	}
+     
   </script>
 <body>
 	<form name="frmboardVO" method="post" action="${contextPath}"
@@ -43,7 +62,7 @@
 			</tr>
 			<tr>
 			<td width=150 align="center" bgcolor=#FF9933>작성자</td>
-			<td><input type="text" value="${memberInfo.id }" disabled />
+			<td><input type="text" value="${boardVO.id }" disabled />
 					
 				</td>
 			</tr>
@@ -82,10 +101,47 @@
 				<td colspan="2" align="center"><c:if test="${isAdmin==true }">
 						<input type=button value="수정하기" onClick="fn_enable(this.form)">
 					</c:if> 
-					<input type=button value="리스트로 돌아가기" onClick="backToList(this.form)"> 
-					<input type=button value="답글쓰기" />
+					<input type=button value="리스트로 돌아가기" onClick="backToList(this.form)">
+					 
+					<input type=button value="답글쓰기"  onClick="fn_replyForm('${boardVO.articleNO }')" />
 				</td>
 			</tr>
+			
+			<c:if test="${not empty replyVO }">
+			<tr>
+				<td colspen='2' width="150" align="center" bgcolor="yellowgreen">답글</td>
+			</tr>
+			<tr>
+				<td width="150" align="center" bgcolor="yellowgreen">제목</td>
+				<td><input type=text  value="${replyVO.title}" readonly="readonly" />
+				</td>
+			</tr>
+			<tr>
+				<td width="150" align="center" bgcolor="yellowgreen">내용</td>
+				<td><input type=text value="${replyVO.content}" readonly="readonly" />
+				</td>
+			</tr>
+			<c:if test="${not empty uploadList}">
+				<tr>
+				<td width="150" align="center" bgcolor="yellowgreen">첨부파일</td>
+				<td>
+				<c:forEach var="file" items="${replyUploadList }">
+					${file.uploadfile }		
+					<input type="button" value="파일다운로드" onClick="fileDownload('${contextPath }/downloadFile.do','${file.uploadfile }')"/></br>  
+					
+					
+				</c:forEach>
+				</td>
+				</tr>
+			</c:if>
+			<td><input type=button value="리스트로 돌아가기" onClick="backToList(this.form)"></td>
+					</tr>
+			
+			</c:if>
+			<tr>
+			<td><input type=button value="리스트로 돌아가기"
+					onClick="backToList(this.form)"></td>
+					</tr>
 		</table>
 	</form>
 </body>

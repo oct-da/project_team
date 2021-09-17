@@ -2,7 +2,6 @@ package com.myspring.kmpetition.board.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +25,7 @@ import com.myspring.kmpetition.board.vo.BoardVO;
 import com.myspring.kmpetition.board.vo.NoticeVO;
 import com.myspring.kmpetition.board.vo.UploadVO;
 import com.myspring.kmpetition.main.MainController;
+import com.myspring.kmpetition.member.vo.MemberVO;
 
 @Controller("boardController")
 @RequestMapping(value = "/board")
@@ -116,11 +116,28 @@ public class BoardControllerImpl extends MainController implements BoardControll
 	public ModelAndView boardDetail(@RequestParam("articleNO") int articleNO, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
+		HttpSession session=request.getSession();
+		MemberVO mem=(MemberVO) session.getAttribute("memberInfo");
+		String loginId=null;
+		try {
+			loginId=mem.getId();
+		}catch (Exception e) {
+			loginId=null;
+		}
 		ModelAndView mav = new ModelAndView();
+		
 		Map articleMap = boardService.articleDetail(articleNO);
+//		articleMap에는 
+//		boardVO, uploadList, replyVO, replyUploadList 가 들어있음.
+		
 		BoardVO boardVO = (BoardVO) articleMap.get("boardVO");
+		String articleId=boardVO.getId();
+		
 		System.out.println("글 공개여부 : " + boardVO.isVisible());
-		if (boardVO.isVisible() != true) {
+		
+//		게시글이 비공개이고 로그인한 회원이 게시글의 작성자가 아니면
+		if (boardVO.isVisible() != true && !loginId.equals(articleId)) {
+			
 			String errMsg = "비공개 게시글";
 			mav.addObject(errMsg);
 			mav.setViewName("redirect:/board/boardList.do");

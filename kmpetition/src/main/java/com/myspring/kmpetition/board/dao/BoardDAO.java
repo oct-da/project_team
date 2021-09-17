@@ -7,6 +7,7 @@ import org.springframework.dao.DataAccessException;
 
 import com.myspring.kmpetition.board.vo.BoardVO;
 import com.myspring.kmpetition.board.vo.NoticeVO;
+import com.myspring.kmpetition.board.vo.ReplyVO;
 import com.myspring.kmpetition.board.vo.UploadVO;
 
 
@@ -24,6 +25,8 @@ public interface BoardDAO {
 	
 	public BoardVO articleDetail(int articleNO) throws DataAccessException;
 	public List<UploadVO> articleFile(int articleNO) throws DataAccessException;
+	public ReplyVO selectReply(int articleNO) throws DataAccessException;
+	public List<UploadVO> selectReplyFile(int articleNO) throws DataAccessException ;
 	
 	public void insertBoard(BoardVO boardVO) throws DataAccessException;
 	public int selectArticleNO() throws DataAccessException;

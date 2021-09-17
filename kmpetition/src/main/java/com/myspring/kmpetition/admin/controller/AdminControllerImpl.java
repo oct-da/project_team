@@ -118,10 +118,19 @@ public class AdminControllerImpl extends MainController implements AdminControll
 	}
 	
 	
+	@RequestMapping(value="/replyForm.do", method=RequestMethod.POST)
+	public ModelAndView replyForm(@ModelAttribute("articleNO") int articleNO, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName=(String) request.getAttribute("viewName");
+		ModelAndView mav=new ModelAndView(viewName);
+		return mav;
+	
+	}
+	
 	
 	/* 이하는 상윤씨 작업 분량. 답글 관련 기능 */
 	@RequestMapping(value="/addReply.do", method=RequestMethod.POST)
-	public void addReply(@ModelAttribute("reply")ReplyVO reply, MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView addReply(@ModelAttribute("reply")ReplyVO reply, MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav =new ModelAndView();
 		
 		int articleNO = reply.getArticleNO();
 		
@@ -131,7 +140,18 @@ public class AdminControllerImpl extends MainController implements AdminControll
 		replyMap.put("reply", reply);
 		replyMap.put("replyUpload", uploadList);
 		
+		try {
 		adminService.addReply(replyMap);
+		
+		mav.setViewName("redirect:/board/boardDetail.do?articleNO="+articleNO);
+		
+		}catch (Exception e) {
+			String errMsg="에러 발생";
+			mav.addObject("articleNO", articleNO);
+			mav.setViewName("/admin/replyForm.do");
+		}
+		return mav;
+		
 	}
 	
 	@RequestMapping(value="/modReply.do", method=RequestMethod.PUT)
@@ -153,10 +173,14 @@ public class AdminControllerImpl extends MainController implements AdminControll
 		adminService.modReply(replyMap);
 	}
 	
-	@RequestMapping(value="/removeReply.do", method=RequestMethod.DELETE)
-	public void removeReply(@RequestParam("articleNO")int articleNO, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		adminService.removeReply(articleNO);
-	}
+	   @RequestMapping(value="/removeReply.do", method=RequestMethod.DELETE)
+	   public void removeReply(@RequestParam("articleNO")int articleNO, HttpServletRequest request, HttpServletResponse response) throws Exception{
+	      
+	      List<String> deleteList = (ArrayList<String>) adminService.getReplyUploadList(articleNO);
+	      deleteFile(deleteList);
+	      adminService.removeReply(articleNO);
+	   }
+
+	
 
 }

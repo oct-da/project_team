@@ -61,7 +61,7 @@ public class AdminServiceImpl implements AdminService {
 	
 	/* 답글 관련 기능 */
 	
-public void addReply(Map replyMap)throws Exception {
+	public void addReply(Map replyMap)throws Exception {
 		
 		ReplyVO reply = (ReplyVO) replyMap.get("reply");
 		int articleNO = reply.getArticleNO();
@@ -69,7 +69,9 @@ public void addReply(Map replyMap)throws Exception {
 		
 		dao.updateDisable(articleNO);
 		dao.insertReply(reply);
-		dao.insertReplyUpload(replyUpload);
+		if(replyUpload.size()!=0) {
+			dao.insertReplyUpload(replyUpload);
+		}
 	}
 	
 	public List<String> getReplyUploadList(int articleNO)throws Exception{

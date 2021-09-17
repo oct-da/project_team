@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.myspring.kmpetition.member.dao.MemberDAO;
+import com.myspring.kmpetition.member.vo.EnableVO;
 import com.myspring.kmpetition.member.vo.HistoryVO;
 import com.myspring.kmpetition.member.vo.MemberVO;
 
@@ -29,6 +30,26 @@ public class MemberServiceImpl implements MemberService {
 		return memberVO;
 
 	}
+	public int getFailCount(String id) {
+		
+		return memberDAO.selectFailCount(id);
+	}
+	
+	public void setFailCount(EnableVO enable) {
+		
+		memberDAO.updateFailCount(enable);
+	}
+	
+	public void setDisableTime(EnableVO enable) {
+		
+		memberDAO.updateTime(enable);
+	}
+
+	public String getDisableTime(String id) {
+		
+		return memberDAO.selectTime(id);
+	}
+	
 
 //	최종접속일 업데이트
 	@Override

@@ -2,7 +2,6 @@ package com.myspring.kmpetition.member.controller;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
@@ -27,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.myspring.kmpetition.main.MainController;
 import com.myspring.kmpetition.member.service.MemberService;
+import com.myspring.kmpetition.member.vo.EnableVO;
 import com.myspring.kmpetition.member.vo.HistoryVO;
 import com.myspring.kmpetition.member.vo.MemberVO;
 
@@ -37,7 +37,6 @@ public class MemberControllerImpl extends MainController implements MemberContro
 	private MemberService memberService;
 	@Autowired
 	private MemberVO memberVO;
-
 //	로그인
 //	1. id,pwd로 DB조회하여 회원인지 여부 확인
 //	2. 회원이 맞으면 마지막 접속일과 오늘 날짜를 대조해서 휴면회원인지 검사
@@ -72,26 +71,46 @@ public class MemberControllerImpl extends MainController implements MemberContro
 
 //				compare 값을 통해 휴면계정인지 판단
 				if (compare >= 0) {
-					System.out.println("한 달 동안 한 번 이상 접속했음.");
+
+					String time = memberService.getDisableTime(memberVO.getId());
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					Date now = new Date();
+					Date disableTime = sdf.parse(time);
+
+					if (now.after(disableTime)) {
+						
+						int failCount = 0;
+						EnableVO enable = new EnableVO();
+						enable.setId(memberVO.getId());
+						enable.setFailCount(failCount);
+						memberService.setFailCount(enable);
+						
+						System.out.println("한 달 동안 한 번 이상 접속했음.");
 //				해당 회원의 최종접속일을 오늘로 갱신
-					memberService.updateDate(memberVO.getId());
+						memberService.updateDate(memberVO.getId());
 
 //				로그인 정보 저장 후 메인 화면으로 리다이렉트
-					session.setAttribute("isLogOn", true);
-					session.setAttribute("memberInfo", memberVO);
-					mav.setViewName("redirect:/main/main.do");
+						session.setAttribute("isLogOn", true);
+						session.setAttribute("memberInfo", memberVO);
+						mav.setViewName("redirect:/main/main.do");
 
 //					ID저장 처리 
 //					체크박스에 체크가 없이 값이 넘어오면 null값으로 넘어온다. 
-					String saveId = request.getParameter("saveId");
-					
+						String saveId = request.getParameter("saveId");
+
 //					메서드를 통해 ID저장에 체크가 되어있었으면 쿠키에 저장
-					checkSaveId(saveId, loginMap, response);
-					
+						checkSaveId(saveId, loginMap, response);
 
 //				id, pwd 확인용(게터값이 null이면 에러남)
-					System.out.println("로그인 : " + memberVO.getId() + ", " + memberVO.getPwd());
+						System.out.println("로그인 : " + memberVO.getId() + ", " + memberVO.getPwd());
+					}
 
+					else {
+
+						String message = "아직 로그인이 불가능한 상태입니다.";
+						mav.addObject("message", message);
+						mav.setViewName("/member/loginForm");
+					}
 				} else { // 3번 if == 휴면계정 판단
 					System.out.println("한 달 동안 접속하지 않음. 휴면계정.");
 //				session.setAttribute("isSleepMember", true);
@@ -102,14 +121,57 @@ public class MemberControllerImpl extends MainController implements MemberContro
 
 				// 로그인 정보가 없거나 id가 null이면(로그인 정보로 DB에서 조회가 안 되면)
 			} else { // 2번 if (조회된 회원 정보가 없는 경우)
-				String message = "아이디나 비밀번호가 틀립니다. 다시 로그인해주세요.";
-				mav.addObject("message", message);
-				mav.setViewName("/member/loginForm");
+
+				String message;
+				String id = (String) loginMap.get("id");
+				int failCount = memberService.getFailCount(id);
+
+				if (failCount < 5) {
+
+					EnableVO enable = new EnableVO();
+					enable.setId(id);
+					enable.setFailCount(failCount + 1);
+					memberService.setFailCount(enable);
+					message = "아이디나 비밀번호가 틀립니다. 다시 로그인해주세요.";
+					mav.addObject("message", message);
+					mav.setViewName("/member/loginForm");
+				}
+
+				else {
+
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					Calendar cal = Calendar.getInstance();
+					Date date;
+					try {
+
+						String time = sdf.format(new Date());
+						date = sdf.parse(time);
+						cal.setTime(date);
+						cal.add(Calendar.SECOND, 30);
+						long longtime = cal.getTimeInMillis();
+						Timestamp disableTime = new Timestamp(longtime);
+						System.out.println(date);
+						System.out.println(disableTime);
+						EnableVO enable = new EnableVO();
+						enable.setId(id);
+						enable.setTime(disableTime);
+						memberService.setDisableTime(enable);
+						message = "로그인에 5회 이상 실패하셨습니다. 30초 후에 다시 시도해주세요.";
+						mav.addObject("message", message);
+						mav.setViewName("redirect:/member/loginForm.do");
+					}
+
+					catch (Exception e) {
+
+						e.printStackTrace();
+					}
+
+				}
+
 			}
 		}
 		return mav;
 	}
-
 //	awakeForm에서 활성화할 계정 정보를 입력했을 때
 	@Override
 	@RequestMapping(value = "/awakeMember.do", method = RequestMethod.POST)
@@ -296,9 +358,6 @@ public class MemberControllerImpl extends MainController implements MemberContro
 	@Override
 	@RequestMapping(value="/saveVisit.do", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/text; charset=utf8")
 	public @ResponseBody String saveVisit(@RequestParam Map historyMap, HttpServletRequest request,HttpServletResponse response) throws Exception {
-		
-//		나중에 수정하자....................................
-//		아ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ
 		
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
