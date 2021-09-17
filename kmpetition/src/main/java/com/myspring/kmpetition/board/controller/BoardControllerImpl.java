@@ -199,11 +199,48 @@ public class BoardControllerImpl extends MainController implements BoardControll
 		return mav;
 	}
 
+	
+	// 문의글 수정 페이지
+		@RequestMapping(value = "/modArticleForm.do", method = RequestMethod.GET)
+		public void modArticleForm(@RequestParam(value = "articleNO") int articleNO, HttpServletRequest request,
+				HttpServletResponse response) {
+
+			HttpSession session = request.getSession();
+			String id = (String) session.getAttribute("id");
+
+			BoardVO article = new BoardVO();
+			article.setArticleNO(articleNO);
+			article.setId(id);
+		}
+	
 	@Override
-	public ModelAndView modBoard(@ModelAttribute("noticeVO") NoticeVO noticeVO, HttpServletRequest request,
+	@RequestMapping(value = "/modArticle.do", method = RequestMethod.PUT)
+	public ModelAndView modBoard(@ModelAttribute("article") BoardVO article, MultipartHttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+
+		HttpSession session = request.getSession();
+		List<String> removeList = (ArrayList<String>) session.getAttribute("deleteList");
+		int articleNO = article.getArticleNO();
+		// 삭제/수정 파일의 로컬 첨부파일 삭제
+				List<UploadVO> deleteList = deleteFile(articleNO, removeList);
+
+				// 수정, 추가 파일의 업로드
+				List<String> nameList = boardService.articleUploadList(articleNO);
+				List<UploadVO> uploadList = uploadFile(articleNO, nameList, request);
+				// DB 반영
+				Map articleMap = new HashMap();
+				articleMap.put("article", article);
+				articleMap.put("delete", deleteList);
+				articleMap.put("upload", uploadList);
+//				Map<String, Integer> result = 
+						boardService.modArticle(articleMap);
+//				int artResult = (Integer) result.get("article");
+//				int delResult = (Integer) result.get("delete");
+//				int upResult = (Integer) result.get("upload");
+				
+//				System.out.println(artResult + "개의 문의글이 수정되었습니다.");
+//				System.out.println(delResult + "개의 첨부파일이 삭제되었습니다.");
+//				System.out.println(upResult + "개의 첨부파일이 업로드되었습니다.");
 	}
 
 	@Override

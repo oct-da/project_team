@@ -92,14 +92,28 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public void modArticle(BoardVO articleVO) throws Exception {
-		// TODO Auto-generated method stub
+	public void modArticle(Map articleMap) throws Exception {
 		
+		BoardVO articleVO = (BoardVO) articleMap.get("article");
+		List<UploadVO> deleteList = (ArrayList<UploadVO>) articleMap.get("delete");
+		List<UploadVO> uploadList = (ArrayList<UploadVO>) articleMap.get("upload");
+		
+		// DB 반영
+		dao.updateBoard(articleVO);
+		dao.deleteArticleUpload(deleteList);
+		dao.insertArticleUpload(uploadList);
+		
+		
+	}
+	
+	public List<String> articleUploadList(int articleNO) {
+
+		return dao.selectArticleUploadList(articleNO);
 	}
 
 	@Override
 	public void removeArticle(int articleNO) throws Exception {
-		// TODO Auto-generated method stub
+		 dao.deleteBoard(articleNO);
 		
 	}
 	

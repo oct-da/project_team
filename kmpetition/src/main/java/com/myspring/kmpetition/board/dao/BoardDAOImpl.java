@@ -116,6 +116,11 @@ public class BoardDAOImpl implements BoardDAO{
 		return sqlSession.selectOne("mapper.board.maxArticleNO");
 	}
 
+	// BOARDUPLOAD 테이블에서 이미지 파일 리스트 가져오기
+		public List<String> selectArticleUploadList(int articleNO) throws DataAccessException {
+
+			return sqlSession.selectList("mapper.upload.selectArticleUploadList", articleNO);
+		}
 	@Override
 	public void insertArticleUpload(List<UploadVO> uploadList) throws DataAccessException {
 		sqlSession.insert("mapper.upload.insertArticleUpload", uploadList);
@@ -123,17 +128,22 @@ public class BoardDAOImpl implements BoardDAO{
 	
 	
 
-	@Override
-	public BoardVO updateBoard(Map articleMap) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return null;
+	public void updateBoard(BoardVO articleVO) throws DataAccessException {
+		 sqlSession.update("mapper.board.updateArticle", articleVO);
+		
 	}
 
 	@Override
 	public void deleteBoard(int articleNO) throws DataAccessException {
-		// TODO Auto-generated method stub
+		sqlSession.delete("mapper.board.deleteArticle", articleNO);
 		
 	}
+	
+	// 문의글 첨부파일 수정(삭제)
+		public void deleteArticleUpload(List<UploadVO> deleteList) throws DataAccessException{
+			
+			 sqlSession.delete("mapper.upload.deleteArticleUpload", deleteList);
+		}
 	
 	
 	@Override

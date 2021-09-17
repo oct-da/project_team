@@ -31,9 +31,11 @@ public interface BoardDAO {
 	public void insertBoard(BoardVO boardVO) throws DataAccessException;
 	public int selectArticleNO() throws DataAccessException;
 	public void insertArticleUpload(List<UploadVO> uploadList) throws DataAccessException;
+	public List<String> selectArticleUploadList(int articleNO) throws DataAccessException;
 	
-	public BoardVO updateBoard(Map articleMap) throws DataAccessException;
+	public void updateBoard(BoardVO articleVO) throws DataAccessException ;
 	public void deleteBoard(int articleNO) throws DataAccessException;
+	public void deleteArticleUpload(List<UploadVO> deleteList) throws DataAccessException;
 	
 	public List selectSearch(Map SearchMap) throws DataAccessException;
 	public int selectSearchNum(Map SearchMap) throws DataAccessException;
