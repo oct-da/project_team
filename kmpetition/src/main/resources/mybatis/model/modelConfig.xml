@@ -10,5 +10,6 @@
 		<typeAlias type="com.myspring.kmpetition.board.vo.BoardVO"  alias="boardVO" />
 		<typeAlias type="com.myspring.kmpetition.board.vo.UploadVO"  alias="uploadVO" />
 		<typeAlias type="com.myspring.kmpetition.board.vo.PetitionVO"  alias="petitionVO" />
+		<typeAlias type="com.myspring.kmpetition.member.vo.HistoryVO"  alias="historyVO" />
 	</typeAliases>
 </configuration>

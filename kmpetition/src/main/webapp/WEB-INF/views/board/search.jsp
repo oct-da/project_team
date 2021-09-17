@@ -8,9 +8,40 @@
 <c:set var="totSearchList" value="${petitionMap.totSearchList }" />
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script> 
 
-<script>
-function opensite(a){
-window.open("${petitionPath }/a");
+<script type="text/javascript">
+
+var id="${memberInfo.id}";
+
+/* 제목링크 클릭시 DB에 방문기록 저장 후 새창 열기로 해당 청원페이지로 이동 */
+function saveVisit(NO, title){
+	alert('함수 진입');
+	
+	var action="${contextPath}/member/saveVisit.do";
+	var petitionURL="${petitionPath }/NO";
+	
+	
+	$.ajax({
+		type : "post",
+		dataType:"text",
+		data:{
+			url:petitionURL,
+			id:id,
+			title:title
+				},
+		url:action,
+		async: false,
+		success : function(data, textStatus) {
+			if (data.trim()=='success'){
+				alert('성공');
+			}
+			window.open(petitionURL);
+		}
+	});
+    
+}
+
+function openSite(url) {
+	window.open(url);
 }
 </script>
 
@@ -36,7 +67,7 @@ window.open("${petitionPath }/a");
     <c:forEach  var="article" items="${petitionList }" varStatus="articleNum" >
      <tr align="center">
    <td width="5%">${article.NO}</td>
-   <td width="40%"><a href="#" onClick="javascript:opensite('${article.NO}');" >${article.title }</a></td>
+   <td width="40%"><a  href="javascript:saveVisit('${article.NO}','${article.title }');" >${article.title }</a></td>
    <td width="10%">${article.subdate }</td>
      
    </tr>

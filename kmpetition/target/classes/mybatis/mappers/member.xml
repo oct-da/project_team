@@ -12,6 +12,12 @@
 		<result property="email" column="email" />
 		<result property="lastlogin" column="lastlogin" />
 	</resultMap>
+	<resultMap type="historyVO" id="hisResult">
+		<result property="id" column="id" />
+		<result property="viewDate" column="viewDate" />
+		<result property="url" column="url" />
+		<result property="title" column="title" />
+	</resultMap>
 
 
 	<!-- <resultMap type="java.util.HashMap" id="memResult"> <result property="id" 
@@ -115,7 +121,9 @@
 	<select id="selectAllMemberList" resultMap="memResult">
 	<![CDATA[ select * from member order by joinDate desc ]]>
 	</select>
-	<select id="selectName" resultType="String">
+	
+	
+	<!-- <select id="selectName" resultType="String">
 	<![CDATA[ select name from member where id = 'hong' ]]>
 	</select>
 	<select id="selectPwd" resultType="int">
@@ -128,7 +136,14 @@
 	<select id="selectMemberByPwd" resultMap="memResult"
 		parameterType="int">
 	<![CDATA[ select * from member where pwd = #{pwd} ]]>
-	</select>
+	</select> -->
+	
+	<insert id="insertHistory" parameterType="historyVO">
+		<![CDATA[ 
+			insert into history(id, url, title, viewDate)
+			values(#{id}, #{url}, #{title}, #{viewDate})
+		]]>
+	</insert>
 
 
 </mapper>

@@ -20,12 +20,6 @@
 	</resultMap>
 	
 	
-	<!-- <select id="selectAllMember" resultMap="memResult">
-		<![CDATA[ 
-			select * from member 
-		]]>
-	</select> -->
-	
 	
 	<!-- 페이징 적용한 sql -->
 	<select id="selectAllMember" parameterType="Integer" resultMap="memResult">
@@ -49,5 +43,54 @@
 		]]>
 	</insert>
 		
+		
+		
+		
+<!-- 이하는 상윤씨가 작업한 답글기능 목적의 SQL문 -->
+		<insert id="insertReply" parameterType="replyVO">
+			insert into reply
+			values(#{articleNO}, #{title}, #{content})
+		</insert>
+
+		<insert id="insertREplyUpload" parameterType="List">
+			insert into replyupload
+			values
+			<foreach item="item" collection="list" separator=" , ">
+				(#{articleNO}, #{uploadfile})
+			</foreach>
+		</insert>	
+		
+		<update id="updateDisable" parameterType="int">
+			update board
+			set reply=true
+			where ARTICLENO=#{articleNO}
+		</update>	
+		
+		<select id="selectReplyUploadList" parameterType="int" resultType="String">
+			select UPLOADFILE
+			from REPLYUPLOAD
+			where ARTICLENO=#{articleNO}
+		</select>
+		
+		<update id="updateReply" parameterType="replyVO">
+			update Reply
+			set TITLE=#{title}, CONTENT=#{content}
+			where ARTICLENO=#{articleNO}
+		</update>
+		
+		<delete id="deleteReplyUpload" parameterType="list">
+			delete from REPLYUPLOAD
+			where UPLOADFILE in ()
+			<foreach item="item" collection="list" separator=" , ">
+			#{item.uploadfile}
+			</foreach>
+			)
+			
+		</delete>
+		
+		<delete id="deleteReply" parameterType="int">
+			delete from REPLY
+			where ARTICLENO=#{articleNO}
+		</delete>
 	
 </mapper>

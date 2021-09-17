@@ -1,5 +1,6 @@
 package com.myspring.kmpetition.admin.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.myspring.kmpetition.admin.dao.AdminDAO;
 import com.myspring.kmpetition.board.vo.NoticeVO;
+import com.myspring.kmpetition.board.vo.ReplyVO;
+import com.myspring.kmpetition.board.vo.UploadVO;
 import com.myspring.kmpetition.member.vo.MemberVO;
 
 @Service("adminService")
@@ -53,6 +56,41 @@ public class AdminServiceImpl implements AdminService {
 	public void removeNotice(int articleNO) throws Exception {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	
+	/* 답글 관련 기능 */
+	
+public void addReply(Map replyMap)throws Exception {
+		
+		ReplyVO reply = (ReplyVO) replyMap.get("reply");
+		int articleNO = reply.getArticleNO();
+		List<UploadVO> replyUpload = (ArrayList<UploadVO>) replyMap.get("replyUpload");
+		
+		dao.updateDisable(articleNO);
+		dao.insertReply(reply);
+		dao.insertReplyUpload(replyUpload);
+	}
+	
+	public List<String> getReplyUploadList(int articleNO)throws Exception{
+		
+		return dao.selectReplyUploadList(articleNO);
+	}
+	
+	public void modReply(Map replyMap)throws Exception {
+		
+		ReplyVO reply = (ReplyVO) replyMap.get("reply");
+		List<UploadVO> deleteList = (ArrayList<UploadVO>) replyMap.get("delete");
+		List<UploadVO> replyUpload = (ArrayList<UploadVO>) replyMap.get("insert");
+		
+		dao.updateReply(reply);
+		dao.deleteReplyUpload(deleteList);
+		dao.insertReplyUpload(replyUpload);
+	}
+	
+	public void removeReply(int articleNO) throws Exception{
+		
+		dao.deleteReply(articleNO);
 	}
 
 	

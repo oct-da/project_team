@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 
+import com.myspring.kmpetition.member.vo.HistoryVO;
 import com.myspring.kmpetition.member.vo.MemberVO;
 
 public interface MemberDAO {
@@ -24,4 +25,6 @@ public interface MemberDAO {
 	public MemberVO selectForFindId(Map<String, String> findMap) throws DataAccessException;
 	public MemberVO selectForFindPwd(Map<String, String> findMap) throws DataAccessException;
 	public void updatePwd(Map<String, String> modMap) throws DataAccessException;
+	
+	public void insertHistory(HistoryVO historyVO) throws DataAccessException;
 }

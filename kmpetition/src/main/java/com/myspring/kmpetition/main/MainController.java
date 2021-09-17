@@ -154,5 +154,34 @@ public class MainController {
 		}
 		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
 	}
+	
+	
+//	파일 삭제
+	   public List<UploadVO> deleteFile(List<String> fileList){
+		      
+		      List<UploadVO> deleteList = new ArrayList<UploadVO>();
+		      
+		      for (String fileName : fileList) {
+		         
+		         File target = new File(Path, fileName);
+		         
+		         try {
+		            
+		            target.delete();
+		            UploadVO upload = new UploadVO();
+		            int articleNO = Integer.parseInt(fileName.substring(0, fileName.indexOf('_')));
+		            upload.setArticleNO(articleNO);
+		            upload.setUploadfile(fileName);
+		            deleteList.add(upload);
+		         }
+		         
+		         catch(Exception e){
+		            
+		            e.printStackTrace();
+		         }
+		      }
+		      
+		      return deleteList;
+		   }
 
 }

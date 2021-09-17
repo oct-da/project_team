@@ -1,6 +1,8 @@
 package com.myspring.kmpetition.admin.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,11 +15,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myspring.kmpetition.admin.service.AdminService;
 import com.myspring.kmpetition.board.vo.NoticeVO;
+import com.myspring.kmpetition.board.vo.ReplyVO;
+import com.myspring.kmpetition.board.vo.UploadVO;
 import com.myspring.kmpetition.main.MainController;
 
 @Controller("adminController")
@@ -110,6 +115,48 @@ public class AdminControllerImpl extends MainController implements AdminControll
 	public ModelAndView dataPreview(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	
+	
+	/* 이하는 상윤씨 작업 분량. 답글 관련 기능 */
+	@RequestMapping(value="/addReply.do", method=RequestMethod.POST)
+	public void addReply(@ModelAttribute("reply")ReplyVO reply, MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		int articleNO = reply.getArticleNO();
+		
+		List<UploadVO> uploadList = uploadFile(articleNO, null, request);
+		
+		Map replyMap = new HashMap();
+		replyMap.put("reply", reply);
+		replyMap.put("replyUpload", uploadList);
+		
+		adminService.addReply(replyMap);
+	}
+	
+	@RequestMapping(value="/modReply.do", method=RequestMethod.PUT)
+	public void modReply(@ModelAttribute("reply")ReplyVO reply, MultipartHttpServletRequest request, HttpServletResponse response)  throws Exception {
+		
+		int articleNO = reply.getArticleNO();
+		HttpSession session = request.getSession();
+		List<String> remove = (ArrayList<String>) session.getAttribute("remove");
+		List<UploadVO> deleteList = deleteFile(remove);
+		
+		List<String> nameList = adminService.getReplyUploadList(articleNO);
+		List<UploadVO> replyUpload = uploadFile(articleNO, nameList, request);
+		
+		Map replyMap = new HashMap();
+		replyMap.put("reply", reply);
+		replyMap.put("delete", deleteList);
+		replyMap.put("insert", replyUpload);
+		
+		adminService.modReply(replyMap);
+	}
+	
+	@RequestMapping(value="/removeReply.do", method=RequestMethod.DELETE)
+	public void removeReply(@RequestParam("articleNO")int articleNO, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		adminService.removeReply(articleNO);
 	}
 
 }

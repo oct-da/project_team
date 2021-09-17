@@ -1,6 +1,5 @@
 package com.myspring.kmpetition.admin.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +9,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.myspring.kmpetition.board.vo.NoticeVO;
+import com.myspring.kmpetition.board.vo.ReplyVO;
+import com.myspring.kmpetition.board.vo.UploadVO;
 
 @Repository("adminDAO")
 public class AdminDAOImpl implements AdminDAO{
@@ -57,4 +58,43 @@ public class AdminDAOImpl implements AdminDAO{
 	}
 
 	
+	
+	
+	
+	/* 답글 관련 기능 */
+public void updateDisable(int articleNO) throws DataAccessException{
+		
+		sqlSession.update("mapper.admin.updateDisable", articleNO);
+	}
+	
+	
+	public void insertReply(ReplyVO reply) throws DataAccessException {
+		
+		sqlSession.insert("mapper.admin.insertReply", reply);
+	}
+	
+	public void insertReplyUpload(List<UploadVO> replyUpload) throws DataAccessException{
+		
+		sqlSession.insert("mapper.admin.insertReplyUpload", replyUpload);
+	}
+	
+	public List<String> selectReplyUploadList(int articleNO) throws DataAccessException{
+		
+		return sqlSession.selectList("mapper.admin.selectReplyUploadList", articleNO);
+	}
+	
+	public void updateReply(ReplyVO replyVO)  throws DataAccessException{
+		
+		sqlSession.update("mapper.admin.updateReply", replyVO);
+	}
+	
+	public void deleteReplyUpload(List<UploadVO> deleteList) throws DataAccessException{
+		
+		sqlSession.delete("mapper.admin.deleteReplyUpload", deleteList);
+	}
+	
+	public void deleteReply(int articleNO) throws DataAccessException{
+		
+		sqlSession.delete("mapper.admin.deleteReply",articleNO);
+	}
 }

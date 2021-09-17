@@ -1,14 +1,9 @@
 package com.myspring.kmpetition.member.controller;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.SimpleTimeZone;
 
@@ -26,12 +21,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myspring.kmpetition.main.MainController;
 import com.myspring.kmpetition.member.service.MemberService;
+import com.myspring.kmpetition.member.vo.HistoryVO;
 import com.myspring.kmpetition.member.vo.MemberVO;
 
 @Controller("memberController")
@@ -296,6 +291,59 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		return resEntity;
 	}
 
+
+	@Override
+	@RequestMapping(value="/saveVisit.do", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/text; charset=utf8")
+	public @ResponseBody String saveVisit(@RequestParam Map historyMap, HttpServletRequest request,HttpServletResponse response) throws Exception {
+		
+//		나중에 수정하자....................................
+//		아ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ
+		
+		response.setContentType("text/html; charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
+		ResponseEntity resEntity = null;
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+		String result=null;
+		HistoryVO historyVO=new HistoryVO();
+		
+		SimpleDateFormat sf = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+		Date now=new Date();
+//		String now2=sf.format(now);
+
+		java.sql.Date now2=new java.sql.Date(now.getTime());
+		historyVO.setViewDate(now2);
+		
+		historyVO.setId((String) historyMap.get("id"));
+		historyVO.setTitle((String) historyMap.get("title"));
+		historyVO.setUrl((String) historyMap.get("url"));
+		
+//		Date date_parsed = input_format.parse(str_source);
+		
+		
+		try {
+//			MemberVO mem=(MemberVO) session.getAttribute("memberInfo");
+//			String id=mem.getId();
+//			historyVO.setId(id);
+		
+			memberService.saveHistory(historyVO);
+		
+			System.out.println("History 입력 완료");
+			
+			result="success";
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("로그인하지 않은 회원입니다.");
+			result="error";
+		}
+//		resEntity = new ResponseEntity(result, responseHeaders, HttpStatus.OK);
+		return result;
+	}
+
+	
+	
+	
 	@Override
 	public int checkLoginDate(Date loginDate) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -326,9 +374,11 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		}
 
 	}
-
 	
-	/*-------------------- 파일 업로드 테스트용--------------------*/
+	
+	
+	
+	/*-------------------- 파일 업로드 테스트용--------------------
 	private static final String CURR_FILE_REPO_PATH = "C:\\team_file";
 
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
@@ -375,4 +425,5 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		return fileList;
 
 	}
+	*/
 }

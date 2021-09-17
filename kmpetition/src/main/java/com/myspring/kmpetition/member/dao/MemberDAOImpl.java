@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.myspring.kmpetition.member.vo.HistoryVO;
 import com.myspring.kmpetition.member.vo.MemberVO;
 
 @Repository("memberDAO")
@@ -97,5 +98,14 @@ public class MemberDAOImpl implements MemberDAO {
 		sqlSession.update("mapper.member.updatePwd", modMap);
 
 	}
+
+	@Override
+	public void insertHistory(HistoryVO historyVO) throws DataAccessException {
+		sqlSession.insert("mapper.member.insertHistory", historyVO);
+		
+	}
+	
+	
+	
 
 }

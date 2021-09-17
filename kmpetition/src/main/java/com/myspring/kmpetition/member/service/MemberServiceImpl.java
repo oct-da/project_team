@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.myspring.kmpetition.member.dao.MemberDAO;
+import com.myspring.kmpetition.member.vo.HistoryVO;
 import com.myspring.kmpetition.member.vo.MemberVO;
 
 @Service("memberService")
@@ -103,5 +104,14 @@ public class MemberServiceImpl implements MemberService {
 	public void modPwd(Map<String, String> modMap) throws Exception {
 		memberDAO.updatePwd(modMap);
 	}
+
+	
+	@Override
+	public void saveHistory(HistoryVO historyVO) throws Exception {
+		memberDAO.insertHistory(historyVO);
+		
+	}
+	
+	
 
 }

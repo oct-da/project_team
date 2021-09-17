@@ -8,7 +8,18 @@ import com.myspring.kmpetition.member.vo.MemberVO;
 
 public interface AdminService {
 	public Map memberList(Map<String, Integer> pagingMap) throws Exception;
+
 	public void addNotice(NoticeVO noticeVO) throws Exception;
+
 	public void removeNotice(int articleNO) throws Exception;
-	
+
+	/* 답글 관련 기능 */
+	public void addReply(Map replyMap) throws Exception;
+
+	public List<String> getReplyUploadList(int articleNO) throws Exception;
+
+	public void modReply(Map replyMap) throws Exception;
+
+	public void removeReply(int articleNO) throws Exception;
+
 }

@@ -2,6 +2,7 @@ package com.myspring.kmpetition.member.service;
 
 import java.util.Map;
 
+import com.myspring.kmpetition.member.vo.HistoryVO;
 import com.myspring.kmpetition.member.vo.MemberVO;
 
 public interface MemberService {
@@ -32,4 +33,6 @@ public interface MemberService {
 //	비밀번호 찾기 결과, 비밀번호 변경
 	public void modPwd(Map<String, String> modMap) throws Exception;
 	
+//	내가 열람한 정보 저장
+	public void saveHistory(HistoryVO historyVO) throws Exception;
 }
