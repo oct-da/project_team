@@ -39,9 +39,6 @@ public class BoardServiceImpl implements BoardService{
 		return dao.noticeDetail(articleNO);
 	}
 	
-	
-	
-
 	@Override
 	public Map articleList(Map<String, Integer> pagingMap) throws Exception {
 		Map articleMap=new HashedMap();
@@ -68,7 +65,6 @@ public class BoardServiceImpl implements BoardService{
 		articleMap.put("replyUploadList",replyUploadList);
 		
 		return articleMap;
-		
 	}
 	
 
@@ -111,9 +107,15 @@ public class BoardServiceImpl implements BoardService{
 		return dao.selectArticleUploadList(articleNO);
 	}
 
+	
 	@Override
-	public void removeArticle(int articleNO) throws Exception {
-		 dao.deleteBoard(articleNO);
+	public List<String> replyUploadList(int articleNO) throws Exception {
+		return dao.selectReplyUploadList(articleNO);
+	}
+
+	@Override
+	public int removeArticle(int articleNO) throws Exception {
+		 return dao.deleteBoard(articleNO);
 		
 	}
 	

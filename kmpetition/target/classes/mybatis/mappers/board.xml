@@ -113,6 +113,18 @@
 		]]>
 	</select>
 	
+	<select id="selectArticleUploadList" parameterType="Integer" resultMap="uploadResult">
+		<![CDATA[ 
+			select uploadfile from boardupload  
+			where articleNO=#{articleNO} 
+		]]>
+	</select>
+	<select id="selectReplyUploadList" parameterType="Integer" resultMap="uploadResult">
+		<![CDATA[ 
+			select uploadfile from replyupload  
+			where articleNO=#{articleNO} 
+		]]>
+	</select>
 	
 	
 	
@@ -136,10 +148,6 @@
 			(#{articleNO}, #{uploadfile})
 		</foreach>
 	</insert>
-	
-	
-	
-	
 	<update id="updateArticle" parameterType="boardVO">
 		update BOARD
 		set TITLE=#{title}, CONTENT=#{content}, #{visible}
@@ -151,11 +159,6 @@
 		delete from BOARD
 		where articleNO=#{articleNO}
 	</delete>
-	
-	
-	
-	
-	
 	
 	
 	<select id="selectSearchList" parameterType="java.util.Map" resultMap="petitionResult">

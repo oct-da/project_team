@@ -121,6 +121,13 @@ public class BoardDAOImpl implements BoardDAO{
 
 			return sqlSession.selectList("mapper.upload.selectArticleUploadList", articleNO);
 		}
+		
+	@Override
+		public List<String> selectReplyUploadList(int articleNO) throws DataAccessException {
+		return sqlSession.selectList("mapper.upload.selectReplyUploadList", articleNO);
+		}
+	
+
 	@Override
 	public void insertArticleUpload(List<UploadVO> uploadList) throws DataAccessException {
 		sqlSession.insert("mapper.upload.insertArticleUpload", uploadList);
@@ -134,8 +141,9 @@ public class BoardDAOImpl implements BoardDAO{
 	}
 
 	@Override
-	public void deleteBoard(int articleNO) throws DataAccessException {
-		sqlSession.delete("mapper.board.deleteArticle", articleNO);
+	public int deleteBoard(int articleNO) throws DataAccessException {
+		int i = sqlSession.delete("mapper.board.deleteArticle", articleNO);
+		return i;
 		
 	}
 	

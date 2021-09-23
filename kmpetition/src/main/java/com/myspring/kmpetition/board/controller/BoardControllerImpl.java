@@ -116,28 +116,28 @@ public class BoardControllerImpl extends MainController implements BoardControll
 	public ModelAndView boardDetail(@RequestParam("articleNO") int articleNO, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
-		HttpSession session=request.getSession();
-		MemberVO mem=(MemberVO) session.getAttribute("memberInfo");
-		String loginId=null;
+		HttpSession session = request.getSession();
+		MemberVO mem = (MemberVO) session.getAttribute("memberInfo");
+		String loginId = null;
 		try {
-			loginId=mem.getId();
-		}catch (Exception e) {
-			loginId=null;
+			loginId = mem.getId();
+		} catch (Exception e) {
+			loginId = null;
 		}
 		ModelAndView mav = new ModelAndView();
-		
+
 		Map articleMap = boardService.articleDetail(articleNO);
 //		articleMap에는 
 //		boardVO, uploadList, replyVO, replyUploadList 가 들어있음.
-		
+
 		BoardVO boardVO = (BoardVO) articleMap.get("boardVO");
-		String articleId=boardVO.getId();
-		
+		String articleId = boardVO.getId();
+
 		System.out.println("글 공개여부 : " + boardVO.isVisible());
-		
+
 //		게시글이 비공개이고 로그인한 회원이 게시글의 작성자가 아니면
 		if (boardVO.isVisible() != true && !loginId.equals(articleId)) {
-			
+
 			String errMsg = "비공개 게시글";
 			mav.addObject(errMsg);
 			mav.setViewName("redirect:/board/boardList.do");
@@ -199,55 +199,90 @@ public class BoardControllerImpl extends MainController implements BoardControll
 		return mav;
 	}
 
-	
 	// 문의글 수정 페이지
-		@RequestMapping(value = "/modArticleForm.do", method = RequestMethod.GET)
-		public void modArticleForm(@RequestParam(value = "articleNO") int articleNO, HttpServletRequest request,
-				HttpServletResponse response) {
-
-			HttpSession session = request.getSession();
-			String id = (String) session.getAttribute("id");
-
-			BoardVO article = new BoardVO();
-			article.setArticleNO(articleNO);
-			article.setId(id);
-		}
-	
 	@Override
-	@RequestMapping(value = "/modArticle.do", method = RequestMethod.PUT)
-	public ModelAndView modBoard(@ModelAttribute("article") BoardVO article, MultipartHttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-
+	@RequestMapping(value = "/modArticleForm.do", method = RequestMethod.POST)
+	public ModelAndView modArticleForm(@RequestParam(value = "articleNO") int articleNO, HttpServletRequest request,
+			HttpServletResponse response) throws Exception{
+		System.out.println("modArticleForm.do 진입");
+		String viewName = (String)request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView(viewName);
+		
 		HttpSession session = request.getSession();
-		List<String> removeList = (ArrayList<String>) session.getAttribute("deleteList");
-		int articleNO = article.getArticleNO();
-		// 삭제/수정 파일의 로컬 첨부파일 삭제
-				List<UploadVO> deleteList = deleteFile(articleNO, removeList);
+		String id = (String) session.getAttribute("id");
 
-				// 수정, 추가 파일의 업로드
-				List<String> nameList = boardService.articleUploadList(articleNO);
-				List<UploadVO> uploadList = uploadFile(articleNO, nameList, request);
-				// DB 반영
-				Map articleMap = new HashMap();
-				articleMap.put("article", article);
-				articleMap.put("delete", deleteList);
-				articleMap.put("upload", uploadList);
-//				Map<String, Integer> result = 
-						boardService.modArticle(articleMap);
-//				int artResult = (Integer) result.get("article");
-//				int delResult = (Integer) result.get("delete");
-//				int upResult = (Integer) result.get("upload");
-				
-//				System.out.println(artResult + "개의 문의글이 수정되었습니다.");
-//				System.out.println(delResult + "개의 첨부파일이 삭제되었습니다.");
-//				System.out.println(upResult + "개의 첨부파일이 업로드되었습니다.");
+		Map articleMap=boardService.articleDetail(articleNO);
+		
+//		글작성자와 로그인한 회원 ID가 동일한지 체크는 뷰에서.
+		BoardVO article=(BoardVO) articleMap.get("boardVO");
+		article.setArticleNO(articleNO);
+		article.setId(id);
+		
+		System.out.println("content : ");
+		System.out.println(article.getContent());
+		
+		articleMap.remove("boardVO");
+		articleMap.put("article", article);
+		
+		mav.addObject("articleMap", articleMap);
+		System.out.println("modArticleForm.do 완료");
+		return mav;
 	}
 
 	@Override
-	public ResponseEntity removeBoard(@RequestParam("articleNO") int articleNO, HttpServletRequest request,
+	@RequestMapping(value = "/modArticle.do", method = {RequestMethod.PUT, RequestMethod.POST})
+	public ModelAndView modBoard(@ModelAttribute("article") BoardVO article, MultipartHttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		ModelAndView mav = new ModelAndView();
+		HttpSession session = request.getSession();
+		
+//		List<String> removeList = (ArrayList<String>) session.getAttribute("deleteList");
+		String[] removeStr=request.getParameterValues("removeList");
+		List<String> removeList=new ArrayList<String>();
+		for (String str : removeStr) {
+			removeList.add(str);
+		}
+		
+		int articleNO = article.getArticleNO();
+		// 삭제/수정 파일의 로컬 첨부파일 삭제
+		List<UploadVO> deleteList = deleteFile(removeList);
+
+		// 수정, 추가 파일의 업로드
+		List<String> nameList = boardService.articleUploadList(articleNO);
+		List<UploadVO> uploadList = uploadFile(articleNO, nameList, request);
+		
+		// DB 반영
+		Map articleMap = new HashMap();
+		articleMap.put("article", article);
+		articleMap.put("delete", deleteList);
+		articleMap.put("upload", uploadList);
+		boardService.modArticle(articleMap);
+//				int artResult = (Integer) result.get("article");
+//				int delResult = (Integer) result.get("delete");
+//				int upResult = (Integer) result.get("upload");
+
+//				System.out.println(artResult + "개의 문의글이 수정되었습니다.");
+//				System.out.println(delResult + "개의 첨부파일이 삭제되었습니다.");
+//				System.out.println(upResult + "개의 첨부파일이 업로드되었습니다.");
+
+		mav.setViewName("redirect:/board/boardDetail.do?articleNO=" + articleNO);
+		return mav;
+	}
+
+	@Override
+	public String removeBoard(@RequestParam("articleNO") int articleNO, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		// 로컬에 저장된 첨부파일 삭제
+		List<String> articleUploadList = boardService.articleUploadList(articleNO);
+		List<String> replyUploadList = boardService.replyUploadList(articleNO);
+		deleteFile(articleUploadList);
+		deleteFile(replyUploadList);
+
+		// DB에 저장된 게시글과 답글, 첨부파일 삭제
+		int result = boardService.removeArticle(articleNO);
+		System.out.println(result + "개의 글이 삭제되었습니다.");
+
+		return "redirect:/main.html";
 	}
 
 	@RequestMapping(value = "/search.do", method = { RequestMethod.GET, RequestMethod.POST })
@@ -265,30 +300,27 @@ public class BoardControllerImpl extends MainController implements BoardControll
 
 		System.out.println(section);
 		System.out.println(pageNum);
-		
+
 //		input으로 들어온 값 처리
 		String[] search = request.getParameterValues("searchWord");
 		String[] except = request.getParameterValues("exceptWord");
 		List<String> searchWord = new ArrayList<String>();
-		
+
 		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
-		String startDate=null;
-		String endDate=null;
-		
+		String startDate = null;
+		String endDate = null;
+
 		if (searchMap.get("startDate") == "") {
 			searchMap.put("startDate", null);
-		}else {
-			startDate=(String) searchMap.get("startDate");
-			System.out.println("startDate:"+startDate);
+		} else {
+			startDate = (String) searchMap.get("startDate");
 		}
-		
+
 		if (searchMap.get("endDate") == "") {
 			searchMap.put("endDate", null);
-		}else {
-			endDate=(String) searchMap.get("endDate");
-			System.out.println("endDate:"+endDate);
+		} else {
+			endDate = (String) searchMap.get("endDate");
 		}
-		
 
 		if (search != null) {
 			if (search[0] == "") {
@@ -299,11 +331,10 @@ public class BoardControllerImpl extends MainController implements BoardControll
 				}
 			}
 		}
-		
+
 		else {
 			searchWord = null;
 		}
-
 
 		List<String> exceptWord = new ArrayList<String>();
 		if (except != null) {
@@ -315,18 +346,16 @@ public class BoardControllerImpl extends MainController implements BoardControll
 				}
 			}
 		}
-		
+
 		else {
-			
+
 			exceptWord = null;
 		}
-
-		
 //		리스트에서 다른 페이지로 넘어왔을 때 검색조건 불러오기
 //		검색조건을 입력한 경우(조건 3개 중 하나라도 null이 아니면) 입력한 값을 searchMap에 넣어주고 세션에 바인딩
 		if ((searchWord != null) || (exceptWord != null) || (startDate != null)) {
 			session.removeAttribute("searchMap");
-			
+
 			searchMap.put("searchWord", searchWord);
 			searchMap.put("exceptWord", exceptWord);
 			session.setAttribute("searchMap", searchMap);
@@ -335,9 +364,6 @@ public class BoardControllerImpl extends MainController implements BoardControll
 			searchMap = (Map) session.getAttribute("searchMap");
 			System.out.println("작동2");
 		}
-		System.out.println("startDate 검사------");
-		System.out.println("startDate==null ? : "+(startDate==null));
-		
 		searchMap.put("section", section);
 		searchMap.put("pageNum", pageNum);
 		Map petitionMap = boardService.searchList(searchMap);

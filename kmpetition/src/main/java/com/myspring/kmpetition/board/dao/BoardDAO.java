@@ -28,13 +28,18 @@ public interface BoardDAO {
 	public ReplyVO selectReply(int articleNO) throws DataAccessException;
 	public List<UploadVO> selectReplyFile(int articleNO) throws DataAccessException ;
 	
+	public List<String> selectArticleUploadList(int articleNO) throws DataAccessException ;
+	public List<String> selectReplyUploadList(int articleNO) throws DataAccessException ;
+	
 	public void insertBoard(BoardVO boardVO) throws DataAccessException;
 	public int selectArticleNO() throws DataAccessException;
 	public void insertArticleUpload(List<UploadVO> uploadList) throws DataAccessException;
-	public List<String> selectArticleUploadList(int articleNO) throws DataAccessException;
+	
+//	public List<String> selectArticleUploadList(int articleNO) throws DataAccessException;
+	
 	
 	public void updateBoard(BoardVO articleVO) throws DataAccessException ;
-	public void deleteBoard(int articleNO) throws DataAccessException;
+	public int deleteBoard(int articleNO) throws DataAccessException;
 	public void deleteArticleUpload(List<UploadVO> deleteList) throws DataAccessException;
 	
 	public List selectSearch(Map SearchMap) throws DataAccessException;

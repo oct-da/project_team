@@ -49,6 +49,25 @@
   	    form.submit();
 	}
      
+     function modArticle(articleNO) {
+    	var action="${contextPath}/board/modArticleForm.do";
+    	
+ 		var form = document.createElement("form");
+  	  	form.setAttribute("method", "post");
+   	    form.setAttribute("action", action);
+   	 	 
+   	 	var noInput = document.createElement("input");
+   	 	noInput.setAttribute("type","hidden");
+   	 	noInput.setAttribute("name","articleNO");
+   	 	noInput.setAttribute("value", articleNO);
+   		
+   	    form.appendChild(noInput);
+   	    document.body.appendChild(form);
+   	    
+   	    form.submit();
+		
+	}
+     
   </script>
 <body>
 	<form name="frmboardVO" method="post" action="${contextPath}"
@@ -98,18 +117,12 @@
 				</tr>
 			</c:if>
 			<tr id="tr_btn">
-				<td colspan="2" align="center"><c:if test="${isAdmin==true }">
-						<input type=button value="수정하기" onClick="fn_enable(this.form)">
-					</c:if> 
-					<input type=button value="리스트로 돌아가기" onClick="backToList(this.form)">
-					 
-					<input type=button value="답글쓰기"  onClick="fn_replyForm('${boardVO.articleNO }')" />
-				</td>
+				<td colspan="2" align="center">
 			</tr>
-			
+			<
 			<c:if test="${not empty replyVO }">
 			<tr>
-				<td colspen='2' width="150" align="center" bgcolor="yellowgreen">답글</td>
+				<td colspan='2' width="150" align="center" bgcolor="yellowgreen">답글</td>
 			</tr>
 			<tr>
 				<td width="150" align="center" bgcolor="yellowgreen">제목</td>
@@ -134,13 +147,17 @@
 				</td>
 				</tr>
 			</c:if>
-			<td><input type=button value="리스트로 돌아가기" onClick="backToList(this.form)"></td>
 					</tr>
 			
-			</c:if>
 			<tr>
+			</c:if>
 			<td><input type=button value="리스트로 돌아가기"
 					onClick="backToList(this.form)"></td>
+					<td><input type=button value="수정하기"
+					onClick="modArticle('${boardVO.articleNO}')"></td>
+					
+					<input type=button value="답글쓰기"  onClick="fn_replyForm('${boardVO.articleNO }')" />
+				</td>
 					</tr>
 		</table>
 	</form>

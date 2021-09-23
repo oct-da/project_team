@@ -18,8 +18,11 @@ public interface BoardService {
 	public Map articleDetail(int articleNO) throws Exception;
 	public void addArticle(Map addArticleMap) throws Exception;
 	public void modArticle(Map addArticleMap) throws Exception;
-	public List<String> articleUploadList(int articleNO) throws Exception;;
-	public void removeArticle(int articleNO) throws Exception;
+	
+	public List<String> articleUploadList(int articleNO) throws Exception;
+	public List<String> replyUploadList(int articleNO) throws Exception;
+	
+	public int removeArticle(int articleNO) throws Exception;
 	public int createArticleNO() throws Exception;
 	
 	public Map searchList(Map searchMap) throws Exception;

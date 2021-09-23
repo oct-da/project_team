@@ -131,19 +131,19 @@ public class MainController {
 	public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent, String fileName) {
 		System.out.println("Main의 downloadFile 진입");
 //		파일 경로
-		Resource resource = new FileSystemResource(Path +"\\"+ fileName);
-		if(!resource.exists()) return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
-		
+		Resource resource = new FileSystemResource(Path + "\\" + fileName);
+		if (!resource.exists())
+			return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
+
 //		다운로드 이름
 		String resourceName = resource.getFilename();
-		
+
 		HttpHeaders headers = new HttpHeaders();
-		try {		// 한글파일명 인코딩
+		try { // 한글파일명 인코딩
 			String downloadName = null;
-			if (userAgent.contains("Trident")) {	// internet explore 일 때 
+			if (userAgent.contains("Trident")) { // internet explore 일 때
 				downloadName = URLEncoder.encode(resourceName, "utf-8");
-			}
-			else {	
+			} else {
 				downloadName = new String(resourceName.getBytes("utf-8"), "iso-8859-1");
 			}
 			// 헤더 설정
@@ -154,34 +154,33 @@ public class MainController {
 		}
 		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
 	}
-	
-	
+
 //	파일 삭제
-	   public List<UploadVO> deleteFile(List<String> fileList){
-		      
-		      List<UploadVO> deleteList = new ArrayList<UploadVO>();
-		      
-		      for (String fileName : fileList) {
-		         
-		         File target = new File(Path, fileName);
-		         
-		         try {
-		            
-		            target.delete();
-		            UploadVO upload = new UploadVO();
-		            int articleNO = Integer.parseInt(fileName.substring(0, fileName.indexOf('_')));
-		            upload.setArticleNO(articleNO);
-		            upload.setUploadfile(fileName);
-		            deleteList.add(upload);
-		         }
-		         
-		         catch(Exception e){
-		            
-		            e.printStackTrace();
-		         }
-		      }
-		      
-		      return deleteList;
-		   }
+	public List<UploadVO> deleteFile(List<String> fileList) {
+
+		List<UploadVO> deleteList = new ArrayList<UploadVO>();
+
+		for (String fileName : fileList) {
+
+			File target = new File(Path, fileName);
+
+			try {
+
+				target.delete();
+				UploadVO upload = new UploadVO();
+				int articleNO = Integer.parseInt(fileName.substring(0, fileName.indexOf('_')));
+				upload.setArticleNO(articleNO);
+				upload.setUploadfile(fileName);
+				deleteList.add(upload);
+			}
+
+			catch (Exception e) {
+
+				e.printStackTrace();
+			}
+		}
+
+		return deleteList;
+	}
 
 }
