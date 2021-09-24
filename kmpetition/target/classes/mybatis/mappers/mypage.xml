@@ -3,14 +3,31 @@
 
 <mapper namespace="mapper.mypage">
 
-<update id="updateMember" parameterType="memberVO">
+	<update id="updateMember" parameterType="memberVO">
 	<![CDATA[
 		update member 
 		set pwd=#{pwd}, name=#{name}, phone=#{phone}, email=#{email} 
 		where id=#{id}
 	 ]]>
-</update>
+	</update>
 
-	
-	
+
+<!-- 내가 쓴 글 조회 SQL문  -->
+	<select id="myList" parameterType="Map" resultType="boardVO">
+		select *
+		from board
+		where id = #{member_id}
+		order by ARTICLENO asc
+		limit #{startNum}, 10
+	</select>
+
+	<select id="selectTotList" parameterType="String"
+		resultType="Integer">
+		<![CDATA[ 
+			select count(*)
+			from board
+			where id = #{member_id}
+		]]>
+	</select>
+
 </mapper>

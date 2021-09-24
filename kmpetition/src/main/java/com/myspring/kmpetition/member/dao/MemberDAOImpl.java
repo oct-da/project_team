@@ -1,5 +1,7 @@
 package com.myspring.kmpetition.member.dao;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -128,6 +130,25 @@ public class MemberDAOImpl implements MemberDAO {
 		
 	}
 	
+	
+	public Map<String, List<String>> selectAllUploadList(String id) throws DataAccessException{
+		
+		List<String> boardUploadList = sqlSession.selectList("mapper.member.selectAllBoardUploadList", id);
+		List<String> replyUploadList = sqlSession.selectList("mapper.member.selectAllReplyUploadList", id);
+		
+		Map<String, List<String>> deleteMap = new HashMap<String, List<String>>();
+		
+		deleteMap.put("board", boardUploadList);
+		deleteMap.put("reply", replyUploadList);
+		
+		return deleteMap;
+	}
+	
+	public void deleteMember(String id) throws DataAccessException{
+		
+		sqlSession.delete("mapper.member.deleteMember", id);
+	}
+
 	
 	
 

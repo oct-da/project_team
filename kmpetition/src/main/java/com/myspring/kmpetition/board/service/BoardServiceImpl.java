@@ -39,6 +39,8 @@ public class BoardServiceImpl implements BoardService{
 		return dao.noticeDetail(articleNO);
 	}
 	
+	
+	
 	@Override
 	public Map articleList(Map<String, Integer> pagingMap) throws Exception {
 		Map articleMap=new HashedMap();

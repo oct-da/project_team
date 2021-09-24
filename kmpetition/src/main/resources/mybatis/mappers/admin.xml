@@ -44,9 +44,26 @@
 	<insert id="insertNotice" parameterType="noticeVO">
 		<![CDATA[ 
 			insert into notice(title, content, createdate) 
-			values(#{title}, #{content}, curdate()) 
+			values(#{title}, #{content}, curtime()) 
 		]]>
 	</insert>
+	
+	<delete id="deleteNotice" parameterType="Integer">
+		<![CDATA[ 
+			delete from notice 
+			where articleNO=#{articleNO}
+		]]>
+	
+	</delete>
+	
+	
+	<update id="updateNotice" parameterType="noticeVO">
+		<![CDATA[
+			update board
+			set title=#{title}, content=#{content}
+			where ARTICLENO=#{articleNO}
+		]]>
+	</update>
 		
 		
 		

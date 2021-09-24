@@ -40,6 +40,7 @@ public class BoardControllerImpl extends MainController implements BoardControll
 		System.out.println(viewName);
 		ModelAndView mav = new ModelAndView(viewName);
 
+//		페이징 처리
 		String _section = request.getParameter("section");
 		String _pageNum = request.getParameter("pageNum");
 		int section = Integer.parseInt(((_section == null) ? "1" : _section));
@@ -64,8 +65,8 @@ public class BoardControllerImpl extends MainController implements BoardControll
 //		totNotice : 총 게시물 개수
 
 		HttpSession session = request.getSession();
-		System.out.println("admin인가?");
-		System.out.println(session.getAttribute("isAdmin"));
+//		System.out.println("admin인가?");
+//		System.out.println(session.getAttribute("isAdmin"));
 		return mav;
 	}
 
@@ -79,6 +80,8 @@ public class BoardControllerImpl extends MainController implements BoardControll
 		mav.addObject("noticeVO", noticeVO);
 		return mav;
 	}
+	
+
 
 	@Override
 	@RequestMapping(value = "/boardList.do", method = RequestMethod.GET)

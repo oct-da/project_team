@@ -20,10 +20,6 @@
 	</resultMap>
 
 
-	<!-- <resultMap type="java.util.HashMap" id="memResult"> <result property="id" 
-		column="id" /> <result property="pwd" column="pwd" /> <result property="name" 
-		column="name" /> <result property="email" column="email" /> <result property="joinDate" 
-		column="joinDate" /> </resultMap> -->
 
 <!-- 로그인 -->
 	<select id="login" resultType="memberVO"
@@ -45,14 +41,11 @@
 	</update>
 	
 	<select id="selectForAwake" parameterType="memberVO" resultMap="memResult">
-		<!-- name에서 오류 -->
 			select * from member 
 			where id=#{id} 
-				 and pwd=#{pwd} 
+				and pwd=#{pwd} 
 				and email=#{email} 
 				and name=#{name} 	
-			 
-		
 	</select>
 	
 	<!-- 회원가입 
@@ -71,9 +64,6 @@
 			values(#{id}, #{pwd}, #{name}, #{phone}, #{email}, curdate())
 		]]>
 	</insert>
-	
-	
-	
 	
 	<!-- 회원가입시 아이디 중복체크 -->
 	<select id="checkId" resultType="memberVO" parameterType="String">
@@ -122,22 +112,6 @@
 	<![CDATA[ select * from member order by joinDate desc ]]>
 	</select>
 	
-	
-	<!-- <select id="selectName" resultType="String">
-	<![CDATA[ select name from member where id = 'hong' ]]>
-	</select>
-	<select id="selectPwd" resultType="int">
-	<![CDATA[ select pwd from member where id = 'hong' ]]>
-	</select>
-	<select id="selectMemberById" resultType="memberVO"
-		parameterType="String">
-	<![CDATA[ select * from member where id = #{id} ]]>
-	</select>
-	<select id="selectMemberByPwd" resultMap="memResult"
-		parameterType="int">
-	<![CDATA[ select * from member where pwd = #{pwd} ]]>
-	</select> -->
-	
 	<insert id="insertHistory" parameterType="historyVO">
 		<![CDATA[ 
 			insert into history(id, url, title, viewDate)
@@ -168,6 +142,28 @@
 		from ENABLE
 		where ID=#{id}
 	</select>
+	
+	<select id="selectAllBoardUploadList" resultType="String" parameterType="String">
+		select UPLOADFILE
+		from BOARDUPLOAD
+		where ARTICLENO IN
+		(select ARTICLENO
+		from BOARD
+		where ID=#{id})
+	</select>
 
+	<select id="selectAllReplyUploadList" resultType="String" parameterType="String">
+		select UPLOADFILE
+		from REPLYUPLOAD
+		where ARTICLENO IN
+					(select ARTICLENO
+					from BOARD
+					where ID=#{id})
+	</select>
+	
+	<delete id="deleteMember" parameterType="String">
+		delete from MEMBER
+		where ID=#{id}
+	</delete>
 
 </mapper>

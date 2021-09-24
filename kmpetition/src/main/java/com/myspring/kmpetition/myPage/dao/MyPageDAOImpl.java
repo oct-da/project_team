@@ -1,5 +1,8 @@
 package com.myspring.kmpetition.myPage.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -19,4 +22,18 @@ public class MyPageDAOImpl implements MyPageDAO {
 		
 	}
 
+	@Override
+	public List selectBoardList(Map pagingMap) throws DataAccessException {
+		int section=(Integer)pagingMap.get("section");
+		int pageNum=(Integer)pagingMap.get("pageNum");
+		int startNum=(pageNum-1)*10+(section-1)*100;
+		pagingMap.put("startNum", startNum);
+		System.out.println("startNum:"+startNum);
+		return sqlSession.selectList("mapper.mypage.myList", pagingMap);
+	}
+	
+	@Override
+	public int selectTotList(String member_id) throws DataAccessException {
+		return sqlSession.selectOne("mapper.mypage.selectTotList", member_id);
+	}	
 }

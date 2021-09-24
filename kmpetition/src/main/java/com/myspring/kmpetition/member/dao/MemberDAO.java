@@ -1,5 +1,6 @@
 package com.myspring.kmpetition.member.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
@@ -33,4 +34,7 @@ public interface MemberDAO {
 	public void updatePwd(Map<String, String> modMap) throws DataAccessException;
 	
 	public void insertHistory(HistoryVO historyVO) throws DataAccessException;
+	
+	public Map<String, List<String>> selectAllUploadList(String id) throws DataAccessException;
+	public void deleteMember(String id) throws DataAccessException;
 }

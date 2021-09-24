@@ -68,6 +68,7 @@
 	</select>
 	
 	
+	
 	<select id="selectAllBoard" parameterType="Integer" resultMap="boardResult">
 		<![CDATA[ 
 			select * from board  

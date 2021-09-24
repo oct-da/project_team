@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,12 +39,6 @@ public class AdminControllerImpl extends MainController implements AdminControll
 		Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
 
 		if (isAdmin == true) {
-//			--------------------------페이징 전 코드-------------------
-//			List<MemberVO> memberList = adminService.memberList();
-//			mav.addObject("memberList", memberList);
-//			mav.setViewName("/admin/memberList");
-//			-----------------------------------------------코드 끝
-			
 			String viewName= (String) request.getAttribute("viewName");
 			mav.setViewName(viewName);
 
@@ -104,11 +97,25 @@ public class AdminControllerImpl extends MainController implements AdminControll
 		return mav;
 	}
 
-	@Override
-	public ResponseEntity removeNotice(String articleId, HttpServletRequest request, HttpServletResponse response)
+	public ModelAndView modNotice(@RequestParam NoticeVO noticeVO, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		ModelAndView mav = new ModelAndView();
+		int articleNO = noticeVO.getArticleNO();
+		
+		adminService.modNotice(noticeVO);
+		
+		mav.setViewName("redirect:/board/noticeDetail?articleNO="+articleNO);
+		return mav;
+		
+	}
+	
+	@Override
+	public ModelAndView removeNotice(@RequestParam("articleNO") int articleNO, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		ModelAndView mav = new ModelAndView();
+		adminService.removeNotice(articleNO);
+		mav.setViewName("redirect:/board/noticeList.do");
+		return mav;
 	}
 
 	@Override

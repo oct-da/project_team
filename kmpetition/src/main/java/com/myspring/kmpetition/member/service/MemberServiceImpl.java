@@ -1,5 +1,6 @@
 package com.myspring.kmpetition.member.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,6 +134,15 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 	
+	public Map<String, List<String>> allUploadList(String id) throws Exception{
+		
+		return memberDAO.selectAllUploadList(id);
+	}
+	
+	public void removeMember(String id) throws Exception{
+		
+		memberDAO.deleteMember(id);
+	}
 	
 
 }

@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.SimpleTimeZone;
 
@@ -369,21 +370,14 @@ public class MemberControllerImpl extends MainController implements MemberContro
 
 		long time = new Date().getTime();
 		Timestamp now = new Timestamp(time);
-		System.out.println(now);
-		
 		historyVO.setViewDate(now);
 		
 		historyVO.setId((String) historyMap.get("id"));
 		historyVO.setTitle((String) historyMap.get("title"));
 		historyVO.setUrl((String) historyMap.get("url"));
 		
-		
 		try {
-		
 			memberService.saveHistory(historyVO);
-		
-			System.out.println("History 입력 완료");
-			
 			result="success";
 			
 		}catch (Exception e) {
@@ -391,13 +385,26 @@ public class MemberControllerImpl extends MainController implements MemberContro
 			System.out.println("로그인하지 않은 회원입니다.");
 			result="error";
 		}
-//		resEntity = new ResponseEntity(result, responseHeaders, HttpStatus.OK);
 		return result;
+	}
+	
+	@RequestMapping(value="/removeMember.do", method=RequestMethod.DELETE)
+	public void removeMember(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		HttpSession session = request.getSession();
+		String id = (String) session.getAttribute("id");
+		
+		Map<String, List<String>> deleteMap = memberService.allUploadList(id);
+		List<String> boardList = deleteMap.get("board");
+		List<String> replyList = deleteMap.get("reply");
+		memberService.removeMember(id);
+		deleteFile(boardList);
+		deleteFile(replyList);
+
 	}
 
 	
-	
-	
+//	최종접속일 확인(휴면계정 판단)
 	@Override
 	public int checkLoginDate(Date loginDate) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -407,13 +414,12 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		cal.add(Calendar.MONTH, -1);
 		Date monthAgo = cal.getTime();
 
-//			System.out.println("한 달 전 날짜:" + sdf.format(monthAgo));
-		System.out.println("회원 최종접속일 : " + loginDate);
 //		날짜 비교 용도의 변수
 		int compare = loginDate.compareTo(monthAgo);
 		return compare;
 	}
 
+//	로그인시 ID저장
 	@Override
 	public void checkSaveId(String saveId, Map loginMap, HttpServletResponse response) throws Exception {
 
@@ -431,53 +437,4 @@ public class MemberControllerImpl extends MainController implements MemberContro
 	
 	
 	
-	
-	/*-------------------- 파일 업로드 테스트용--------------------
-	private static final String CURR_FILE_REPO_PATH = "C:\\team_file";
-
-	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public ModelAndView upload(MultipartHttpServletRequest multipartRequest, HttpServletResponse response)
-			throws Exception {
-		multipartRequest.setCharacterEncoding("utf-8");
-		Map map = new HashMap();
-		Enumeration enu = multipartRequest.getParameterNames();
-
-		while (enu.hasMoreElements()) {
-			String name = (String) enu.nextElement();
-			String value = multipartRequest.getParameter(name);
-			map.put(name, value);
-		}
-
-		List fileList = fileProcess(multipartRequest);
-		map.put("fileList", fileList);
-
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("map", map);
-		mav.setViewName("/main/result");
-		return mav;
-	}
-
-	private List<String> fileProcess(MultipartHttpServletRequest multipartRequest) throws Exception {
-		List<String> fileList = new ArrayList<String>();
-		Iterator<String> fileNames = multipartRequest.getFileNames();
-
-		while (fileNames.hasNext()) {
-			String fileName = fileNames.next();
-			MultipartFile mFile = multipartRequest.getFile(fileName);
-			String originalFileName = mFile.getOriginalFilename();
-			fileList.add(originalFileName);
-			File file = new File(CURR_FILE_REPO_PATH + "\\" + fileName);
-			if (mFile.getSize() != 0) {
-				if (!file.exists()) {
-					if (file.getParentFile().mkdir()) {
-						file.createNewFile();
-					}
-				}
-				mFile.transferTo(new File(CURR_FILE_REPO_PATH + "\\" + originalFileName));
-			}
-		}
-		return fileList;
-
-	}
-	*/
 }

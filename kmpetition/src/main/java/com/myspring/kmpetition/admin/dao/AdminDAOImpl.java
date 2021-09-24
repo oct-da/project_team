@@ -17,12 +17,6 @@ public class AdminDAOImpl implements AdminDAO{
 	@Autowired
 	private SqlSession sqlSession;
 	
-//	@Override
-//	public List<MemberVO> selectAllMember() throws DataAccessException {
-//		 return sqlSession.selectList("mapper.admin.selectAllMember");
-//		
-//	}
-	
 //	페이징처리한 selectAllMember
 	public List selectAllMember(Map pagingMap) throws DataAccessException{
 		System.out.println("dao의 멤버조회 진입");
@@ -44,16 +38,16 @@ public class AdminDAOImpl implements AdminDAO{
 		sqlSession.insert("mapper.admin.insertNotice", noticeVO);
 		
 	}
-
+	
 	@Override
-	public int selectLatestOne() throws DataAccessException {
-		// TODO Auto-generated method stub
-		return 0;
+	public void updateNotice(NoticeVO noticeVO) throws DataAccessException {
+		sqlSession.insert("mapper.admin.updateNotice", noticeVO);
+		
 	}
 
 	@Override
 	public void deleteNotice(int articleNO) throws DataAccessException {
-		// TODO Auto-generated method stub
+		sqlSession.insert("mapper.admin.deleteNotice", articleNO);
 		
 	}
 

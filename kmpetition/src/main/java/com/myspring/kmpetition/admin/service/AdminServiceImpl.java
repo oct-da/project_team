@@ -50,11 +50,16 @@ public class AdminServiceImpl implements AdminService {
 	public void addNotice(NoticeVO noticeVO) throws Exception {
 		dao.insertNotice(noticeVO);
 	}
+	
+	@Override
+	public void modNotice(NoticeVO noticeVO) throws Exception {
+		dao.updateNotice(noticeVO);
+	}
 
 //	Notice 게시물 삭제
 	@Override
 	public void removeNotice(int articleNO) throws Exception {
-		// TODO Auto-generated method stub
+		dao.deleteNotice(articleNO);
 		
 	}
 	

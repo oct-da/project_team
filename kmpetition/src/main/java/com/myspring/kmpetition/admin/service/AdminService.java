@@ -10,6 +10,8 @@ public interface AdminService {
 	public Map memberList(Map<String, Integer> pagingMap) throws Exception;
 
 	public void addNotice(NoticeVO noticeVO) throws Exception;
+	
+	public void modNotice(NoticeVO noticeVO) throws Exception;
 
 	public void removeNotice(int articleNO) throws Exception;
 

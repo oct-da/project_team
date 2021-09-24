@@ -44,4 +44,6 @@ public interface MemberController {
 	
 //	내가 열람한 페이지를 보여주기 위해 DB에 저장 목적
 	public @ResponseBody String  saveVisit(@RequestParam Map historyMap, HttpServletRequest request,HttpServletResponse response) throws Exception;
+	
+	public void removeMember(HttpServletRequest request, HttpServletResponse response) throws Exception ;
 }

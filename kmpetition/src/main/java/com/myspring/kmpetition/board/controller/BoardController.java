@@ -32,6 +32,7 @@ public interface BoardController {
 			HttpServletResponse response) throws Exception;
 	public String  removeBoard(@RequestParam("articleNO") int articleNO, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
+//	검색 메서드
 	public ModelAndView search(@RequestParam Map searchMap, HttpServletRequest request,
 			HttpServletResponse response) throws Exception;
 }

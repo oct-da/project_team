@@ -45,17 +45,6 @@ public class BoardDAOImpl implements BoardDAO{
 		return noticeVO;
 	}
 
-	@Override
-	public void insertNotice(Map noticeMap) throws DataAccessException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public NoticeVO updateNotice(Map noticeMap) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	
 //	------------------1:1문의게시판-----------------
@@ -95,9 +84,6 @@ public class BoardDAOImpl implements BoardDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("mapper.board.selectReplyFile", articleNO);
 	}
-	
-	
-
 	
 	
 	@Override

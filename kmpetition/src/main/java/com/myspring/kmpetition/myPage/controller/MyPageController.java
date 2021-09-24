@@ -18,7 +18,6 @@ public interface MyPageController {
 	
 	public ModelAndView deleteMember(HttpServletRequest request, HttpServletResponse response) throws Exception ;
 	
-	public ModelAndView myQna(HttpServletRequest request, HttpServletResponse response) throws Exception ;
-	
+	public ModelAndView myList(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 }

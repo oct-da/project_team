@@ -15,7 +15,9 @@ import com.myspring.kmpetition.board.vo.ReplyVO;
 public interface AdminController {
 	public ModelAndView memberList(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView addNotice(@ModelAttribute("noticeVO") NoticeVO noticeVO, MultipartHttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ResponseEntity removeNotice(@RequestParam("articleId") String articleId,HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView modNotice(@RequestParam NoticeVO noticeVO, HttpServletRequest request, HttpServletResponse response)
+			throws Exception ;
+	public ModelAndView removeNotice(@RequestParam("articleNO") int articleNO,HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView dataPreview(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 

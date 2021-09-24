@@ -1,5 +1,6 @@
 package com.myspring.kmpetition.member.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.myspring.kmpetition.member.vo.EnableVO;
@@ -41,4 +42,7 @@ public interface MemberService {
 	
 //	내가 열람한 정보 저장
 	public void saveHistory(HistoryVO historyVO) throws Exception;
+	
+	public Map<String, List<String>> allUploadList(String id) throws Exception;
+	public void removeMember(String id) throws Exception;
 }
