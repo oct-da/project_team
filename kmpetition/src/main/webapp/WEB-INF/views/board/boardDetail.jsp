@@ -67,6 +67,14 @@
    	    form.submit();
 		
 	}
+
+     function fn_delete(obj) {
+    	var articleNO="${noticeVO.articleNO}";
+    	var action="${contextPath}/admin/deleteNotice.do?articleNO="+articleNO;
+    	obj.action=action;
+     	
+    	obj.submit();
+	}
      
   </script>
 <body>
@@ -119,7 +127,7 @@
 			<tr id="tr_btn">
 				<td colspan="2" align="center">
 			</tr>
-			<
+			
 			<c:if test="${not empty replyVO }">
 			<tr>
 				<td colspan='2' width="150" align="center" bgcolor="yellowgreen">답글</td>
@@ -155,7 +163,7 @@
 					onClick="backToList(this.form)"></td>
 					<td><input type=button value="수정하기"
 					onClick="modArticle('${boardVO.articleNO}')"></td>
-					
+					<input type=button value="삭제하기" onClick="fn_delete(this.form)">  
 					<input type=button value="답글쓰기"  onClick="fn_replyForm('${boardVO.articleNO }')" />
 				</td>
 					</tr>

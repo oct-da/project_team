@@ -1,5 +1,6 @@
 package com.myspring.kmpetition.myPage.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.myspring.kmpetition.board.vo.BoardVO;
 import com.myspring.kmpetition.member.vo.MemberVO;
 import com.myspring.kmpetition.myPage.dao.MyPageDAO;
+import com.myspring.kmpetition.myPage.vo.MyPageVO;
 
 @Service("myPageService")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -42,6 +44,21 @@ public class MyPageServiceImpl implements MyPageService {
 		ListMap.put("totList" , totList);
 		ListMap.put("boardVO" , boardVO);
 		return ListMap;
+	}
+	
+	@Override
+	public Map readContent(Map pagingMap) throws Exception {
+		List visitList = dao.selectId(pagingMap);
+		MyPageVO vo = (MyPageVO) visitList.get(0);
+		
+		System.out.println(vo.getTitle());
+		
+		String id = (String) pagingMap.get("id");
+		int selectTotVisit = dao.selectTotVisit(id);
+		Map visitMap = new HashMap();
+		visitMap.put("visitList", visitList);
+		visitMap.put("selectTotVisit", selectTotVisit);
+		return visitMap;
 	}
 
 }

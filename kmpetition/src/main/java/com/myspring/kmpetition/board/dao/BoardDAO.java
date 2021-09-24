@@ -16,6 +16,7 @@ public interface BoardDAO {
 	public List selectAllNotice(Map<String, Integer> pagingMap) throws DataAccessException;
 	public int selectTotNotice() throws DataAccessException;
 	public NoticeVO noticeDetail(int articleNO) throws DataAccessException;
+	public List<UploadVO> selectNoticeFile(int articleNO) throws DataAccessException;
 	
 //	1:1문의 게시판 관련
 	public List selectAllBoard(Map<String, Integer> pagingMap) throws DataAccessException;

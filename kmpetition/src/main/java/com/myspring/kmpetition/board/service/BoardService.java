@@ -10,7 +10,7 @@ public interface BoardService {
 
 //	notice 게시판 관련
 	public Map noticeList(Map<String, Integer> pagingMap) throws Exception;
-	public NoticeVO noticeDetail(int articleNO) throws Exception;
+	public Map noticeDetail(int articleNO) throws Exception;
 	
 //	1:1 문의 게시판 관련
 	public Map articleList(Map<String, Integer> pagingMap) throws Exception;

@@ -8,6 +8,14 @@
 		<result property="articleNO" column="articleNO" />
 		<result property="uploadfile" column="uploadfile" />
 	</resultMap>
+	
+	<insert id="insertNoticeUpload" parameterType="java.util.Map">
+		insert into NOTICEUPLOAD(articleNO, uploadfile) 
+		VALUES 
+		<foreach collection="list" item="item" separator=", " >
+			(#{item.articleNO}, #{item.uploadfile})
+		</foreach>
+	</insert>
 
 	<select id="selectArticleUploadList" parameterType="int"
 		resultType="String">
@@ -42,5 +50,14 @@
 			</foreach>
 		</where>
 	</delete>
+	
+	
+	<insert id="insertReplyUpload" parameterType="List">
+		insert into replyupload
+		values
+		<foreach item="item" collection="list" separator=" , ">
+			(#{item.articleNO}, #{item.uploadfile})
+		</foreach>
+	</insert>	
 
 </mapper>

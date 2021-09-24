@@ -66,6 +66,12 @@
 			where articleNO=#{articleNO}  
 		]]>
 	</select>
+	<select id="selectNoticeFile" parameterType="Integer" resultMap="uploadResult">
+		<![CDATA[ 
+			select * from noticeupload  
+			where articleNO=#{articleNO} 
+		]]>
+	</select>
 	
 	
 	
@@ -141,14 +147,14 @@
 		VALUES (#{id}, #{title}, #{content}, curdate(), #{visible})
 	</insert>
 	
-	<!-- SQL문에 List나 배열을 전달하면 자동으로 Map에 전달됨. 이 때 List는 list를 키로 사용. 교재 p.882 -->
+	<!-- SQL문에 List나 배열을 전달하면 자동으로 Map에 전달됨. 이 때 List는 list를 키로 사용. 교재 p.882 
 	<insert id="insertArticleUpload" parameterType="java.util.Map">
 		insert into BOARDUPLOAD(articleNO, uploadfile) 
 		VALUES 
 		<foreach collection="list" item="item" separator=", " >
 			(#{articleNO}, #{uploadfile})
 		</foreach>
-	</insert>
+	</insert>-->
 	<update id="updateArticle" parameterType="boardVO">
 		update BOARD
 		set TITLE=#{title}, CONTENT=#{content}, #{visible}

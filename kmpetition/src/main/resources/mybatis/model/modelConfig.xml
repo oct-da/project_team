@@ -6,12 +6,15 @@
 	<typeAliases>
 	<!-- VO 클래스들을 여기에 typeAlias로 추가 -->
 		<typeAlias type="com.myspring.kmpetition.member.vo.MemberVO"  alias="memberVO" />
+		<typeAlias type="com.myspring.kmpetition.member.vo.HistoryVO"  alias="historyVO" />
+		<typeAlias type="com.myspring.kmpetition.member.vo.EnableVO"  alias="enableVO" />
+		
 		<typeAlias type="com.myspring.kmpetition.board.vo.NoticeVO"  alias="noticeVO" />
 		<typeAlias type="com.myspring.kmpetition.board.vo.BoardVO"  alias="boardVO" />
 		<typeAlias type="com.myspring.kmpetition.board.vo.UploadVO"  alias="uploadVO" />
 		<typeAlias type="com.myspring.kmpetition.board.vo.ReplyVO"  alias="replyVO" />
 		<typeAlias type="com.myspring.kmpetition.board.vo.PetitionVO"  alias="petitionVO" />
-		<typeAlias type="com.myspring.kmpetition.member.vo.HistoryVO"  alias="historyVO" />
-		<typeAlias type="com.myspring.kmpetition.member.vo.EnableVO"  alias="enableVO" />
+		
+		<typeAlias type="com.myspring.kmpetition.myPage.vo.MyPageVO"  alias="mypageVO" />
 	</typeAliases>
 </configuration>

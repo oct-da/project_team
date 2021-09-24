@@ -23,6 +23,7 @@ public interface AdminService {
 
 	public void modReply(Map replyMap) throws Exception;
 
+	public List<String> noticeUploadList(int articleNO) throws Exception ;
 	public void removeReply(int articleNO) throws Exception;
 
 }

@@ -18,6 +18,10 @@
 		<result property="content" column="content" />
 		<result property="createdate" column="createdate" />
 	</resultMap>
+	<resultMap type="uploadVO" id="uploadResult">
+		<result property="articleNO" column="articleNO" />
+		<result property="uploadfile" column="uploadfile" />
+	</resultMap>
 	<resultMap type="replyVO" id="replyResult">
 		<result property="articleNO" column="articleNO" />
 		<result property="title" column="title" />
@@ -53,13 +57,7 @@
 			values(#{title}, #{content}, curtime()) 
 		]]>
 	</insert>
-	<insert id="insertNoticeUpload" parameterType="java.util.Map">
-		insert into NOTICEUPLOAD(articleNO, uploadfile) 
-		VALUES 
-		<foreach collection="list" item="item" separator=", " >
-			(#{articleNO}, #{uploadfile})
-		</foreach>
-	</insert>
+	
 	
 	<delete id="deleteNotice" parameterType="Integer">
 		<![CDATA[ 
@@ -72,7 +70,7 @@
 	
 	<update id="updateNotice" parameterType="noticeVO">
 		<![CDATA[
-			update board
+			update notice
 			set title=#{title}, content=#{content}
 			where ARTICLENO=#{articleNO}
 		]]>
@@ -87,13 +85,6 @@
 			values(#{articleNO}, #{title}, #{content})
 		</insert>
 
-		<insert id="insertREplyUpload" parameterType="List">
-			insert into replyupload
-			values
-			<foreach item="item" collection="list" separator=" , ">
-				(#{articleNO}, #{uploadfile})
-			</foreach>
-		</insert>	
 		
 		<update id="updateDisable" parameterType="int">
 			update board
@@ -113,11 +104,18 @@
 			where ARTICLENO=#{articleNO}
 		</update>
 		
+		<select id="selectNoticeUploadList" parameterType="Integer" resultMap="uploadResult">
+		<![CDATA[ 
+			select uploadfile from noticeupload  
+			where articleNO=#{articleNO} 
+		]]>
+	</select>
+		
 		<delete id="deleteReplyUpload" parameterType="list">
 			delete from REPLYUPLOAD
-			where UPLOADFILE in ()
+			where UPLOADFILE in (
 			<foreach item="item" collection="list" separator=" , ">
-			#{item.uploadfile}
+				#{item.uploadfile}
 			</foreach>
 			)
 			

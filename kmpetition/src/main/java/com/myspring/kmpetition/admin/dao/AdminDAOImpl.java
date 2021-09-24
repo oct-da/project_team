@@ -26,7 +26,7 @@ public class AdminDAOImpl implements AdminDAO{
 		int startNum=(pageNum-1)*10+(section-1)*100+1;
 		return sqlSession.selectList("mapper.admin.selectAllMember", startNum);
 	}
-	
+	@Override
 	public int selectTotMember() throws DataAccessException{
 		System.out.println("dao의 총 멤버수 진입");
 
@@ -34,6 +34,7 @@ public class AdminDAOImpl implements AdminDAO{
 	}
 
 //	공지사항 추가 관련 메서드
+	@Override
 	public int selectMaxNoticeNO() throws DataAccessException{
 		return sqlSession.selectOne("mapper.admin.selectMaxNoticeNO");
 	}
@@ -42,6 +43,7 @@ public class AdminDAOImpl implements AdminDAO{
 		sqlSession.insert("mapper.admin.insertNotice", noticeVO);
 		
 	}
+	@Override
 	public void insertNoticeUpload(List<UploadVO> uploadList) throws DataAccessException{
 		sqlSession.insert("mapper.upload.insertNoticeUpload", uploadList);
 	}
@@ -54,6 +56,10 @@ public class AdminDAOImpl implements AdminDAO{
 		
 	}
 
+	@Override
+	public List<String> selectNoticeUploadList(int articleNO) throws DataAccessException {
+		return sqlSession.selectList("mapper.admin.selectNoticeUploadList", articleNO);
+	}
 	@Override
 	public void deleteNotice(int articleNO) throws DataAccessException {
 		sqlSession.insert("mapper.admin.deleteNotice", articleNO);
@@ -78,7 +84,7 @@ public void updateDisable(int articleNO) throws DataAccessException{
 	
 	public void insertReplyUpload(List<UploadVO> replyUpload) throws DataAccessException{
 		
-		sqlSession.insert("mapper.admin.insertReplyUpload", replyUpload);
+		sqlSession.insert("mapper.upload.insertReplyUpload", replyUpload);
 	}
 	
 	public List<String> selectReplyUploadList(int articleNO) throws DataAccessException{

@@ -12,4 +12,6 @@ public interface MyPageDAO {
 	public void updateMember(MemberVO memberVO) throws DataAccessException;
 	public List<BoardVO> selectBoardList(Map pagingMap) throws DataAccessException;
 	public int selectTotList(String member_id) throws DataAccessException;
+	public List selectId(Map pagingMap) throws Exception;
+	public int selectTotVisit(String member_id) throws DataAccessException;
 }

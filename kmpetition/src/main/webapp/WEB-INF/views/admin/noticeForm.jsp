@@ -13,6 +13,12 @@
 	    obj.action="${contextPath}/board/noticeList.do";
 	    obj.submit();
      }
+     var cnt = 1;
+ 	 function fn_addFile() {
+ 		$("#d_file")
+ 				.append("<br>" + "<input type='file' name='file"+cnt+"' />");
+ 		cnt++;
+	}
      
   </script>
 <body>
@@ -36,6 +42,16 @@
 				<td><input type=text
 					value="<fmt:formatDate value="${now}" />" disabled />
 				</td>
+			</tr>
+			<tr>
+				<td align="right">파일 첨부</td>
+				<td align="left"><input type="button" value="파일 추가"
+					onClick="fn_addFile()" /></td>
+
+
+			</tr>
+			<tr>
+				<td colspan="4"><div id="d_file"></div></td>
 			</tr>
 
 

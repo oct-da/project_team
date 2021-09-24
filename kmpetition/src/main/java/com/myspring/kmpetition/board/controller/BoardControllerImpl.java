@@ -70,14 +70,25 @@ public class BoardControllerImpl extends MainController implements BoardControll
 		return mav;
 	}
 
+//	@Override
+//	@RequestMapping(value = "/noticeDetail", method = RequestMethod.GET)
+//	public ModelAndView noticeDetail(@RequestParam("articleNO") int articleNO, HttpServletRequest request,
+//			HttpServletResponse response) throws Exception {
+//		String viewName = (String) request.getAttribute("viewName");
+//		ModelAndView mav = new ModelAndView(viewName);
+//		NoticeVO noticeVO = boardService.noticeDetail(articleNO);
+//		mav.addObject("noticeVO", noticeVO);
+//		return mav;
+//	}
+	
 	@Override
-	@RequestMapping(value = "/noticeDetail", method = RequestMethod.GET)
+	@RequestMapping(value = "/noticeDetail.do", method = RequestMethod.GET)
 	public ModelAndView noticeDetail(@RequestParam("articleNO") int articleNO, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
-		NoticeVO noticeVO = boardService.noticeDetail(articleNO);
-		mav.addObject("noticeVO", noticeVO);
+		Map noticeMap = boardService.noticeDetail(articleNO);
+		mav.addObject("noticeMap", noticeMap);
 		return mav;
 	}
 	
@@ -260,14 +271,7 @@ public class BoardControllerImpl extends MainController implements BoardControll
 		articleMap.put("delete", deleteList);
 		articleMap.put("upload", uploadList);
 		boardService.modArticle(articleMap);
-//				int artResult = (Integer) result.get("article");
-//				int delResult = (Integer) result.get("delete");
-//				int upResult = (Integer) result.get("upload");
-
-//				System.out.println(artResult + "개의 문의글이 수정되었습니다.");
-//				System.out.println(delResult + "개의 첨부파일이 삭제되었습니다.");
-//				System.out.println(upResult + "개의 첨부파일이 업로드되었습니다.");
-
+		
 		mav.setViewName("redirect:/board/boardDetail.do?articleNO=" + articleNO);
 		return mav;
 	}

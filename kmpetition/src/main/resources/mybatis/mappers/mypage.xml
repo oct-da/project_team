@@ -3,6 +3,13 @@
 
 <mapper namespace="mapper.mypage">
 
+<resultMap type="mypageVO" id="myResult">
+	<result property="viewdate" column="viewdate" />
+	<result property="title" column="title" />
+	<result property="no" column="no" />
+	<result property="rawdata" column="rawdata" />
+</resultMap>
+
 	<update id="updateMember" parameterType="memberVO">
 	<![CDATA[
 		update member 
@@ -30,4 +37,23 @@
 		]]>
 	</select>
 
+
+
+	<select id="myVisitSite" resultMap="myResult" parameterType="Map">
+		select history.viewdate, petition.title, petition.no, petitionraw.rawdata 
+		from history 
+		inner join petition on history.no = petition.no 
+		inner join petitionraw on petition.no = petitionraw.no 
+		where id = #{id}
+		order by viewdate desc;
+	</select>
+	
+	<select id="selectTotVisit" parameterType="String"
+		resultType="Integer">
+		<![CDATA[ 
+			select count(*)
+			from history
+			where id = #{id}
+		]]>
+	</select>
 </mapper>

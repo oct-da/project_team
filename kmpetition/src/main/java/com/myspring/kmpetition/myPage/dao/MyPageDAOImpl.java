@@ -36,4 +36,22 @@ public class MyPageDAOImpl implements MyPageDAO {
 	public int selectTotList(String member_id) throws DataAccessException {
 		return sqlSession.selectOne("mapper.mypage.selectTotList", member_id);
 	}	
+	
+	//글번호에 해당하는 게시글 상세 보기
+		@Override
+		public List selectId(Map pagingMap) throws Exception {
+			int section=(Integer)pagingMap.get("section");
+			int pageNum=(Integer)pagingMap.get("pageNum");
+			int startNum=(pageNum-1)*10+(section-1)*100;
+			pagingMap.put("startNum", startNum);
+
+			return sqlSession.selectList("mapper.mypage.myVisitSite", pagingMap);
+			
+		}
+		
+		@Override
+		public int selectTotVisit(String member_id) throws DataAccessException {
+			return sqlSession.selectOne("mapper.mypage.selectTotVisit", member_id);
+		}
+		
 }

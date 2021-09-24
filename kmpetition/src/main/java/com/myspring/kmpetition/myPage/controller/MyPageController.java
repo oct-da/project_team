@@ -19,5 +19,5 @@ public interface MyPageController {
 	public ModelAndView deleteMember(HttpServletRequest request, HttpServletResponse response) throws Exception ;
 	
 	public ModelAndView myList(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
+	public ModelAndView myVisitSite(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

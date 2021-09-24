@@ -121,6 +121,36 @@ public class MyPageControllerImpl extends MainController implements MyPageContro
 			return mav;
 	}
 
+	//글번호에 해당하는 게시글 상세 보기
+		@RequestMapping(value = "/myVisitSite.do", method = {RequestMethod.POST, RequestMethod.GET})
+		public ModelAndView myVisitSite(HttpServletRequest request, HttpServletResponse response) throws Exception { 
+
+			String viewName = (String) request.getAttribute("viewName");
+			HttpSession session = request.getSession();
+			MemberVO mem = (MemberVO) session.getAttribute("memberInfo");
+			String id = mem.getId();
+			
+			String _section = request.getParameter("section");
+			String _pageNum = request.getParameter("pageNum");
+			int section = Integer.parseInt(((_section == null) ? "1" : _section));
+			int pageNum = Integer.parseInt(((_pageNum == null) ? "1" : _pageNum));
+			Map pagingMap = new HashMap();
+			pagingMap.put("section", section);
+			pagingMap.put("pageNum", pageNum);
+			pagingMap.put("id", id);
+			
+			ModelAndView mav = new ModelAndView(viewName);
+			Map readContent = myPageService.readContent(pagingMap);
+			readContent.put("section", section);
+			readContent.put("pageNum", pageNum);
+			int startNum=(pageNum-1)*10+(section-1)*100;
+			readContent.put("startNum", startNum);
+			mav.addObject("readContent", readContent);
+			
+			
+			return mav;
+		}
+		
 	
 	
 }

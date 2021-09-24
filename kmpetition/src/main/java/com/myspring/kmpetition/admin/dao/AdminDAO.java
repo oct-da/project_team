@@ -37,6 +37,7 @@ public interface AdminDAO {
 
 	public void deleteReplyUpload(List<UploadVO> deleteList) throws DataAccessException;
 
+	public List<String> selectNoticeUploadList(int articleNO) throws DataAccessException;
 	public void deleteReply(int articleNO) throws DataAccessException;
 
 }

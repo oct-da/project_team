@@ -45,19 +45,20 @@ public class AdminServiceImpl implements AdminService {
 		memberMap.put("totMember", totMember);
 		return memberMap;
 	}
+	
+//	Notice 새글추가 메서드
 	@Override
 	public int maxNoticeNO() throws Exception {
 		return dao.selectMaxNoticeNO();
-		
 	}
-	
-//	Notice 새 글 추가
 	@Override
 	public void addNotice(Map noticeMap) throws Exception {
 		NoticeVO noticeVO = (NoticeVO) noticeMap.get("noticeVO");
 		List<UploadVO> uploadList = (ArrayList<UploadVO>) noticeMap.get("uploadList");
 		
 		dao.insertNotice(noticeVO);
+		System.out.println("insertNotice 완료");
+		
 		if(uploadList.size()!=0) {
 			System.out.println("파일리스트 개수 : "+uploadList.size());
 					
@@ -65,12 +66,17 @@ public class AdminServiceImpl implements AdminService {
 		}
 	}
 	
+	
 	@Override
 	public void modNotice(NoticeVO noticeVO) throws Exception {
 		dao.updateNotice(noticeVO);
 	}
 
 //	Notice 게시물 삭제
+//	CASCADE 설정을 해놔서 upload 테이블은 자동으로 삭제됨
+	public List<String> noticeUploadList(int articleNO) throws Exception  {
+		return dao.selectNoticeUploadList(articleNO);
+	}
 	@Override
 	public void removeNotice(int articleNO) throws Exception {
 		dao.deleteNotice(articleNO);

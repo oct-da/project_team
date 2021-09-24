@@ -7,4 +7,5 @@ import com.myspring.kmpetition.member.vo.MemberVO;
 public interface MyPageService {
 	public void modMember(MemberVO _memberVO) throws Exception;
 	public Map viewList(Map pagingMap) throws Exception;
+	public Map readContent(Map pagingMap) throws Exception;
 }

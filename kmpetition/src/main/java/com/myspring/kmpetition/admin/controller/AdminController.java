@@ -19,7 +19,7 @@ public interface AdminController {
 	public ModelAndView addNotice(@RequestParam Map articleMap, MultipartHttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView modNotice(@RequestParam NoticeVO noticeVO, HttpServletRequest request, HttpServletResponse response)
 			throws Exception ;
-	public ModelAndView removeNotice(@RequestParam("articleNO") int articleNO,HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public String removeNotice(@RequestParam("articleNO") int articleNO,HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView dataPreview(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 
