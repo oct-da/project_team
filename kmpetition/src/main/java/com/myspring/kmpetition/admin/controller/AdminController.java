@@ -1,5 +1,7 @@
 package com.myspring.kmpetition.admin.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,7 +16,7 @@ import com.myspring.kmpetition.board.vo.ReplyVO;
 
 public interface AdminController {
 	public ModelAndView memberList(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ModelAndView addNotice(@ModelAttribute("noticeVO") NoticeVO noticeVO, MultipartHttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView addNotice(@RequestParam Map articleMap, MultipartHttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView modNotice(@RequestParam NoticeVO noticeVO, HttpServletRequest request, HttpServletResponse response)
 			throws Exception ;
 	public ModelAndView removeNotice(@RequestParam("articleNO") int articleNO,HttpServletRequest request, HttpServletResponse response) throws Exception;

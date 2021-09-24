@@ -1,0 +1,637 @@
+@charset "utf-8";
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+li {
+    list-style: none;
+}
+
+.wrap {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #0670D9;
+    font-size: 2em;
+}
+
+/* join 관련 */
+.join {
+    width: 450px;
+    height: 700px;
+    background: white;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.join_id {
+    margin-top: 20px;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.join_id input {
+    width: 250px;
+    height: 50px;
+    margin-right: 8px;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+}
+
+.join_id idCheckBtn {
+    width: 100px;
+    padding: 0;
+}
+
+.join_pw {
+    margin-top: 5px;
+    width: 80%;
+}
+
+.join_pw input {
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 5px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+}
+
+.join_pw_cnfm {
+    margin-top: 5px;
+    width: 80%;
+}
+
+.join_pw_cnfm input {
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 5px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+}
+
+.join_name {
+    margin-top: 5px;
+    width: 80%;
+}
+
+.join_name input {
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 5px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+}
+
+.join_email {
+    margin-top: 5px;
+    width: 80%;
+}
+
+.join_email input {
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 5px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+}
+
+.join_num {
+    margin-top: 5px;
+    width: 80%;
+}
+
+.join_num input {
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 5px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+}
+
+.join_etc {
+    padding: 10px;
+    width: 80%;
+    font-size: 14px;
+    display: block;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+
+.submit1 {
+    margin-top: 10px;
+    width: 80%;
+}
+
+.submit1 input {
+    width: 100%;
+    height: 50px;
+    border: 0;
+    outline: none;
+    border-radius: 10px;
+    background: #0670D9;
+    color: white;
+    font-size: 1.2em;
+}
+
+/* login 관련 */
+.login {
+    width: 450px;
+    height: 420px;
+    background: white;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.login_id {
+    margin-top: 20px;
+    width: 80%;
+}
+
+.login_id input {
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+}
+
+.login_pw {
+    margin-top: 5px;
+    width: 80%;
+}
+
+.login_pw input {
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 5px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+}
+
+.login_etc {
+    padding: 10px;
+    width: 80%;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+
+.submit2 {
+    margin-top: 10px;
+    width: 80%;
+}
+
+.submit2 input {
+    width: 100%;
+    height: 50px;
+    border: 0;
+    outline: none;
+    border-radius: 10px;
+    background: #0670D9;
+    color: white;
+    font-size: 1.2em;
+}
+
+/* find_id 관련 */
+.findId {
+    width: 450px;
+    height: 400px;
+    background: white;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.find_name1 {
+    margin-top: 20px;
+    width: 80%;
+}
+
+.find_name1 input {
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+}
+
+.find_email1 {
+    margin-top: 5px;
+    width: 80%;
+}
+
+.find_email1 input {
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 5px;
+    margin-bottom: 25px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+}
+
+.submit3 {
+    margin-top: 10px;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#findIdCnfm {
+    width: 100px;
+    height: 50px;
+    border: 0;
+    outline: none;
+    border-radius: 10px;
+    background: #0670D9;
+    color: white;
+    font-size: 1.2em;
+}
+
+#goMain {
+    width: 250px;
+    height: 50px;
+    border: 0;
+    outline: none;
+    border-radius: 10px;
+    background: #999999;
+    color: white;
+    font-size: 1.2em;
+}
+
+/* found_id 관련 */
+.foundId {
+    width: 450px;
+    height: 350px;
+    background: white;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.foundId .info p {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-justify: center;
+}
+
+.submit4 {
+    margin-top: 10px;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#goFindPw {
+    width: 250px;
+    height: 50px;
+    border: 0;
+    border-radius: 10px;
+    background: #999999;
+    color: white;
+    font-size: 1.2em;
+}
+
+#goLogin {
+    width: 100px;
+    height: 50px;
+    border: 0;
+    outline: none;
+    border-radius: 10px;
+    background: #0670D9;
+    color: white;
+    font-size: 1.2em;
+}
+
+/* find_pw 관련 */
+.findPw {
+    width: 450px;
+    height: 480px;
+    background: white;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.find_id {
+    margin-top: 20px;
+    width: 80%;
+}
+
+.find_id input {
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+}
+
+.find_name2 {
+    margin-top: 5px;
+    width: 80%;
+}
+
+.find_name2 input {
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 5px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+}
+
+.find_email2 {
+    margin-top: 5px;
+    width: 80%;
+}
+.find_email2 input {
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 5px;
+    margin-bottom: 25px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+}
+
+.submit5 {
+    margin-top: 10px;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#findPwCnfm {
+    width: 100px;
+    height: 50px;
+    border: 0;
+    outline: none;
+    border-radius: 10px;
+    background: #0670D9;
+    color: white;
+    font-size: 1.2em;
+}
+
+#goMain {
+    width: 250px;
+    height: 50px;
+    border: 0;
+    outline: none;
+    border-radius: 10px;
+    background: #999999;
+    color: white;
+    font-size: 1.2em;
+}
+
+/* change_pw 관련 */
+.changePw {
+    width: 450px;
+    height: 450px;
+    background: white;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.new_pw {
+    margin-top: 20px;
+    width: 80%;
+}
+
+.new_pw input {
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+}
+
+.new_pw_re {
+    margin-top: 5px;
+    width: 80%;
+}
+
+.new_pw_re input {
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 5px;
+    margin-bottom: 25px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+}
+
+.submit6 {
+    margin-top: 10px;
+    width: 80%;
+
+}
+
+#findCnfm {
+    width: 100%;
+    height: 50px;
+    border: 0;
+    outline: none;
+    border-radius: 10px;
+    background: #0670D9;
+    color: white;
+    font-size: 1.2em;
+}
+
+/* login_dormant 관련 */
+.wrap {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.dormNotice {
+    width: 450px;
+    height: 500px;
+    background: white;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.dormNotice .info {
+    margin-top: 20px;
+    width: 80%;
+    text-justify: auto;
+}
+
+.submit7, .submit8 {
+    margin-top: 10px;
+    width: 80%;
+}
+
+.submit7 input {
+    width: 100%;
+    height: 50px;
+    border: 0;
+    outline: none;
+    border-radius: 10px;
+    background: #0670D9;
+    color: white;
+    font-size: 1.2em;
+}
+
+.submit8 input {
+    width: 100%;
+    height: 50px;
+    border: 0;
+    outline: none;
+    border-radius: 10px;
+    background: #999999;
+    color: white;
+    font-size: 1.2em;
+}
+
+/* awake_id 관련 */
+.awakeId {
+    width: 450px;
+    height: 550px;
+    background: white;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.awake_id {
+    margin-top: 20px;
+    width: 80%;
+}
+
+.awake_id input {
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+}
+
+.awake_pw {
+    margin-top: 5px;
+    width: 80%;
+}
+
+.awake_pw input {
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 5px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+}
+
+.awake_name {
+    margin-top: 5px;
+    width: 80%;
+}
+
+.awake_name input {
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 5px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+}
+
+.awake_email {
+    margin-top: 5px;
+    width: 80%;
+}
+
+.awake_email input {
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 5px;
+    margin-bottom: 25px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+}
+
+.submit9 {
+    margin-top: 10px;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#awakeCnfm {
+    width: 100px;
+    height: 50px;
+    border: 0;
+    outline: none;
+    border-radius: 10px;
+    background: #0670D9;
+    color: white;
+    font-size: 1.2em;
+}
+
+#goMain {
+    width: 250px;
+    height: 50px;
+    border: 0;
+    outline: none;
+    border-radius: 10px;
+    background: #999999;
+    color: white;
+    font-size: 1.2em;
+}

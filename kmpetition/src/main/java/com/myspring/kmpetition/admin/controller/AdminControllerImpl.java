@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myspring.kmpetition.admin.service.AdminService;
+import com.myspring.kmpetition.board.vo.BoardVO;
 import com.myspring.kmpetition.board.vo.NoticeVO;
 import com.myspring.kmpetition.board.vo.ReplyVO;
 import com.myspring.kmpetition.board.vo.UploadVO;
@@ -73,26 +74,41 @@ public class AdminControllerImpl extends MainController implements AdminControll
 
 	@Override
 	@RequestMapping(value = "/addNotice.do", method = RequestMethod.POST)
-	public ModelAndView addNotice(@ModelAttribute("noticeVO") NoticeVO noticeVO, MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView addNotice(@RequestParam Map articleMap, MultipartHttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		HttpSession session = request.getSession();
 		
-		ModelAndView mav=new ModelAndView();
-		HttpSession session=request.getSession();
-		
-		if((boolean)session.getAttribute("isAdmin")==true) {
-			try{
-				adminService.addNotice(noticeVO);
-				mav.setViewName("redirect:/board/noticeList.do");
-			}catch (Exception e) {
-				e.printStackTrace();
-				String message="잘못된 요청입니다.";
-				mav.addObject("errMsg",message);
-				mav.setViewName("/admin/noticeForm");
-			}
-			
-		}else {
-			String message="잘못된 요청입니다.";
-			mav.addObject("errMsg",message);
-			mav.setViewName("/board/noticeList");
+		NoticeVO noticeVO=new NoticeVO();
+		int articleNO = adminService.maxNoticeNO() + 1;
+		noticeVO.setArticleNO(articleNO);
+		noticeVO.setTitle((String) articleMap.get("title"));
+		noticeVO.setContent((String) articleMap.get("content"));
+
+//		createdate는 매퍼에서 crudate()로 들어가니까 생략.
+
+		// 파일 업로드 이후 DB에 등록할 목록 생성. MainController에 있는 메서드 활용.
+//		add로 첫생성하는 레코드이므로 nameList는 null로 보내기. 
+		List<UploadVO> uploadList = uploadFile(articleNO, null, request);
+
+		// 데이터 베이스에 문의글/첨부파일 정보 입력하기
+		Map addArticleMap = new HashMap();
+		addArticleMap.put("noticeVO", noticeVO);
+		addArticleMap.put("uploadList", uploadList);
+
+		try {
+			adminService.addNotice(addArticleMap);
+
+			String msg = "공지사항 등록 완료";
+			System.out.println(msg);
+			mav.addObject("msg", msg);
+			mav.setViewName("redirect:/board/noticeDetail.do?articleNO=" + articleNO);
+		} catch (Exception e) {
+			e.printStackTrace();
+			String errMsg = "게시글 등록 중 오류 발생";
+			System.out.println(errMsg);
+			mav.addObject("errMsg", errMsg);
+			mav.setViewName("redirect:/admin/noticeForm.do");
 		}
 		return mav;
 	}

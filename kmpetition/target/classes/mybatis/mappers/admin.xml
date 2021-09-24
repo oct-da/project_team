@@ -41,11 +41,24 @@
 		]]>
 	</select>
 	
+	<select id="selectMaxNoticeNO" resultType="Integer">
+		<![CDATA[ 
+			select max(articleNO) from notice 
+		]]>
+	</select>
+	
 	<insert id="insertNotice" parameterType="noticeVO">
 		<![CDATA[ 
 			insert into notice(title, content, createdate) 
 			values(#{title}, #{content}, curtime()) 
 		]]>
+	</insert>
+	<insert id="insertNoticeUpload" parameterType="java.util.Map">
+		insert into NOTICEUPLOAD(articleNO, uploadfile) 
+		VALUES 
+		<foreach collection="list" item="item" separator=", " >
+			(#{articleNO}, #{uploadfile})
+		</foreach>
 	</insert>
 	
 	<delete id="deleteNotice" parameterType="Integer">

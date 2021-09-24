@@ -45,6 +45,7 @@ public class BoardDAOImpl implements BoardDAO{
 		return noticeVO;
 	}
 
+	/* 공지사항 추가, 삭제, 수정은 admin에서 */
 
 	
 //	------------------1:1문의게시판-----------------

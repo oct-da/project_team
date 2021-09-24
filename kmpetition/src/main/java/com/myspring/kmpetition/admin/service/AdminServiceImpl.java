@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.myspring.kmpetition.admin.dao.AdminDAO;
+import com.myspring.kmpetition.board.vo.BoardVO;
 import com.myspring.kmpetition.board.vo.NoticeVO;
 import com.myspring.kmpetition.board.vo.ReplyVO;
 import com.myspring.kmpetition.board.vo.UploadVO;
@@ -44,11 +45,24 @@ public class AdminServiceImpl implements AdminService {
 		memberMap.put("totMember", totMember);
 		return memberMap;
 	}
-
+	@Override
+	public int maxNoticeNO() throws Exception {
+		return dao.selectMaxNoticeNO();
+		
+	}
+	
 //	Notice 새 글 추가
 	@Override
-	public void addNotice(NoticeVO noticeVO) throws Exception {
+	public void addNotice(Map noticeMap) throws Exception {
+		NoticeVO noticeVO = (NoticeVO) noticeMap.get("noticeVO");
+		List<UploadVO> uploadList = (ArrayList<UploadVO>) noticeMap.get("uploadList");
+		
 		dao.insertNotice(noticeVO);
+		if(uploadList.size()!=0) {
+			System.out.println("파일리스트 개수 : "+uploadList.size());
+					
+			dao.insertNoticeUpload(uploadList);
+		}
 	}
 	
 	@Override

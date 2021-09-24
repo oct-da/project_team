@@ -16,7 +16,9 @@ public interface AdminDAO {
 
 	public int selectTotMember() throws DataAccessException;
 
+	public int selectMaxNoticeNO() throws DataAccessException;
 	public void insertNotice(NoticeVO noticeVO) throws DataAccessException;
+	public void insertNoticeUpload(List<UploadVO> uploadList) throws DataAccessException;
 	
 	public void updateNotice(NoticeVO noticeVO) throws DataAccessException;
 

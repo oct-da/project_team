@@ -9,7 +9,8 @@ import com.myspring.kmpetition.member.vo.MemberVO;
 public interface AdminService {
 	public Map memberList(Map<String, Integer> pagingMap) throws Exception;
 
-	public void addNotice(NoticeVO noticeVO) throws Exception;
+	public int maxNoticeNO() throws Exception;
+	public void addNotice(Map noticeMap) throws Exception;
 	
 	public void modNotice(NoticeVO noticeVO) throws Exception;
 

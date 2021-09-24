@@ -33,11 +33,20 @@ public class AdminDAOImpl implements AdminDAO{
 		return sqlSession.selectOne("mapper.admin.selectTotMember");
 	}
 
+//	공지사항 추가 관련 메서드
+	public int selectMaxNoticeNO() throws DataAccessException{
+		return sqlSession.selectOne("mapper.admin.selectMaxNoticeNO");
+	}
 	@Override
 	public void insertNotice(NoticeVO noticeVO) throws DataAccessException {
 		sqlSession.insert("mapper.admin.insertNotice", noticeVO);
 		
 	}
+	public void insertNoticeUpload(List<UploadVO> uploadList) throws DataAccessException{
+		sqlSession.insert("mapper.upload.insertNoticeUpload", uploadList);
+	}
+	
+	
 	
 	@Override
 	public void updateNotice(NoticeVO noticeVO) throws DataAccessException {
