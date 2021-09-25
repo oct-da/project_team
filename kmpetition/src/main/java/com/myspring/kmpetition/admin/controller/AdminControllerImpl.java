@@ -114,22 +114,87 @@ public class AdminControllerImpl extends MainController implements AdminControll
 		return mav;
 	}
 
-//	첨부기능 고려해서 수정하기
-	public ModelAndView modNotice(@RequestParam NoticeVO noticeVO, HttpServletRequest request,
+	// 문의글 수정 페이지
+		@Override
+		@RequestMapping(value = "/modNoticeForm.do", method = { RequestMethod.GET, RequestMethod.POST })
+		public ModelAndView modNoticeForm(@RequestParam(value = "articleNO") int articleNO, HttpServletRequest request,
+				HttpServletResponse response) throws Exception{
+			System.out.println("modArticleForm.do 진입");
+			System.out.println(articleNO);
+			String viewName = (String)request.getAttribute("viewName");
+			ModelAndView mav = new ModelAndView(viewName);
+			
+			HttpSession session = request.getSession();
+			String id = (String) session.getAttribute("id");
+			
+//			글작성자와 로그인한 회원 ID가 동일한지 체크는 뷰에서.
+			
+			Map articleMap=adminService.noticeDetail(articleNO);
+			
+			NoticeVO article=(NoticeVO) articleMap.get("noticeVO");
+			article.setArticleNO(articleNO);
+			articleMap.put("article", article);
+			
+			mav.addObject("articleMap", articleMap);
+			return mav;
+		}
+		
+	@Override
+	@RequestMapping(value = "/modNotice.do", method = {RequestMethod.PUT, RequestMethod.POST})
+	public ModelAndView modNotice(@RequestParam Map modMap, MultipartHttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		int articleNO = noticeVO.getArticleNO();
+		HttpSession session = request.getSession();
+		String id = (String) session.getAttribute("id");
+		String articleNOStr=(String) modMap.get("articleNO");
+		int articleNO= Integer.parseInt(articleNOStr);
+		
+//		수정/삭제 파일의 제거 작업
+		String[] removeStr=request.getParameterValues("removeList");
+		List<String> removeList=new ArrayList<String>();
+		System.out.println("제거리스트 생성시작");
+		if(removeStr!=null) {
+			for (String str : removeStr) {
+				removeList.add(str);
+				System.out.println(str);
+			}
+		}
+		List<UploadVO> deleteList = deleteFile(removeList);
+				
+//		수정/추가 파일 업로드 작업
+		System.out.println("기존파일리스트 생성시작");
+		String[] attach=request.getParameterValues("attachName");
+		List<String> attachName=new ArrayList<String>();
+		if(attach!=null) {
+			for (String str : attach) {
+				attachName.add(str);
+				System.out.println(str);
+			}
+		}
+		List<UploadVO> uploadList = uploadFile(articleNO, attachName, request);
 
-		adminService.modNotice(noticeVO);
+//		들어온 데이터로 boardVO 세팅
+		NoticeVO article=new NoticeVO();
+		String title = (String) modMap.get("title");
+		String content = (String) modMap.get("content");
+		article.setTitle(title);
+		article.setContent(content);
 
-		mav.setViewName("redirect:/board/noticeDetail?articleNO=" + articleNO);
+		// DB 반영
+		Map articleMap = new HashMap();
+		articleMap.put("article", article);
+		articleMap.put("delete", deleteList);
+		articleMap.put("upload", uploadList);
+		adminService.modNotice(articleMap);
+		
+		mav.setViewName("redirect:/board/noticeDetail.do?articleNO=" + articleNO);
 		return mav;
-
+	
 	}
 
 //	수정 고려해서 재작성
 	@Override
-	@RequestMapping(value = "/addNotice.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/removeNotice.do", method = RequestMethod.GET)
 	public String removeNotice(@RequestParam("articleNO") int articleNO, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		// 로컬에 저장된 첨부파일 삭제
@@ -139,7 +204,7 @@ public class AdminControllerImpl extends MainController implements AdminControll
 		// DB에 저장된 게시글과 답글, 첨부파일 삭제
 		adminService.removeNotice(articleNO);
 
-		return "redirect:/main.html";
+		return "redirect:/board/noticeList.do";
 	}
 
 	@Override

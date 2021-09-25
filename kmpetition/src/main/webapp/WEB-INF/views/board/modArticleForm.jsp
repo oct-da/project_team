@@ -23,22 +23,28 @@
 	}
 	
 	
-	function fileDelete(fileName) {
+	function fileDelete(id, fileName, fileId) {
+		var file=document.getElementById(fileId);
+		file.setAttribute("name", "removeList");
+		/* 
 		$("#d_file")
-		.append("<br>" + "<input type='hidden' name='removeList' value='"+fileName+"'/>");
+		.append("<input type='hidden' name='removeList' value='"+fileName+"'/>");
+		 */
+		$("#"+id).hide();
 		
 	}
 </script>
 
 
 <body>
-	<form method="post" action="${contextPath}/board/modBoard.do"
+	<form method="post" action="${contextPath}/board/modArticle.do"
 		enctype="multipart/form-data">
 		<table border=0 align="center">
 <tr>
 				<td width="150" align="center" bgcolor="#FF9933">작성자</td>
 				<td><input type=text name="v_id" id="id" value=${memberInfo.id } disabled/></td>
 				<input type="hidden" name="id" value=${memberInfo.id }>
+				<input type="hidden" name="articleNO" value=${article.articleNO }>
 			</tr>
 
 			<tr>
@@ -60,10 +66,10 @@
 				<td width="150" align="center" bgcolor="#FF9933">첨부파일</td>
 				<td>
 				<c:forEach var="file" items="${uploadList }" varStatus="num">
-				<div id="file+${num.count }">
-					${file.uploadfile }		
+				<div id="file${num.count }">
+					<input type="text" value="${file.uploadfile }" name="attachName" id="${num.count }" >		
 					<input type="button" value="파일다운로드" onClick="fileDownload('${contextPath }/downloadFile.do','${file.uploadfile }')"/></br>  
-					<input type="button" value="파일삭제" onClick="fileDelete('${file.uploadfile }')"/></br>
+					<input type="button" value="파일삭제" onClick="fileDelete('file${num.count }', '${file.uploadfile }', '${num.count }')"/></br>
 				</div>
 				</c:forEach>
 				</td>

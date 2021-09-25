@@ -70,16 +70,6 @@ public class BoardControllerImpl extends MainController implements BoardControll
 		return mav;
 	}
 
-//	@Override
-//	@RequestMapping(value = "/noticeDetail", method = RequestMethod.GET)
-//	public ModelAndView noticeDetail(@RequestParam("articleNO") int articleNO, HttpServletRequest request,
-//			HttpServletResponse response) throws Exception {
-//		String viewName = (String) request.getAttribute("viewName");
-//		ModelAndView mav = new ModelAndView(viewName);
-//		NoticeVO noticeVO = boardService.noticeDetail(articleNO);
-//		mav.addObject("noticeVO", noticeVO);
-//		return mav;
-//	}
 	
 	@Override
 	@RequestMapping(value = "/noticeDetail.do", method = RequestMethod.GET)
@@ -215,25 +205,24 @@ public class BoardControllerImpl extends MainController implements BoardControll
 
 	// 문의글 수정 페이지
 	@Override
-	@RequestMapping(value = "/modArticleForm.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/modArticleForm.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView modArticleForm(@RequestParam(value = "articleNO") int articleNO, HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
-		System.out.println("modArticleForm.do 진입");
+//		System.out.println("modArticleForm.do 진입");
+		
 		String viewName = (String)request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
 		
 		HttpSession session = request.getSession();
 		String id = (String) session.getAttribute("id");
-
-		Map articleMap=boardService.articleDetail(articleNO);
 		
 //		글작성자와 로그인한 회원 ID가 동일한지 체크는 뷰에서.
+		
+		Map articleMap=boardService.articleDetail(articleNO);
+		
 		BoardVO article=(BoardVO) articleMap.get("boardVO");
 		article.setArticleNO(articleNO);
 		article.setId(id);
-		
-		System.out.println("content : ");
-		System.out.println(article.getContent());
 		
 		articleMap.remove("boardVO");
 		articleMap.put("article", article);
@@ -245,26 +234,51 @@ public class BoardControllerImpl extends MainController implements BoardControll
 
 	@Override
 	@RequestMapping(value = "/modArticle.do", method = {RequestMethod.PUT, RequestMethod.POST})
-	public ModelAndView modBoard(@ModelAttribute("article") BoardVO article, MultipartHttpServletRequest request,
+	public ModelAndView modBoard(@RequestParam Map modMap, MultipartHttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		HttpSession session = request.getSession();
+		String id = (String) session.getAttribute("id");
+		String articleNOStr=(String) modMap.get("articleNO");
+		int articleNO= Integer.parseInt(articleNOStr);
 		
-//		List<String> removeList = (ArrayList<String>) session.getAttribute("deleteList");
+//		수정/삭제 파일의 제거 작업
 		String[] removeStr=request.getParameterValues("removeList");
 		List<String> removeList=new ArrayList<String>();
-		for (String str : removeStr) {
-			removeList.add(str);
+		System.out.println("제거리스트 생성시작");
+		if(removeStr!=null) {
+			for (String str : removeStr) {
+				removeList.add(str);
+				System.out.println(str);
+			}
 		}
-		
-		int articleNO = article.getArticleNO();
-		// 삭제/수정 파일의 로컬 첨부파일 삭제
 		List<UploadVO> deleteList = deleteFile(removeList);
+				
+//		수정/추가 파일 업로드 작업
+		System.out.println("기존파일리스트 생성시작");
+		String[] attach=request.getParameterValues("attachName");
+		List<String> attachName=new ArrayList<String>();
+		if(attach!=null) {
+			for (String str : attach) {
+				attachName.add(str);
+				System.out.println(str);
+			}
+		}
+		List<UploadVO> uploadList = uploadFile(articleNO, attachName, request);
 
-		// 수정, 추가 파일의 업로드
-		List<String> nameList = boardService.articleUploadList(articleNO);
-		List<UploadVO> uploadList = uploadFile(articleNO, nameList, request);
-		
+//		들어온 데이터로 boardVO 세팅
+		BoardVO article=new BoardVO();
+		String title = (String) modMap.get("title");
+		String content = (String) modMap.get("content");
+		article.setTitle(title);
+		article.setContent(content);
+		article.setId(id);
+		if (modMap.get("visible").equals("on")) {
+			article.setVisible(true);
+		}else {
+			article.setVisible(false);
+		}
+
 		// DB 반영
 		Map articleMap = new HashMap();
 		articleMap.put("article", article);
@@ -277,6 +291,7 @@ public class BoardControllerImpl extends MainController implements BoardControll
 	}
 
 	@Override
+	@RequestMapping(value = "/removeBoard.do", method = {RequestMethod.PUT,RequestMethod.GET})
 	public String removeBoard(@RequestParam("articleNO") int articleNO, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		// 로컬에 저장된 첨부파일 삭제
@@ -289,7 +304,7 @@ public class BoardControllerImpl extends MainController implements BoardControll
 		int result = boardService.removeArticle(articleNO);
 		System.out.println(result + "개의 글이 삭제되었습니다.");
 
-		return "redirect:/main.html";
+		return "redirect:/board/boardList.do";
 	}
 
 	@RequestMapping(value = "/search.do", method = { RequestMethod.GET, RequestMethod.POST })

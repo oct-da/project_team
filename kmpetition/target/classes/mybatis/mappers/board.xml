@@ -157,10 +157,11 @@
 	</insert>-->
 	<update id="updateArticle" parameterType="boardVO">
 		update BOARD
-		set TITLE=#{title}, CONTENT=#{content}, #{visible}
+		set TITLE=#{title}, CONTENT=#{content}, visible=#{visible}
 		where ARTICLENO=#{articleNO}
-		and REPLY=FALSE
+				and REPLY=FALSE
 	</update>
+	
 	
 	<delete id="deleteArticle" parameterType="int">
 		delete from BOARD

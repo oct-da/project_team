@@ -48,12 +48,24 @@ public class AdminDAOImpl implements AdminDAO{
 		sqlSession.insert("mapper.upload.insertNoticeUpload", uploadList);
 	}
 	
+//	공지사항 수정 관련 메서드
+	@Override
+	public NoticeVO selectNotice(int articleNO) throws DataAccessException{
+		return sqlSession.selectOne("mapper.board.selectNotice", articleNO);
+	}
+	@Override
+	public List selectNoticeFile(int articleNO) throws DataAccessException{
+		return sqlSession.selectList("mapper.upload.selectNoticeUploadList", articleNO);
+	}
+	
 	
 	
 	@Override
 	public void updateNotice(NoticeVO noticeVO) throws DataAccessException {
 		sqlSession.insert("mapper.admin.updateNotice", noticeVO);
-		
+	}
+	public void deleteArticleUpload(List<UploadVO> deleteList) throws DataAccessException{
+		sqlSession.delete("mapper.upload.deleteNoticeUpload", deleteList);
 	}
 
 	@Override

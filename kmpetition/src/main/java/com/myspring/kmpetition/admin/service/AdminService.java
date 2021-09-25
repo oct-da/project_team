@@ -12,7 +12,9 @@ public interface AdminService {
 	public int maxNoticeNO() throws Exception;
 	public void addNotice(Map noticeMap) throws Exception;
 	
-	public void modNotice(NoticeVO noticeVO) throws Exception;
+	public Map noticeDetail(int articleNO) throws Exception ;
+	
+	public void modNotice(Map modMap) throws Exception;
 
 	public void removeNotice(int articleNO) throws Exception;
 

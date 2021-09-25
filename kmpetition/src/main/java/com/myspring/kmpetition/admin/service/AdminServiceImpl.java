@@ -1,6 +1,7 @@
 package com.myspring.kmpetition.admin.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -65,11 +66,33 @@ public class AdminServiceImpl implements AdminService {
 			dao.insertNoticeUpload(uploadList);
 		}
 	}
-	
-	
 	@Override
-	public void modNotice(NoticeVO noticeVO) throws Exception {
-		dao.updateNotice(noticeVO);
+	public Map noticeDetail(int articleNO) throws Exception {
+		NoticeVO bvo = dao.selectNotice(articleNO);
+		List<String> uploadList = dao.selectNoticeUploadList(articleNO);
+
+		Map articleMap = new HashMap();
+		articleMap.put("noticeVO", bvo);
+		articleMap.put("uploadList", uploadList);
+
+		return articleMap;
+	}
+	@Override
+	public void modNotice(Map modMap) throws Exception {
+
+		NoticeVO articleVO = (NoticeVO) modMap.get("article");
+		List<UploadVO> deleteList = (ArrayList<UploadVO>) modMap.get("delete");
+		List<UploadVO> uploadList = (ArrayList<UploadVO>) modMap.get("upload");
+
+		// DB 반영
+		dao.updateNotice(articleVO);
+//		첨부파일 다 삭제해서 수정했을 때 에러 픽스해야됨
+		if(deleteList.size()!=0 && deleteList !=null) {
+			dao.deleteArticleUpload(deleteList);
+		}
+		if(uploadList.size()!=0 && uploadList!=null) {
+			dao.insertNoticeUpload(uploadList);
+		}
 	}
 
 //	Notice 게시물 삭제

@@ -90,7 +90,7 @@
 			<tr id="tr_btn">
 				<td colspan="2" align="center"><c:if test="${isAdmin==true }">
 						<td><input type=button value="수정하기"
-					onClick="modArticle('${boardVO.articleNO}')"></td>
+					onClick="modArticle('${noticeVO.articleNO}')"></td>
 					<input type=button value="삭제하기" onClick="fn_delete(this.form)">  
 					</c:if> 
 					<input type=button value="리스트로 돌아가기" onClick="backToList(this.form)">

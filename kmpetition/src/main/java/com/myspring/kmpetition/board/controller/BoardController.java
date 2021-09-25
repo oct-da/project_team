@@ -28,8 +28,8 @@ public interface BoardController {
 	public ModelAndView modArticleForm(@RequestParam(value = "articleNO") int articleNO, HttpServletRequest request,
 			HttpServletResponse response) throws Exception;
 //	이건 게시글에 hidden 태그로 boolean 타입의 reply 데이터를 넣어두고 자바스크립트로 미리 판단해서 보내주기
-	public ModelAndView modBoard(@ModelAttribute("article") BoardVO article, MultipartHttpServletRequest request,
-			HttpServletResponse response) throws Exception;
+	public ModelAndView modBoard(@RequestParam Map modMap, MultipartHttpServletRequest request,
+			HttpServletResponse response) throws Exception ;
 	public String  removeBoard(@RequestParam("articleNO") int articleNO, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 //	검색 메서드

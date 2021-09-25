@@ -59,6 +59,15 @@
 	</insert>
 	
 	
+	
+	<select id="selectNotice" parameterType="Integer" resultMap="noticeResult">
+		<![CDATA[ 
+			select * from notice 
+			where articleNO=#{articleNO}  
+		]]>
+	</select>
+	
+	
 	<delete id="deleteNotice" parameterType="Integer">
 		<![CDATA[ 
 			delete from notice 
@@ -120,6 +129,7 @@
 			)
 			
 		</delete>
+		
 		
 		<delete id="deleteReply" parameterType="int">
 			delete from REPLY

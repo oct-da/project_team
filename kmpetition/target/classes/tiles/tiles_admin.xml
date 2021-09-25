@@ -12,6 +12,10 @@
          <put-attribute name="title" value="관리자페이지_전체회원조회" />
          <put-attribute name="body" value="/WEB-INF/views/admin/noticeForm.jsp" />
       </definition> 
+      <definition name="/admin/modNoticeForm" extends="baseLayout">
+         <put-attribute name="title" value="공지사항 수정 페이지" />
+         <put-attribute name="body" value="/WEB-INF/views/admin/modNoticeForm.jsp" />
+      </definition>  
       <definition name="/admin/replyForm" extends="baseLayout">
          <put-attribute name="title" value="답글달기 페이지" />
          <put-attribute name="body" value="/WEB-INF/views/admin/replyForm.jsp" />

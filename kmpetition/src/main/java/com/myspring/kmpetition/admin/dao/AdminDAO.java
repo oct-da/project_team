@@ -20,7 +20,12 @@ public interface AdminDAO {
 	public void insertNotice(NoticeVO noticeVO) throws DataAccessException;
 	public void insertNoticeUpload(List<UploadVO> uploadList) throws DataAccessException;
 	
+	public NoticeVO selectNotice(int articleNO) throws DataAccessException;
+	public List selectNoticeFile(int articleNO) throws DataAccessException;
+	
+	
 	public void updateNotice(NoticeVO noticeVO) throws DataAccessException;
+	public void deleteArticleUpload(List<UploadVO> deleteList) throws DataAccessException;
 
 	public void deleteNotice(int articleNO) throws DataAccessException;
 

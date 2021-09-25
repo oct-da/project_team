@@ -85,16 +85,11 @@ public class BoardDAOImpl implements BoardDAO {
 
 	@Override
 	public List<UploadVO> selectReplyFile(int articleNO) throws DataAccessException {
-		// TODO Auto-generated method stub
 		return sqlSession.selectList("mapper.board.selectReplyFile", articleNO);
 	}
 
 	@Override
 	public void insertBoard(BoardVO boardVO) throws DataAccessException {
-		System.out.println(boardVO.getId());
-		System.out.println(boardVO.getTitle());
-		System.out.println(boardVO.getContent());
-
 		sqlSession.insert("mapper.board.insertArticle", boardVO);
 
 	}
@@ -116,26 +111,25 @@ public class BoardDAOImpl implements BoardDAO {
 		return sqlSession.selectList("mapper.upload.selectReplyUploadList", articleNO);
 	}
 
+	/* modArticle 관련 메서드 */
 	@Override
 	public void insertArticleUpload(List<UploadVO> uploadList) throws DataAccessException {
 		sqlSession.insert("mapper.upload.insertArticleUpload", uploadList);
 	}
-
+	@Override
 	public void updateBoard(BoardVO articleVO) throws DataAccessException {
 		sqlSession.update("mapper.board.updateArticle", articleVO);
-
 	}
-
+	
 	@Override
 	public int deleteBoard(int articleNO) throws DataAccessException {
 		int i = sqlSession.delete("mapper.board.deleteArticle", articleNO);
 		return i;
-
 	}
 
 	// 문의글 첨부파일 수정(삭제)
+	@Override
 	public void deleteArticleUpload(List<UploadVO> deleteList) throws DataAccessException {
-
 		sqlSession.delete("mapper.upload.deleteArticleUpload", deleteList);
 	}
 

@@ -27,7 +27,7 @@
 		enctype="multipart/form-data">
 		<table border=0 align="center">
 				<td width="150" align="center" bgcolor="#FF9933">본문 글번호</td>
-				<td><input type=text name="articleNO" value="${articleNO }" /></td>
+				<td><input type=text name="articleNO" value="${articleNO }"  readonly="readonly"></td>
 
 			<tr>
 				<td width="150" align="center" bgcolor="#FF9933">제목</td>

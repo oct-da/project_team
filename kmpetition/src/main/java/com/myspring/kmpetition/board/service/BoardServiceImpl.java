@@ -108,9 +108,13 @@ public class BoardServiceImpl implements BoardService {
 
 		// DB 반영
 		dao.updateBoard(articleVO);
-		dao.deleteArticleUpload(deleteList);
-		dao.insertArticleUpload(uploadList);
-
+//		첨부파일 다 삭제해서 수정했을 때 에러 픽스해야됨
+		if(deleteList.size()!=0 && deleteList !=null) {
+			dao.deleteArticleUpload(deleteList);
+		}
+		if(uploadList.size()!=0 && uploadList!=null) {
+			dao.insertArticleUpload(uploadList);
+		}
 	}
 
 	public List<String> articleUploadList(int articleNO) {
