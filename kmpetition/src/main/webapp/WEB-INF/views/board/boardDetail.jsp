@@ -76,6 +76,31 @@
     	var action="${contextPath}/board/removeBoard.do?articleNO="+articleNO;
     	location.href=action;
 	}
+
+     /* (답글)삭제하기 버튼 클릭 */
+     function fn_replyDelete(obj, articleNO) {
+    	var action="${contextPath}/admin/removeReply.do?articleNO="+articleNO;
+    	/* location.href=action; */
+    	
+    	$.ajax({
+    		type : "GET",
+    		dataType:"text",
+    		data:{
+    			articleNO:articleNO,
+    				},
+    		url:action,
+    		async: false,
+    		success : function(data, textStatus) {
+    			if (data.trim()=='success'){
+    				alert('삭제했습니다.');
+    				location.reload();
+    			}
+    			if(data.trim()=='error'){
+    				alert('오류가 발생했습니다. \n다시 시도해주세요.');
+    			}
+    		}
+    	});
+	}
      
   </script>
 <body>
@@ -167,10 +192,13 @@
 				</c:forEach>
 				</td>
 				</tr>
+				
 			</c:if>
 					</tr>
 			
-			
+			<tr>
+				<td><input type=button value="답글삭제" onClick="fn_replyDelete(this.form, '${boardVO.articleNO}')"></td>
+				</tr>
 			</c:if>
 			
 		</table>

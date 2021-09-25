@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +22,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myspring.kmpetition.admin.service.AdminService;
-import com.myspring.kmpetition.board.vo.BoardVO;
 import com.myspring.kmpetition.board.vo.NoticeVO;
 import com.myspring.kmpetition.board.vo.ReplyVO;
 import com.myspring.kmpetition.board.vo.UploadVO;
@@ -270,13 +272,35 @@ public class AdminControllerImpl extends MainController implements AdminControll
 		adminService.modReply(replyMap);
 	}
 
-	@RequestMapping(value = "/removeReply.do", method = RequestMethod.DELETE)
-	public void removeReply(@RequestParam("articleNO") int articleNO, HttpServletRequest request,
+	@Override
+	@RequestMapping(value = "/removeReply.do", method = {RequestMethod.DELETE,RequestMethod.GET})
+	public ResponseEntity removeReply(@RequestParam("articleNO") int articleNO, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
+		System.out.println("removeReply 메서드 진입");
+		response.setContentType("text/html; charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
+		String message = null;
+		ResponseEntity resEntity = null;
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+		
+		try {
+			List<String> deleteList = (ArrayList<String>) adminService.getReplyUploadList(articleNO);
+			deleteFile(deleteList);
+			adminService.removeReply(articleNO);
+			message ="success"; 
+		} catch (Exception e) {
 
-		List<String> deleteList = (ArrayList<String>) adminService.getReplyUploadList(articleNO);
-		deleteFile(deleteList);
-		adminService.removeReply(articleNO);
+			message = "error";
+		}
+		resEntity = new ResponseEntity(message, responseHeaders, HttpStatus.OK);
+		return resEntity;
+		
+		
+		
+		
+		
+		
 	}
 
 }
