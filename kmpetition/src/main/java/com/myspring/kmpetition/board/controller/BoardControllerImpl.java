@@ -246,25 +246,28 @@ public class BoardControllerImpl extends MainController implements BoardControll
 		String[] removeStr=request.getParameterValues("removeList");
 		List<String> removeList=new ArrayList<String>();
 		System.out.println("제거리스트 생성시작");
+		List<UploadVO> deleteList=null;
 		if(removeStr!=null) {
 			for (String str : removeStr) {
 				removeList.add(str);
 				System.out.println(str);
 			}
+			deleteList= deleteFile(removeList);
 		}
-		List<UploadVO> deleteList = deleteFile(removeList);
 				
 //		수정/추가 파일 업로드 작업
 		System.out.println("기존파일리스트 생성시작");
 		String[] attach=request.getParameterValues("attachName");
 		List<String> attachName=new ArrayList<String>();
+		List<UploadVO> uploadList=null;
 		if(attach!=null) {
 			for (String str : attach) {
 				attachName.add(str);
 				System.out.println(str);
 			}
+			uploadList = uploadFile(articleNO, attachName, request);
 		}
-		List<UploadVO> uploadList = uploadFile(articleNO, attachName, request);
+		
 
 //		들어온 데이터로 boardVO 세팅
 		BoardVO article=new BoardVO();

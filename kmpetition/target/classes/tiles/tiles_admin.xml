@@ -20,6 +20,10 @@
          <put-attribute name="title" value="답글달기 페이지" />
          <put-attribute name="body" value="/WEB-INF/views/admin/replyForm.jsp" />
       </definition>  
+      <definition name="/admin/modReplyForm" extends="baseLayout">
+         <put-attribute name="title" value="답글달기 페이지" />
+         <put-attribute name="body" value="/WEB-INF/views/admin/modReplyForm.jsp" />
+      </definition>  
       
       
 </tiles-definitions>

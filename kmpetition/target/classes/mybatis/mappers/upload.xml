@@ -50,25 +50,34 @@
 	<delete id="deleteArticleUpload" parameterType="List">
 		delete from BOARDUPLOAD
 		<where>
-			UPLOADFILE IN
-			<foreach collection="list" item="item" separator=" , "
-				open="(" close=")">
+			UPLOADFILE IN(
+			<foreach collection="list" item="item" separator=" , " >
 				#{item.uploadfile}
 			</foreach>
+			)
 		</where>
 	</delete>
 
 	<delete id="deleteNoticeUpload" parameterType="List">
 		delete from noticeupload
 		<where>
-			UPLOADFILE IN
-			<foreach collection="list" item="item" separator=" , "
-				open="(" close=")">
+			UPLOADFILE IN (
+			<foreach collection="list" item="item" separator=" , " >
 				#{item.uploadfile}
 			</foreach>
-
+			)
 		</where>
 	</delete>
+	
+	<delete id="deleteReplyUpload" parameterType="list">
+			delete from REPLYUPLOAD
+			where UPLOADFILE in (
+			<foreach item="item" collection="list" separator=" , ">
+				#{item.uploadfile}
+			</foreach>
+			)
+			
+		</delete>
 
 
 	<insert id="insertReplyUpload" parameterType="List">

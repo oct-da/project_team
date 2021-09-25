@@ -111,7 +111,7 @@ public void updateDisable(int articleNO) throws DataAccessException{
 	
 	public void deleteReplyUpload(List<UploadVO> deleteList) throws DataAccessException{
 		
-		sqlSession.delete("mapper.admin.deleteReplyUpload", deleteList);
+		sqlSession.delete("mapper.upload.deleteReplyUpload", deleteList);
 	}
 	
 	public void deleteReply(int articleNO) throws DataAccessException{

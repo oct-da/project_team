@@ -70,6 +70,26 @@
    	    form.submit();
 		
 	}
+     
+     /* (답글)수정하기 버튼 클릭 */
+     function modReply(obj) {
+     	var action="${contextPath}/admin/modReplyForm.do";
+     	/* 
+  		var form = document.createElement("form");
+   	  	form.setAttribute("method", "post"); */
+    	obj.setAttribute("action", action);
+    	 	 
+    	var noInput = document.createElement("input");
+    	noInput.setAttribute("type","hidden");
+    	noInput.setAttribute("name","articleNO");
+    	noInput.setAttribute("value", "${boardVO.articleNO}");
+    		
+    	obj.appendChild(noInput);
+    	/* document.body.appendChild(form); */
+    	    
+    	obj.submit();
+ 		
+ 	}
 
      /* (본문)삭제하기 버튼 클릭 */
      function fn_delete(obj, articleNO) {
@@ -137,15 +157,15 @@
 					value="<fmt:formatDate value="${boardVO.createdate}" />" disabled />
 				</td>
 			</tr>
+			
 			<c:if test="${not empty uploadList}">
 				<tr>
 				<td width="150" align="center" bgcolor="#FF9933">첨부파일</td>
 				<td>
 				<c:forEach var="file" items="${uploadList }">
 					${file.uploadfile }		
-					<input type="button" value="파일다운로드" onClick="fileDownload('${contextPath }/downloadFile.do','${file.uploadfile }')"/></br>  
-					
-					
+					<input type="button" value="파일다운로드" onClick="fileDownload('${contextPath }/downloadFile.do','${file.uploadfile }')"/>
+					</br> 
 				</c:forEach>
 				</td>
 				</tr>
@@ -154,29 +174,37 @@
 				<td colspan="2" align="center">
 			</tr>
 			<tr>
-			<td><input type=button value="리스트로 돌아가기"
-					onClick="backToList(this.form)"></td>
-					<td><input type=button value="수정하기"
-					onClick="modArticle('${boardVO.articleNO}')">
-					<input type=button value="삭제하기버튼" onClick="fn_delete(this.form, '${boardVO.articleNO}')">
-					<a href="${contextPath }/board/removeBoard.do?articleNO=${boardVO.articleNO}" role="button">삭제a</a>
-					<input type=button value="답글쓰기"  onClick="fn_replyForm('${boardVO.articleNO }')" /><td>
-				</td>
-					</tr>
+			<td><input type=button value="리스트로 돌아가기" onClick="backToList(this.form)"></td>
+			<td>
+				<input type=button value="수정하기" onClick="modArticle('${boardVO.articleNO}')">
+				<input type=button value="삭제하기버튼" onClick="fn_delete(this.form, '${boardVO.articleNO}')">
+				<a href="${contextPath }/board/removeBoard.do?articleNO=${boardVO.articleNO}" role="button">삭제a</a>
+				<input type=button value="답글쓰기"  onClick="fn_replyForm('${boardVO.articleNO }')" /><td>
+			</td>
+			</tr>
 			<tr></tr>
 			
-			<c:if test="${not empty replyVO }">
+			</table>
+	</form>
+	
+			<!-- 답글 부분 -->
+	<c:if test="${not empty replyVO }">
+	<form name="frmReply" method="post" action="${contextPath}"
+		enctype="multipart/form-data">
+		<table border=0 align="center">
+			
+			
 			<tr>
 				<td colspan='2' width="150" align="center" bgcolor="yellowgreen">답글</td>
 			</tr>
 			<tr>
 				<td width="150" align="center" bgcolor="yellowgreen">제목</td>
-				<td><input type=text  value="${replyVO.title}" readonly="readonly" />
+				<td><input type=text  name="title" value="${replyVO.title}" readonly="readonly" />
 				</td>
 			</tr>
 			<tr>
 				<td width="150" align="center" bgcolor="yellowgreen">내용</td>
-				<td><input type=text value="${replyVO.content}" readonly="readonly" />
+				<td><input type=text name="content" value="${replyVO.content}" readonly="readonly" />
 				</td>
 			</tr>
 			
@@ -197,7 +225,9 @@
 					</tr>
 			
 			<tr>
-				<td><input type=button value="답글삭제" onClick="fn_replyDelete(this.form, '${boardVO.articleNO}')"></td>
+				<td>
+					<input type=button value="수정하기" onClick="modReply(this.form)">
+					<input type=button value="답글삭제" onClick="fn_replyDelete(this.form, '${boardVO.articleNO}')"></td>
 				</tr>
 			</c:if>
 			

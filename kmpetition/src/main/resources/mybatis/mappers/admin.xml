@@ -120,15 +120,7 @@
 		]]>
 	</select>
 		
-		<delete id="deleteReplyUpload" parameterType="list">
-			delete from REPLYUPLOAD
-			where UPLOADFILE in (
-			<foreach item="item" collection="list" separator=" , ">
-				#{item.uploadfile}
-			</foreach>
-			)
-			
-		</delete>
+		
 		
 		
 		<delete id="deleteReply" parameterType="int">

@@ -131,11 +131,15 @@ public class AdminServiceImpl implements AdminService {
 		
 		ReplyVO reply = (ReplyVO) replyMap.get("reply");
 		List<UploadVO> deleteList = (ArrayList<UploadVO>) replyMap.get("delete");
-		List<UploadVO> replyUpload = (ArrayList<UploadVO>) replyMap.get("insert");
+		List<UploadVO> uploadList = (ArrayList<UploadVO>) replyMap.get("insert");
 		
 		dao.updateReply(reply);
-		dao.deleteReplyUpload(deleteList);
-		dao.insertReplyUpload(replyUpload);
+		if(deleteList !=null) {
+			dao.deleteReplyUpload(deleteList);
+		}
+		if(uploadList!=null) {
+			dao.insertReplyUpload(uploadList);
+		}
 	}
 	
 	public void removeReply(int articleNO) throws Exception{

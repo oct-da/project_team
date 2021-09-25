@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myspring.kmpetition.admin.service.AdminService;
+import com.myspring.kmpetition.board.vo.BoardVO;
 import com.myspring.kmpetition.board.vo.NoticeVO;
 import com.myspring.kmpetition.board.vo.ReplyVO;
 import com.myspring.kmpetition.board.vo.UploadVO;
@@ -155,25 +156,29 @@ public class AdminControllerImpl extends MainController implements AdminControll
 		String[] removeStr=request.getParameterValues("removeList");
 		List<String> removeList=new ArrayList<String>();
 		System.out.println("제거리스트 생성시작");
+		List<UploadVO> deleteList=null;
 		if(removeStr!=null) {
 			for (String str : removeStr) {
 				removeList.add(str);
 				System.out.println(str);
 			}
+			deleteList= deleteFile(removeList);
+			
 		}
-		List<UploadVO> deleteList = deleteFile(removeList);
-				
+		
 //		수정/추가 파일 업로드 작업
 		System.out.println("기존파일리스트 생성시작");
 		String[] attach=request.getParameterValues("attachName");
 		List<String> attachName=new ArrayList<String>();
+		List<UploadVO> uploadList=null;
 		if(attach!=null) {
 			for (String str : attach) {
 				attachName.add(str);
 				System.out.println(str);
 			}
+			uploadList= uploadFile(articleNO, attachName, request);
 		}
-		List<UploadVO> uploadList = uploadFile(articleNO, attachName, request);
+		
 
 //		들어온 데이터로 boardVO 세팅
 		NoticeVO article=new NoticeVO();
@@ -215,6 +220,8 @@ public class AdminControllerImpl extends MainController implements AdminControll
 		return null;
 	}
 
+
+	@Override
 	@RequestMapping(value = "/replyForm.do", method = RequestMethod.POST)
 	public ModelAndView replyForm(@ModelAttribute("articleNO") int articleNO, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -223,7 +230,7 @@ public class AdminControllerImpl extends MainController implements AdminControll
 		return mav;
 
 	}
-
+	
 	/* 이하는 상윤씨 작업 분량. 답글 관련 기능 */
 	@RequestMapping(value = "/addReply.do", method = RequestMethod.POST)
 	public ModelAndView addReply(@ModelAttribute("reply") ReplyVO reply, MultipartHttpServletRequest request,
@@ -251,25 +258,97 @@ public class AdminControllerImpl extends MainController implements AdminControll
 		return mav;
 
 	}
+	
 
-	@RequestMapping(value = "/modReply.do", method = RequestMethod.PUT)
-	public void modReply(@ModelAttribute("reply") ReplyVO reply, MultipartHttpServletRequest request,
+	@Override
+	@RequestMapping(value = "/modReplyForm.do", method = RequestMethod.POST)
+	public ModelAndView modReplyForm(@RequestParam Map modMap, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView(viewName);
+		int articleNO=Integer.parseInt((String) modMap.get("articleNO"));
+		System.out.println((String)modMap.get("title"));
+		System.out.println((String)modMap.get("content"));
+		System.out.println(articleNO);
+		
+		ReplyVO rvo=new ReplyVO();
+		rvo.setTitle((String)modMap.get("title"));
+		rvo.setContent((String)modMap.get("content"));
+		rvo.setArticleNO(articleNO);
+		
+		List<String> uploadList=adminService.getReplyUploadList(articleNO);
 
-		int articleNO = reply.getArticleNO();
+		Map replyMap = new HashMap();
+		replyMap.put("replyVO", rvo);
+		replyMap.put("uploadList", uploadList);
+		
+		mav.addObject("replyMap", replyMap);
+		System.out.println("modReplyForm.do 완료");
+		
+		return mav;
+
+	}
+
+
+	@RequestMapping(value = "/modReply.do", method = {RequestMethod.PUT,RequestMethod.POST})
+	public ModelAndView modReply(@RequestParam Map modMap, MultipartHttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		System.out.println("modReply 진입");
+		ModelAndView mav = new ModelAndView();
 		HttpSession session = request.getSession();
-		List<String> remove = (ArrayList<String>) session.getAttribute("remove");
-		List<UploadVO> deleteList = deleteFile(remove);
+		
+		int articleNO=Integer.parseInt((String) modMap.get("articleNO"));
+		System.out.println((String)modMap.get("title"));
+		System.out.println((String)modMap.get("content"));
+		System.out.println(articleNO);
+		
 
+//		수정/삭제 파일의 제거 작업
+		String[] removeStr=request.getParameterValues("removeList");
+		List<String> removeList=new ArrayList<String>();
+		System.out.println("제거리스트 생성시작");
+		List<UploadVO> deleteList=null;
+		if(removeStr!=null) {
+			for (String str : removeStr) {
+				removeList.add(str);
+				System.out.println(str);
+			}
+			deleteList= deleteFile(removeList);
+			
+		}
+		
+//		수정/추가 파일 업로드 작업
+		System.out.println("기존파일리스트 생성시작");
+		String[] attach=request.getParameterValues("attachName");
+		List<String> attachName=new ArrayList<String>();
+		List<UploadVO> uploadList=null;
+		if(attach!=null) {
+			for (String str : attach) {
+				attachName.add(str);
+				System.out.println(str);
+			}
+			uploadList= uploadFile(articleNO, attachName, request);
+		}
+		
+		
+		ReplyVO rvo=new ReplyVO();
+		rvo.setTitle((String)modMap.get("title"));
+		rvo.setContent((String)modMap.get("content"));
+		rvo.setArticleNO(articleNO);
+		
+		
 		List<String> nameList = adminService.getReplyUploadList(articleNO);
 		List<UploadVO> replyUpload = uploadFile(articleNO, nameList, request);
 
 		Map replyMap = new HashMap();
-		replyMap.put("reply", reply);
+		replyMap.put("reply", rvo);
 		replyMap.put("delete", deleteList);
 		replyMap.put("insert", replyUpload);
 
 		adminService.modReply(replyMap);
+		
+		mav.setViewName("redirect:/board/boardDetail.do?articleNO=" + articleNO);
+		return mav;
 	}
 
 	@Override

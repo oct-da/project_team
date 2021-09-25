@@ -29,7 +29,10 @@ public interface AdminController {
 
 
 	public ModelAndView replyForm(@ModelAttribute("articleNO") int articleNO, HttpServletRequest request, HttpServletResponse response) throws Exception ;
+	public ModelAndView modReplyForm(@RequestParam Map modMap, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
 	public ResponseEntity removeReply(@RequestParam("articleNO")int articleNO, HttpServletRequest request, HttpServletResponse response)  throws Exception; 
-	public void modReply(@ModelAttribute("reply")ReplyVO reply, MultipartHttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView modReply(@RequestParam Map modMap, MultipartHttpServletRequest request,
+			HttpServletResponse response) throws Exception;
 	public ModelAndView addReply(@ModelAttribute("reply")ReplyVO reply, MultipartHttpServletRequest request, HttpServletResponse response)  throws Exception;
 }

@@ -49,9 +49,6 @@ public class MyPageServiceImpl implements MyPageService {
 	@Override
 	public Map readContent(Map pagingMap) throws Exception {
 		List visitList = dao.selectId(pagingMap);
-		MyPageVO vo = (MyPageVO) visitList.get(0);
-		
-		System.out.println(vo.getTitle());
 		
 		String id = (String) pagingMap.get("id");
 		int selectTotVisit = dao.selectTotVisit(id);
