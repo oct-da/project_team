@@ -174,12 +174,11 @@
 				<td colspan="2" align="center">
 			</tr>
 			<tr>
-			<td><input type=button value="리스트로 돌아가기" onClick="backToList(this.form)"></td>
-			<td>
+			<td><input type=button value="리스트로 돌아가기" onClick="backToList(this.form)">
 				<input type=button value="수정하기" onClick="modArticle('${boardVO.articleNO}')">
 				<input type=button value="삭제하기버튼" onClick="fn_delete(this.form, '${boardVO.articleNO}')">
 				<a href="${contextPath }/board/removeBoard.do?articleNO=${boardVO.articleNO}" role="button">삭제a</a>
-				<input type=button value="답글쓰기"  onClick="fn_replyForm('${boardVO.articleNO }')" /><td>
+				<input type=button value="답글쓰기"  onClick="fn_replyForm('${boardVO.articleNO }')" />
 			</td>
 			</tr>
 			<tr></tr>

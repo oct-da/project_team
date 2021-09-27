@@ -202,7 +202,7 @@ public class AdminControllerImpl extends MainController implements AdminControll
 //	수정 고려해서 재작성
 	@Override
 	@RequestMapping(value = "/removeNotice.do", method = RequestMethod.GET)
-	public String removeNotice(@RequestParam("articleNO") int articleNO, HttpServletRequest request,
+	public String removeNotice(@RequestParam("noticeNO") int articleNO, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		// 로컬에 저장된 첨부파일 삭제
 		List<String> articleUploadList = adminService.noticeUploadList(articleNO);
