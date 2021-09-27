@@ -13,20 +13,17 @@
 var id="${memberInfo.id}";
 
 /* 제목링크 클릭시 DB에 방문기록 저장 후 새창 열기로 해당 청원페이지로 이동 */
-function saveVisit(NO, title){
+function saveVisit(NO){
 	alert('함수 진입');
 	
 	var action="${contextPath}/member/saveVisit.do";
-	var petitionURL="${petitionPath }/NO";
-	
 	
 	$.ajax({
 		type : "post",
 		dataType:"text",
 		data:{
-			url:petitionURL,
 			id:id,
-			title:title
+			no:NO
 				},
 		url:action,
 		async: false,
@@ -67,7 +64,7 @@ function openSite(url) {
     <c:forEach  var="article" items="${petitionList }" varStatus="articleNum" >
      <tr align="center">
    <td width="5%">${article.NO}</td>
-   <td width="40%"><a  href="javascript:saveVisit('${article.NO}','${article.title }');" >${article.title }</a></td>
+   <td width="40%"><a  href="javascript:saveVisit('${article.NO}');" >${article.title }</a></td>
    <td width="10%">${article.subdate }</td>
      
    </tr>

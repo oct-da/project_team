@@ -358,7 +358,8 @@ public class MemberControllerImpl extends MainController implements MemberContro
 
 	@Override
 	@RequestMapping(value="/saveVisit.do", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/text; charset=utf8")
-	public @ResponseBody String saveVisit(@RequestParam Map historyMap, HttpServletRequest request,HttpServletResponse response) throws Exception {
+	public @ResponseBody String saveVisit(@RequestParam Map visitMap, HttpServletRequest request,HttpServletResponse response) throws Exception {
+		System.out.println("saveVisit 함수 진입");
 		
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
@@ -366,23 +367,27 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
 		String result=null;
+		
 		HistoryVO historyVO=new HistoryVO();
-
+		
 		long time = new Date().getTime();
 		Timestamp now = new Timestamp(time);
+		int no=Integer.parseInt((String)visitMap.get("no"));
 		historyVO.setViewDate(now);
-		
-		historyVO.setId((String) historyMap.get("id"));
-		historyVO.setTitle((String) historyMap.get("title"));
-		historyVO.setUrl((String) historyMap.get("url"));
+		historyVO.setId((String)visitMap.get("id"));
+		historyVO.setNo(no);
+		System.out.println(historyVO.getId());
+		System.out.println(historyVO.getNo());
+		System.out.println(historyVO.getViewDate());
 		
 		try {
 			memberService.saveHistory(historyVO);
 			result="success";
+			System.out.println("savaVisit 처리 완료");
 			
 		}catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("로그인하지 않은 회원입니다.");
+			System.out.println("saveVisit 처리 중 에러 발생");
 			result="error";
 		}
 		return result;

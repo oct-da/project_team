@@ -27,25 +27,11 @@
 		MainController에서 동작합니다.
 
 
-		<!-- 파일 업로드 테스트 -->
-		<c:if test="${isLogOn }">
-			<h1>파일 업로드 하기</h1>
-			<form method="post" action="${contextPath}/member/upload"
-				enctype="multipart/form-data">
-				<input type="button" value="파일 추가" onClick="fn_addFile()"><br>
-
-				<div id="d_file"></div>
-				<input type="submit" value="업로드">
-			</form>
-
-		</c:if>
 		
 		</br>
 		</br>
 		</br>
 		
-		 <input type="button" name="download" value="파일다운로드 버튼" onclick="fn_download()">
-		 <a href="${contextPath}/downloadFile.do?fileName=sample.txt">파일다운 링크</a> 
 	</P>
 </body>
 </html>

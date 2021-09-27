@@ -6,8 +6,8 @@ import java.sql.Date;
 public class HistoryVO {
 	private String id;
 	private Timestamp viewDate;
-	private String url;
-	private String title;
+	private int no;
+	
 	public String getId() {
 		return id;
 	}
@@ -20,18 +20,10 @@ public class HistoryVO {
 	public void setViewDate(Timestamp viewDate) {
 		this.viewDate = viewDate;
 	}
-	public String getUrl() {
-		return url;
+	public int getNo() {
+		return no;
 	}
-	public void setUrl(String url) {
-		this.url = url;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	
-	
+	public void setNo(int no) {
+		this.no = no;
+	}	
 }

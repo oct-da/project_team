@@ -15,8 +15,7 @@
 	<resultMap type="historyVO" id="hisResult">
 		<result property="id" column="id" />
 		<result property="viewDate" column="viewDate" />
-		<result property="url" column="url" />
-		<result property="title" column="title" />
+		<result property="no" column="no" />
 	</resultMap>
 
 
@@ -114,8 +113,8 @@
 	
 	<insert id="insertHistory" parameterType="historyVO">
 		<![CDATA[ 
-			insert into history(id, url, title, viewDate)
-			values(#{id}, #{url}, #{title}, #{viewDate})
+			insert into history(id, viewDate, no) 
+			values(#{id}, #{viewDate}, #{no})
 		]]>
 	</insert>
 	

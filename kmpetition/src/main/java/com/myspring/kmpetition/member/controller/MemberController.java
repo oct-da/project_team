@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.myspring.kmpetition.member.vo.HistoryVO;
 import com.myspring.kmpetition.member.vo.MemberVO;
 
 public interface MemberController {
@@ -43,7 +44,7 @@ public interface MemberController {
 	public void checkSaveId(String saveId, Map loginMap, HttpServletResponse response) throws Exception;
 	
 //	내가 열람한 페이지를 보여주기 위해 DB에 저장 목적
-	public @ResponseBody String  saveVisit(@RequestParam Map historyMap, HttpServletRequest request,HttpServletResponse response) throws Exception;
+	public @ResponseBody String saveVisit(@RequestParam Map visitMap, HttpServletRequest request,HttpServletResponse response) throws Exception;
 	
 	public void removeMember(HttpServletRequest request, HttpServletResponse response) throws Exception ;
 }
