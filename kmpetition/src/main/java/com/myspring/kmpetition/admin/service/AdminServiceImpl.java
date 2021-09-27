@@ -87,18 +87,21 @@ public class AdminServiceImpl implements AdminService {
 		List<UploadVO> uploadList = (ArrayList<UploadVO>) modMap.get("upload");
 
 		// DB 반영
+		System.out.println(articleVO.getTitle());
+		System.out.println(articleVO.getContent());
+		System.out.println(articleVO.getArticleNO());
 		dao.updateNotice(articleVO);
 		
 		if (deleteList != null) {
 			if (deleteList.size() != 0) {
 				System.out.println("deleteList.size():" + deleteList.size());
-				dao.deleteReplyUpload(deleteList);
+				dao.deleteArticleUpload(deleteList);
 			}
 		}
 		if (uploadList != null) {
 			if (uploadList.size() != 0) {
 				System.out.println("uploadList.size():" + uploadList.size());
-				dao.insertReplyUpload(uploadList);
+				dao.insertNoticeUpload(uploadList);
 			}
 		}
 	}

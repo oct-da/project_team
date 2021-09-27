@@ -155,26 +155,22 @@ public class AdminControllerImpl extends MainController implements AdminControll
 //		수정/삭제 파일의 제거 작업
 		String[] removeStr = request.getParameterValues("removeList");
 		List<String> removeList = new ArrayList<String>();
-		System.out.println("제거리스트 생성시작");
 		List<UploadVO> deleteList = null;
 		if (removeStr != null) {
 			for (String str : removeStr) {
 				removeList.add(str);
-				System.out.println(str);
 			}
 			deleteList = deleteFile(removeList);
 
 		}
 
 //		수정/추가 파일 업로드 작업
-		System.out.println("기존파일리스트 생성시작");
 		String[] attach = request.getParameterValues("attachName");
 		List<String> attachName = new ArrayList<String>();
 		List<UploadVO> uploadList = null;
 		if (attach != null) {
 			for (String str : attach) {
 				attachName.add(str);
-				System.out.println(str);
 			}
 		} else {
 			attachName = null;
@@ -184,9 +180,12 @@ public class AdminControllerImpl extends MainController implements AdminControll
 //		들어온 데이터로 boardVO 세팅
 		NoticeVO article = new NoticeVO();
 		String title = (String) modMap.get("title");
+		System.out.println("title:"+title);
 		String content = (String) modMap.get("content");
+		System.out.println("content:"+content);
 		article.setTitle(title);
 		article.setContent(content);
+		article.setArticleNO(articleNO);
 
 		// DB 반영
 		Map articleMap = new HashMap();
