@@ -108,12 +108,17 @@ public class BoardServiceImpl implements BoardService {
 
 		// DB 반영
 		dao.updateBoard(articleVO);
-		
-		if(deleteList !=null) {
-			dao.deleteArticleUpload(deleteList);
+		if (deleteList != null) {
+			if (deleteList.size() != 0) {
+				System.out.println("deleteList.size():" + deleteList.size());
+				dao.deleteArticleUpload(deleteList);
+			}
 		}
-		if(uploadList!=null) {
-			dao.insertArticleUpload(uploadList);
+		if (uploadList != null) {
+			if (uploadList.size() != 0) {
+				System.out.println("uploadList.size():" + uploadList.size());
+				dao.insertArticleUpload(uploadList);
+			}
 		}
 	}
 

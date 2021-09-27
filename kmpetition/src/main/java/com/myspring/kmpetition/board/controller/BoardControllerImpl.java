@@ -265,8 +265,10 @@ public class BoardControllerImpl extends MainController implements BoardControll
 				attachName.add(str);
 				System.out.println(str);
 			}
-			uploadList = uploadFile(articleNO, attachName, request);
+		}else {
+			attachName=null;
 		}
+		uploadList= uploadFile(articleNO, attachName, request);
 		
 
 //		들어온 데이터로 boardVO 세팅
