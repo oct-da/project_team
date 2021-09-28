@@ -100,7 +100,7 @@
 	<update id="updatePwd" parameterType="java.util.Map">
 		<![CDATA[
 			update member 
-			set pwd=#{pwd}
+			set pwd=#{user_pw}
 			where id=#{id}
 		 ]]>
 	</update>

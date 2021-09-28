@@ -245,7 +245,7 @@ function loginChk() {
         return;
     }
     
-    if (!pwReg.test(input_id.value)) {
+    if (!pwReg.test(input_pw.value)) {
         popAlert("비밀번호 확인", "올바르지 않은 비밀번호입니다.", "error", "확인")
         form.input_id.value = "";
         form.input_id.focus();

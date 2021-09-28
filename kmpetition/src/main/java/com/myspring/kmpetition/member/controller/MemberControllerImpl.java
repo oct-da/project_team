@@ -38,6 +38,7 @@ public class MemberControllerImpl extends MainController implements MemberContro
 	private MemberService memberService;
 	@Autowired
 	private MemberVO memberVO;
+
 //	로그인
 //	1. id,pwd로 DB조회하여 회원인지 여부 확인
 //	2. 회원이 맞으면 마지막 접속일과 오늘 날짜를 대조해서 휴면회원인지 검사
@@ -51,7 +52,7 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		HttpSession session = request.getSession();
 		System.out.println(loginMap.get("user_id"));
 		System.out.println(loginMap.get("user_pw"));
-		
+
 		if (loginMap.get("user_id").equals("admin") && loginMap.get("user_pw").equals("admin")) {
 
 			session.setAttribute("isLogOn", true);
@@ -81,13 +82,13 @@ public class MemberControllerImpl extends MainController implements MemberContro
 					Date disableTime = sdf.parse(time);
 
 					if (now.after(disableTime)) {
-						
+
 						int failCount = 0;
 						EnableVO enable = new EnableVO();
 						enable.setId(memberVO.getId());
 						enable.setFailCount(failCount);
 						memberService.setFailCount(enable);
-						
+
 						System.out.println("한 달 동안 한 번 이상 접속했음.");
 //				해당 회원의 최종접속일을 오늘로 갱신
 						memberService.updateDate(memberVO.getId());
@@ -126,55 +127,66 @@ public class MemberControllerImpl extends MainController implements MemberContro
 			} else { // 2번 if (조회된 회원 정보가 없는 경우)
 
 				String message;
-				String id = (String) loginMap.get("id");
-				int failCount = memberService.getFailCount(id);
+				String id = (String) loginMap.get("user_id");
+				String test=memberService.overlapped(id);
+				System.out.println("test:"+test);
 
-				if (failCount < 5) {
+				if (memberService.overlapped(id).equals("true")) { // 로그인에 실패했는데 존재하는 id라면
 
-					EnableVO enable = new EnableVO();
-					enable.setId(id);
-					enable.setFailCount(failCount + 1);
-					memberService.setFailCount(enable);
-					message = "아이디나 비밀번호가 틀립니다. 다시 로그인해주세요.";
-					mav.addObject("message", message);
-					mav.setViewName("/member/loginForm");
-				}
+					int failCount = memberService.getFailCount(id);
 
-				else {
+					if (failCount < 5) {
 
-					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-					Calendar cal = Calendar.getInstance();
-					Date date;
-					try {
-
-						String time = sdf.format(new Date());
-						date = sdf.parse(time);
-						cal.setTime(date);
-						cal.add(Calendar.SECOND, 30);
-						long longtime = cal.getTimeInMillis();
-						Timestamp disableTime = new Timestamp(longtime);
-						System.out.println(date);
-						System.out.println(disableTime);
 						EnableVO enable = new EnableVO();
 						enable.setId(id);
-						enable.setTime(disableTime);
-						memberService.setDisableTime(enable);
-						message = "로그인에 5회 이상 실패하셨습니다. 30초 후에 다시 시도해주세요.";
+						enable.setFailCount(failCount + 1);
+						memberService.setFailCount(enable);
+						message = "아이디나 비밀번호가 틀립니다. 다시 로그인해주세요.";
 						mav.addObject("message", message);
-						mav.setViewName("redirect:/member/loginForm.do");
+						mav.setViewName("/member/loginForm");
 					}
 
-					catch (Exception e) {
+					else {
 
-						e.printStackTrace();
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						Calendar cal = Calendar.getInstance();
+						Date date;
+						try {
+
+							String time = sdf.format(new Date());
+							date = sdf.parse(time);
+							cal.setTime(date);
+							cal.add(Calendar.SECOND, 30);
+							long longtime = cal.getTimeInMillis();
+							Timestamp disableTime = new Timestamp(longtime);
+							System.out.println(date);
+							System.out.println(disableTime);
+							EnableVO enable = new EnableVO();
+							enable.setId(id);
+							enable.setTime(disableTime);
+							memberService.setDisableTime(enable);
+							message = "로그인에 5회 이상 실패하셨습니다. 30초 후에 다시 시도해주세요.";
+							mav.addObject("message", message);
+							mav.setViewName("redirect:/member/loginForm.do");
+						}
+
+						catch (Exception e) {
+
+							e.printStackTrace();
+						}
+
 					}
 
+				} else { // 로그인 실패했는데 존재하지 않는 id라면
+					message = "notExist";
+					mav.addObject(message);
+					mav.setViewName("redirect:/member/loginForm.do");
 				}
-
 			}
 		}
 		return mav;
 	}
+
 //	awakeForm에서 활성화할 계정 정보를 입력했을 때
 	@Override
 	@RequestMapping(value = "/awakeMember.do", method = RequestMethod.POST)
@@ -325,6 +337,7 @@ public class MemberControllerImpl extends MainController implements MemberContro
 	public ResponseEntity modPwd(@RequestParam Map<String, String> modMap, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
+		System.out.println("modPwd 진입");
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
 		String message = null;
@@ -333,6 +346,7 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
 		try {
 			memberService.modPwd(modMap);
+			System.out.println("modPwd 성공");
 			message = "<script>";
 			message += " alert('비밀번호 변경이 완료되었습니다. 로그인창으로 이동합니다.');";
 			message += " location.href='" + request.getContextPath() + "/member/loginForm.do';";
@@ -349,50 +363,51 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		return resEntity;
 	}
 
-
 	@Override
-	@RequestMapping(value="/saveVisit.do", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/text; charset=utf8")
-	public @ResponseBody String saveVisit(@RequestParam Map visitMap, HttpServletRequest request,HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/saveVisit.do", method = { RequestMethod.POST,
+			RequestMethod.GET }, produces = "application/text; charset=utf8")
+	public @ResponseBody String saveVisit(@RequestParam Map visitMap, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		System.out.println("saveVisit 함수 진입");
-		
+
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
 		ResponseEntity resEntity = null;
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
-		String result=null;
-		
-		HistoryVO historyVO=new HistoryVO();
-		
+		String result = null;
+
+		HistoryVO historyVO = new HistoryVO();
+
 		long time = new Date().getTime();
 		Timestamp now = new Timestamp(time);
-		int no=Integer.parseInt((String)visitMap.get("no"));
+		int no = Integer.parseInt((String) visitMap.get("no"));
 		historyVO.setViewDate(now);
-		historyVO.setId((String)visitMap.get("id"));
+		historyVO.setId((String) visitMap.get("id"));
 		historyVO.setNo(no);
 		System.out.println(historyVO.getId());
 		System.out.println(historyVO.getNo());
 		System.out.println(historyVO.getViewDate());
-		
+
 		try {
 			memberService.saveHistory(historyVO);
-			result="success";
+			result = "success";
 			System.out.println("savaVisit 처리 완료");
-			
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("saveVisit 처리 중 에러 발생");
-			result="error";
+			result = "error";
 		}
 		return result;
 	}
-	
-	@RequestMapping(value="/removeMember.do", method=RequestMethod.DELETE)
+
+	@RequestMapping(value = "/removeMember.do", method = RequestMethod.DELETE)
 	public void removeMember(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+
 		HttpSession session = request.getSession();
 		String id = (String) session.getAttribute("id");
-		
+
 		Map<String, List<String>> deleteMap = memberService.allUploadList(id);
 		List<String> boardList = deleteMap.get("board");
 		List<String> replyList = deleteMap.get("reply");
@@ -402,7 +417,6 @@ public class MemberControllerImpl extends MainController implements MemberContro
 
 	}
 
-	
 //	최종접속일 확인(휴면계정 판단)
 	@Override
 	public int checkLoginDate(Date loginDate) {
@@ -433,7 +447,5 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		}
 
 	}
-	
-	
-	
+
 }

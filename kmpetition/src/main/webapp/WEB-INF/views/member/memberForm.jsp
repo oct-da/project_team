@@ -41,26 +41,26 @@
             <div class="join">
                 <h2>회원가입</h2>
                 <div class="join_id">
-                    <input type="text" id="input_id" name="user_id" placeholder="아이디(영문+숫자 6~16자)">
+                    <input type="text" id="input_id" name="id" placeholder="아이디(영문+숫자 6~16자)">
                     <input type="button" id="idCheckBtn" value="중복확인" style="cursor: pointer" onclick="idCheck(this.form)">
                     <input type="hidden" name="checkedId" value="">
                 </div>
                 <div class="join_pw">
-                    <input type="password" id="input_pw" name="user_pw" placeholder="비밀번호(영문+숫자 8~16자)">
+                    <input type="password" id="input_pw" name="pwd" placeholder="비밀번호(영문+숫자 8~16자)">
                 </div>
                 <div class="join_pw_cnfm">
                     <input type="password" id="input_pw_re" name="user_pw_re" placeholder="비밀번호 확인">
                 </div>
                 <div class="join_name">
-                    <input type="text" id="input_name" name="user_name" placeholder="이름">
+                    <input type="text" id="input_name" name="name" placeholder="이름">
                 </div>
                 <div class="join_email">
-                    <input type="text" id="input_email" name="user_email" placeholder="이메일">
+                    <input type="text" id="input_email" name="email" placeholder="이메일">
                     <input type="button" id="emailCheckBtn" value="중복확인" style="cursor: pointer" onclick="emailCheck()">
                     <input type="hidden" name="checkedEmail" value="">
                 </div>
                 <div class="join_num">
-                    <input type="text" id="input_num" name="user_num" placeholder="전화번호">
+                    <input type="text" id="input_num" name="phone" placeholder="전화번호">
                 </div>
                 <div class="join_etc">
                     <div class="checkbox">

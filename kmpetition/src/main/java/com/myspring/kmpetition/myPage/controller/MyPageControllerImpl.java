@@ -63,6 +63,7 @@ public class MyPageControllerImpl extends MainController implements MyPageContro
 		String phone=(String) modMap.get("user_num");
 		MemberVO _memberVO=new MemberVO();
 		_memberVO.setEmail(email);
+		_memberVO.setPwd(pwd);
 		_memberVO.setId(id);
 		_memberVO.setName(name);
 		_memberVO.setPhone(phone);

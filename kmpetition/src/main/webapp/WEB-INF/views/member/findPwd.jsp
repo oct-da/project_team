@@ -58,6 +58,8 @@
         <div class="wrap">
             <div class="changePw">
                 <h2>비밀번호 변경</h2>
+                <input type="hidden" name="id" value="${id}" size="20" />
+                
                 <div class="new_pw">
                     <input type="password" id="input_pw" name="user_pw" placeholder="새로운 비밀번호">
                 </div>
