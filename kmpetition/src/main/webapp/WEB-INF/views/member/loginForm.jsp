@@ -44,21 +44,37 @@
     }
     
 %>
-
-    <c:if test='${not empty message}'>
+<c:if test='${not empty message}'>
         <script>
-            var msg = "${message}"
+            popAlert("something", "not empty message", "question", "확인");
+
+        </script>
+        <c:if test='${message == "notExist"}'>
+            <script>
+                var msg = "${message}";
+                window.onload = function() {
+                    result();
+                }
+
+                function result() {
+                    popAlert("알림 메시지", "존재하지 않는 회원입니다.", "info", "확인");
+                }
+
+            </script>
+        </c:if>
+    </c:if>
+    <c:if test='${empty message}'>
+        <script>
             window.onload = function() {
                 result();
             }
 
             function result() {
-                alert(msg);
+                popAlert("알림 메시지", "메시지가 없습니다.", "info", "확인");
             }
 
         </script>
     </c:if>
-
 </head>
 <body>
 	<form name="frmLogin" method="post" action="${contextPath}/member/login.do">

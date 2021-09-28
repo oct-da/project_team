@@ -132,7 +132,7 @@ public class MemberControllerImpl extends MainController implements MemberContro
 				System.out.println("test:"+test);
 
 				if (memberService.overlapped(id).equals("true")) { // 로그인에 실패했는데 존재하는 id라면
-
+					System.out.println("로그인 실패, id 존재");
 					int failCount = memberService.getFailCount(id);
 
 					if (failCount < 5) {
@@ -178,9 +178,10 @@ public class MemberControllerImpl extends MainController implements MemberContro
 					}
 
 				} else { // 로그인 실패했는데 존재하지 않는 id라면
+					System.out.println("로그인실패, id존재하지 않음");;
 					message = "notExist";
-					mav.addObject(message);
-					mav.setViewName("redirect:/member/loginForm.do");
+					mav.addObject("message", message);
+					mav.setViewName("forward:/member/loginForm.do");
 				}
 			}
 		}
@@ -437,11 +438,11 @@ public class MemberControllerImpl extends MainController implements MemberContro
 	public void checkSaveId(String saveId, Map loginMap, HttpServletResponse response) throws Exception {
 
 		if (saveId != null) {
-			Cookie c = new Cookie("saveId", (String) loginMap.get("id"));
+			Cookie c = new Cookie("saveId", (String) loginMap.get("user_id"));
 			c.setMaxAge(60 * 60 * 24 * 7); // 쿠키 유효기간 7일
 			response.addCookie(c);
 		} else {
-			Cookie c = new Cookie("saveId", (String) loginMap.get("id"));
+			Cookie c = new Cookie("saveId", (String) loginMap.get("user_id"));
 			c.setMaxAge(0); // 쿠키 유효기간 7일
 			response.addCookie(c);
 		}
