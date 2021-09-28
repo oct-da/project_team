@@ -1,8 +1,16 @@
 package com.myspring.kmpetition.main;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -15,6 +23,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -181,6 +190,41 @@ public class MainController {
 		}
 
 		return deleteList;
+	}
+
+//	파이썬 자동으로 돌리기 위한 코드
+	@Scheduled(cron = "0 37 11 * * *")
+	@RequestMapping(value = "/test2", method = RequestMethod.GET)
+	public void test2() {
+
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String time = sdf.format(date);
+		System.out.println("스케줄러 테스트 시간 : " + time);
+		try {
+
+			Socket soc = new Socket("192.168.0.37", 9999);
+			OutputStream out = soc.getOutputStream();
+			PrintWriter pw = new PrintWriter(out);
+			InputStream in = soc.getInputStream();
+			InputStreamReader isr = new InputStreamReader(in);
+			BufferedReader br = new BufferedReader(isr);
+
+			pw.write("스케줄러 시작");
+			pw.flush();
+
+			System.out.println(br.readLine());
+
+			pw.close();
+
+		}
+
+		catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		System.out.println(sdf.format(new Date()) + " 통신 완료");
 	}
 
 }

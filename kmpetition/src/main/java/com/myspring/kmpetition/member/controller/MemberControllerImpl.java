@@ -49,8 +49,10 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		System.out.println("Member컨의 login");
 		ModelAndView mav = new ModelAndView();
 		HttpSession session = request.getSession();
-
-		if (loginMap.get("id").equals("admin") && loginMap.get("pwd").equals("admin")) {
+		System.out.println(loginMap.get("user_id"));
+		System.out.println(loginMap.get("user_pw"));
+		
+		if (loginMap.get("user_id").equals("admin") && loginMap.get("user_pw").equals("admin")) {
 
 			session.setAttribute("isLogOn", true);
 			session.setAttribute("isAdmin", true);
@@ -240,14 +242,6 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
 
-//		회원가입 시 쪼개져들어온 이메일값을 하나로 합쳐서 다시 지정
-		String email_id = memberMap.get("email_id");
-		String email_addr = memberMap.get("email_addr");
-		String email = email_id + "@" + email_addr;
-		memberMap.remove("email_id");
-		memberMap.remove("email_addr");
-		memberMap.put("email", email);
-
 		try {
 			memberService.addMember(memberMap);
 			message = "<script>";
@@ -317,7 +311,7 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
 		memberVO = memberService.findPwd(findMap);
-		String id = findMap.get("id");
+		String id = findMap.get("user_id");
 		mav.addObject("id", id);
 		String result = null;
 		if (memberVO != null) {

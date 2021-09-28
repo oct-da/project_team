@@ -15,8 +15,26 @@
       </definition>
   
   <definition name="/member/awakeForm" extends="baseLayout">
-         <put-attribute name="title" value="회원 가입 페이지" />
+         <put-attribute name="title" value="휴면해제 페이지" />
          <put-attribute name="body" value="/WEB-INF/views/member/awakeForm.jsp" />
+      </definition>
+      
+      <definition name="/member/findIdForm" extends="baseLayout">
+         <put-attribute name="title" value="아이디 찾기" />
+         <put-attribute name="body" value="/WEB-INF/views/member/findIdForm.jsp" />
+      </definition>
+      <definition name="/member/findId" extends="baseLayout">
+         <put-attribute name="title" value="아이디 확인" />
+         <put-attribute name="body" value="/WEB-INF/views/member/findId.jsp" />
+      </definition>
+      
+       <definition name="/member/findPwdForm" extends="baseLayout">
+         <put-attribute name="title" value="비밀번호 찾기" />
+         <put-attribute name="body" value="/WEB-INF/views/member/findPwdForm.jsp" />
+      </definition>
+      <definition name="/member/findPwd" extends="baseLayout">
+         <put-attribute name="title" value="비밀번호 확인" />
+         <put-attribute name="body" value="/WEB-INF/views/member/findPwd.jsp" />
       </definition>
       
 </tiles-definitions>

@@ -39,16 +39,16 @@
             <div class="awakeId">
                 <h2>휴면 해제하기</h2>
                 <div class="awake_id">
-                    <input type="text" id="input_id" name="user_id" placeholder="아이디">
+                    <input type="text" id="input_id" name="id" placeholder="아이디">
                 </div>
                 <div class="awake_pw">
-                    <input type="password" id="input_pw" name="user_pw" placeholder="비밀번호">
+                    <input type="password" id="input_pw" name="pwd" placeholder="비밀번호">
                 </div>
                 <div class="awake_name">
-                    <input type="text" id="input_name" name="user_name" placeholder="이름">
+                    <input type="text" id="input_name" name="name" placeholder="이름">
                 </div>
                 <div class="awake_email">
-                    <input type="text" id="input_email" name="user_email" placeholder="이메일">
+                    <input type="text" id="input_email" name="email" placeholder="이메일">
                 </div>
                 <div class="submit9">
                     <a href="${contextPath}/main/main.do"><input type="button" id="goMain" value="메인으로 돌아가기" style="cursor:pointer"></a>

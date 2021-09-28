@@ -5,6 +5,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <script type="text/javascript">
+sessionStorage.setItem("contextpath", "${pageContext.request.contextPath}");
 </script>
 
 <c:if test='${not empty adminMessage }'>

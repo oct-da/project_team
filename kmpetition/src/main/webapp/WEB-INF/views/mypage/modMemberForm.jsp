@@ -4,88 +4,67 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html >
 <html>
-<head>
-<meta charset="utf-8">
-<!-- 제이쿼리를 사용하기 위한 srcipt -->
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script>
 
-/* 이메일 중복체크 */
-function fn_checkEmail(){
-    var _email=$("#email").val();
-    if(_email==''){
-   	 alert("이메일을 입력하세요");
-   	 return;
-    }
-    $.ajax({
-       type:"post",
-       async:false,  
-       url:"${contextPath}/member/checkEmail.do",
-       dataType:"text",
-       data: {email:_email},
-       success:function (data,textStatus){
-          if(data=='false'){
-       	    alert("사용할 수 있는 이메일입니다.");
-       	    $('#btnCheckEmail').prop("disabled", true);
-       	    $('#email').prop("disabled", true);
-       	    $('#email').val(_email);
-          }else{
-        	  alert("사용할 수 없는 이메일입니다.");
-          }
-       },
-       error:function(data,textStatus){
-          alert("에러가 발생했습니다.");ㅣ
-       },
-       complete:function(data,textStatus){
-          //alert("작업을완료 했습니다");
-       }
-    });  //end ajax	 
- }	
-</script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>회원 정보 수정</title>
+
+    <!-- 구글 웹폰트 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="${contextPath}/resources/css/style.css" type="text/css">
+
+    <!-- jQuery, js -->
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
+    <!-- Swal js-->
+    <script src="${contextPath}/resources/js/swalModal.js"></script>
+
+    <!-- alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.all.min.js"></script>
+
+    <!-- Include the Bootstrap 4 theme -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bootstrap-4/bootstrap-4.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2/dist/sweetalert2.min.js"></script>
 </head>
 <body>
-	<h3>회원정보수정 화면</h3>
-	<form action="${contextPath}/mypage/modMember.do" method="post">
-		<table>
-			<tbody>
-				<tr class="dot_line">
-					<td class="fixed_join">아이디</td>
-					<td><input type="text" name="id" id="id" size="20" value="${memberInfo.id}" readonly="readonly"/></td>
-				</tr>
-				<tr class="dot_line">
-					<td class="fixed_join">비번</td>
-				<td><input type="password" name="pwd" id="pwd" size="20" value="${memberInfo.pwd }"/></td>
-				</tr>
-				<tr class="dot_line">
-					
-				<td class="fixed_join">이름</td>
-				<td><input type="text" name="name" id="name" size="20" value="${memberInfo.name }"/></td>
-				</tr>
-				<tr class="dot_line">
-				<td class="fixed_join">폰번</td>
-				<td><input type="text" name="phone" id="phone" size="20" value="${memberInfo.phone }"/></td>
-				</tr>
-				<tr class="dot_line">
-					
-				<td class="fixed_join">이메일</td>
-					<td>
-					  <input type="text" name="email" id="email" size="20" value="${memberInfo.email }"/>
-					<input type="button" id="btnCheckEmail" value="중복체크" onClick="fn_checkEmail()" /></td>
-				</tr>
-				
-				
-		<table align=center>
-		<tr>
-			<td>
-			<td>
-				<input type="submit" value="수정">
-				<input type="reset" value="다시입력">
-			</td>
-			<td><a href="${contextPath }/main/main.do">메인으로 이동</a></td>
-			</td>
-		</tr>
-	</table>
-</form>	
+
+    <form name="frmModMember" method="post" action="${contextPath}/mypage/modMember.do">
+        <div class="wrap">
+            <div class="modMember">
+                <h2>회원 정보 수정</h2>
+                <div class="mod_id">
+                    <input type="text" id="input_id" name="id" value="${memberInfo.id}" readonly="readonly">
+                </div>
+                <div class="mod_pw">
+                    <input type="password" id="input_pw" name="pwd" value="${memberInfo.pwd}" placeholder="비밀번호(영문+숫자 8~16자)">
+                </div>
+                <div class="mod_pw_cnfm">
+                    <input type="password" id="input_pw_re" name="user_pw_re" value="${memberInfo.pwd}" placeholder="비밀번호 확인">
+                </div>
+                <div class="mod_name">
+                    <input type="text" id="input_name" name="name" value="${memberInfo.name}" placeholder="이름">
+                </div>
+                <div class="mod_email">
+                    <input type="text" id="input_email" name="email" value="${memberInfo.email}" placeholder="이메일">
+                    <input type="button" id="emailCheckBtn" value="중복확인" style="cursor: pointer" onclick="emailCheck()">
+                    <input type="hidden" name="checkedEmail" value="">
+                </div>
+                <div class="mod_num">
+                    <input type="text" oninput="this.value=this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="11" id="input_num" name="user_num" value="${memberInfo.phone}" placeholder="전화번호">
+                </div>
+                <div class="submit10">
+                    <input type="button" id="modCnfm" value="수정하기" style="cursor:pointer" onclick="modCheck()">
+                </div>
+            </div>
+        </div>
+    </form>
 
 </body>
 </html>

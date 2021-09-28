@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myspring.kmpetition.main.MainController;
@@ -43,7 +44,7 @@ public class MyPageControllerImpl extends MainController implements MyPageContro
 
 	@Override
 	@RequestMapping(value="/modMember", method = RequestMethod.POST)
-	public ResponseEntity modMember(@ModelAttribute("memberInfo") MemberVO _memberVO,HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ResponseEntity modMember(@RequestParam Map modMap, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		
 		System.out.println("mypage의 modmember 도착");
@@ -54,6 +55,18 @@ public class MyPageControllerImpl extends MainController implements MyPageContro
 		ResponseEntity resEntity = null;
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+		
+		String id=(String) modMap.get("id");
+		String pwd=(String) modMap.get("pwd");
+		String name=(String) modMap.get("name");
+		String email=(String) modMap.get("email");
+		String phone=(String) modMap.get("user_num");
+		MemberVO _memberVO=new MemberVO();
+		_memberVO.setEmail(email);
+		_memberVO.setId(id);
+		_memberVO.setName(name);
+		_memberVO.setPhone(phone);
+		
 		try {
 			myPageService.modMember(_memberVO);
 			

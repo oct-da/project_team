@@ -1,6 +1,3 @@
-@charset "utf-8";
-
-
 * {
     margin: 0;
     padding: 0;
@@ -60,8 +57,8 @@ h2 {
     border: 1px solid lightgray;
 }
 
-.join_id idCheckBtn {
-    width: 100px;
+.join_id #idCheckBtn {
+    margin-right: 0px;
     padding: 0;
 }
 
@@ -110,15 +107,23 @@ h2 {
 .join_email {
     margin-top: 5px;
     width: 80%;
+    display: flex;
+    justify-content: space-between;
 }
 
 .join_email input {
-    width: 100%;
+    width: 250px;
     height: 50px;
+    margin-right: 8px;
     border-radius: 10px;
     margin-top: 5px;
     padding: 0px 20px;
     border: 1px solid lightgray;
+}
+
+.join_email #emailCheckBtn {
+    margin-right: 0px;
+    padding: 0;
 }
 
 .join_num {
@@ -155,6 +160,7 @@ h2 {
     height: 50px;
     border: 0;
     outline: none;
+    margin-top: 5px;
     border-radius: 10px;
     background: #0670D9;
     color: white;
@@ -221,6 +227,7 @@ h2 {
     height: 50px;
     border: 0;
     outline: none;
+    margin-top: 5px;
     border-radius: 10px;
     background: #0670D9;
     color: white;
@@ -343,6 +350,52 @@ h2 {
     font-size: 1.2em;
 }
 
+/* found_no_id 관련 */
+.foundNoId {
+    width: 450px;
+    height: 350px;
+    background: white;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.foundNoId .info p {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-justify: center;
+}
+
+.submit4_1 {
+    margin-top: 10px;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#goMain1 {
+    width: 180px;
+    height: 50px;
+    border: 0;
+    border-radius: 10px;
+    background: #999999;
+    color: white;
+    font-size: 1.1em;
+}
+
+#gofindId {
+    width: 160px;
+    height: 50px;
+    border: 0;
+    outline: none;
+    border-radius: 10px;
+    background: #0670D9;
+    color: white;
+    font-size: 1.1em;
+}
+
 /* find_pw 관련 */
 .findPw {
     width: 450px;
@@ -426,6 +479,52 @@ h2 {
     font-size: 1.2em;
 }
 
+/* found_no_pw 관련 */
+.foundNoPw {
+    width: 450px;
+    height: 350px;
+    background: white;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.foundNoPw .info p {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-justify: center;
+}
+
+.submit5_1 {
+    margin-top: 10px;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#goMain2 {
+    width: 180px;
+    height: 50px;
+    border: 0;
+    border-radius: 10px;
+    background: #999999;
+    color: white;
+    font-size: 1.1em;
+}
+
+#gofindPwd {
+    width: 160px;
+    height: 50px;
+    border: 0;
+    outline: none;
+    border-radius: 10px;
+    background: #0670D9;
+    color: white;
+    font-size: 1.1em;
+}
+
 /* change_pw 관련 */
 .changePw {
     width: 450px;
@@ -506,7 +605,8 @@ h2 {
 }
 
 .dormNotice .info {
-    margin-top: 20px;
+    margin-top: 30px;
+    margin-bottom: 20px;
     width: 80%;
     text-justify: auto;
 }
@@ -632,6 +732,129 @@ h2 {
     outline: none;
     border-radius: 10px;
     background: #999999;
+    color: white;
+    font-size: 1.2em;
+}
+
+/* modMember 관련 */
+.modMember {
+    width: 450px;
+    height: 700px;
+    background: white;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.mod_id {
+    margin-top: 20px;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.mod_id input {
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+}
+
+.mod_pw {
+    margin-top: 5px;
+    width: 80%;
+}
+
+.mod_pw input {
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 5px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+}
+
+.mod_pw_cnfm {
+    margin-top: 5px;
+    width: 80%;
+}
+
+.mod_pw_cnfm input {
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 5px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+}
+
+.mod_name {
+    margin-top: 5px;
+    width: 80%;
+}
+
+.mod_name input {
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 5px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+}
+
+.mod_email {
+    margin-top: 5px;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.mod_email input {
+    width: 250px;
+    height: 50px;
+    margin-right: 8px;
+    border-radius: 10px;
+    margin-top: 5px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+}
+
+.mod_email #emailCheckBtn {
+    margin-right: 0px;
+    padding: 0;
+}
+
+.mod_num {
+    margin-top: 5px;
+    width: 80%;
+}
+
+.mod_num input {
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 5px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+}
+
+.submit10 {
+    margin-top: 50px;
+    width: 80%;
+}
+
+.submit10 input {
+    width: 100%;
+    height: 50px;
+    border: 0;
+    outline: none;
+    margin-top: 5px;
+    border-radius: 10px;
+    background: #0670D9;
     color: white;
     font-size: 1.2em;
 }

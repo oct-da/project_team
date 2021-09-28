@@ -13,7 +13,6 @@ public class MemberVO {
 	private String phone;
 	private String email;
 	private Date lastlogin;
-	private String enable;
 	
 	
 	
@@ -46,12 +45,6 @@ public class MemberVO {
 	}
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	public String getEnable() {
-		return enable;
-	}
-	public void setEnable(String enable) {
-		this.enable = enable;
 	}
 	public Date getLastlogin() {
 		return lastlogin;

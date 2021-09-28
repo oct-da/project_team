@@ -25,8 +25,8 @@
 		parameterType="java.util.Map">
 	    <![CDATA[
 			select * from member 
-			 where id=#{id}
-			 and pwd=#{pwd}			
+			 where id=#{user_id}
+			 and pwd=#{user_pw}			
 			 
 		]]>
 	</select>
@@ -84,7 +84,7 @@
 	<select id="findId" parameterType="java.util.Map" resultType="memberVO">
 		<![CDATA[ 
 			select * from member 
-			where name=#{name} and email=#{email} 
+			where name=#{user_name} and email=#{user_email} 
 		]]>
 	</select>
 	
@@ -92,7 +92,7 @@
 	<select id="findPwd" parameterType="java.util.Map" resultType="memberVO">
 		<![CDATA[ 
 			select * from member 
-			where name=#{name} and email=#{email} and id=#{id} 
+			where name=#{user_name} and email=#{user_email} and id=#{user_id} 
 		]]>
 	</select>
 	
