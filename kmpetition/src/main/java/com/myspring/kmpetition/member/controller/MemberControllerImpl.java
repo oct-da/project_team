@@ -53,7 +53,7 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		System.out.println(loginMap.get("user_id"));
 		System.out.println(loginMap.get("user_pw"));
 
-		if (loginMap.get("user_id").equals("admin") && loginMap.get("user_pw").equals("admin")) {
+		if (loginMap.get("user_id").equals("admin12345") && loginMap.get("user_pw").equals("admin12345")) {
 
 			session.setAttribute("isLogOn", true);
 			session.setAttribute("isAdmin", true);

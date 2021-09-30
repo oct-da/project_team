@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -50,6 +52,7 @@ public class MainController {
 		HttpSession session;
 		ModelAndView mav = new ModelAndView();
 		String viewName = "/main/main";
+		mav=networkGraph(mav);
 		mav.setViewName(viewName);
 		return mav;
 	}
@@ -71,6 +74,67 @@ public class MainController {
 		return mav;
 	}
 
+	
+//	네트워크 그래프를 그리기 위한 메서드
+	public ModelAndView networkGraph(ModelAndView mav) {
+		Socket soc = null;
+		BufferedReader br = null;
+		JSONObject json = null;
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		System.out.println("process started at " + sdf.format(new Date()));
+
+		try {
+
+			soc = new Socket("192.168.0.37", 9999);
+
+			InputStream input = soc.getInputStream();
+			br = new BufferedReader(new InputStreamReader(input));
+
+			String line = br.readLine();
+			String json_str = line.replace('"', '\"');
+			JSONParser parser = new JSONParser();
+			Object obj = parser.parse(json_str);
+			json = (JSONObject) obj;
+			System.out.println(line);
+			System.out.println(json);
+		}
+
+		catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		finally {
+			
+			try {
+
+				if (soc != null) {
+
+					soc.close();
+				}
+				
+				if (br != null) {
+					
+					br.close();
+				}
+			}
+
+			catch (Exception e) {
+
+				e.printStackTrace();
+			}
+		}
+
+		System.out.println("process ended at " + sdf.format(new Date()));
+		
+		mav.addObject("json", json);
+		return mav;
+	}
+	
+	
+	
 	// 파일 업로드 메소드
 	// 파일 이름 형식 'articleNO'_'fileName'.'확장자'
 	// 중복파일 이름 형식 'articleNO'_'fileName'('num').'확장자'

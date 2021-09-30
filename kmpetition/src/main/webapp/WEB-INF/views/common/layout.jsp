@@ -12,6 +12,10 @@ request.setCharacterEncoding("utf-8");
 <meta name="viewport" content="width=device-width">
 <title><tiles:insertAttribute name="title" /></title>
 
+    <!-- CSS -->
+    <link rel="stylesheet" href="${contextPath}/resources/css/main.css" type="text/css">
+
+
 </head>
 <body>
 	<div id="outer_wrap">
@@ -27,9 +31,7 @@ request.setCharacterEncoding("utf-8");
 				<tiles:insertAttribute name="body" />
 			</article>
 			<div class="clear"></div>
-			<footer>
-				<tiles:insertAttribute name="footer" />
-			</footer>
+			
 		</div>
 	</div>
 </body>

@@ -6,6 +6,7 @@
 <head>
 
 <script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script>
 	var cnt = 1;
 	function fn_addFile() {
@@ -26,12 +27,14 @@
 	<P>
 		MainController에서 동작합니다.
 
-
-		
-		</br>
-		</br>
-		</br>
-		
 	</P>
+		<div class="chart" id="graph">
+        <script>
+        var graphs = ${json}
+
+        Plotly.plot('graph', graphs, {});
+        </script>
+    </div>
+    
 </body>
 </html>

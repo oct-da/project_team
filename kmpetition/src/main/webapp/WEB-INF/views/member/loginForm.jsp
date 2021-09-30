@@ -63,6 +63,7 @@
             </script>
         </c:if>
     </c:if>
+    <%--
     <c:if test='${empty message}'>
         <script>
             window.onload = function() {
@@ -74,7 +75,9 @@
             }
 
         </script>
+        
     </c:if>
+     --%>
 </head>
 <body>
 	<form name="frmLogin" method="post" action="${contextPath}/member/login.do">
