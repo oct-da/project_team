@@ -1,0 +1,81 @@
+ * {
+            margin: 0;
+            padding: 0;
+            font-family: "Noto Sans KR", sans-serif;
+        }
+
+        
+        
+        header {
+          
+            height: 200px;
+            
+        }
+
+        
+        .pagination{
+            position: absolute;
+            width: 100%;    
+            left:590px;
+        }
+      
+        row{
+            margin: 0;
+            padding: 0;
+        }
+       
+        
+        
+        
+        .at_list{
+            height: 800px;
+        }
+       
+        
+        h1{
+            width: 90%;
+        }
+        #cont-2{
+            width: 1000px;
+        }
+        .pagination{
+            position: absolute;
+            left: 650px;
+            width: 600px;
+        }
+        
+        .text_filed{
+            width: 100%;
+            height: 100%;
+            text-align: center;
+        }
+        .inside_text{
+            width:95%;
+            height: 500px;
+        }
+         .bottom_button{
+            position: relative;
+            left:64%;
+            top:3%;
+        }
+        .a1{
+            width: 100%;
+        }
+        .a2{
+            width:100%;
+        }
+        .a3{
+            text-align: left;
+            width:12%;
+        }
+       
+        
+        .bottom_download{
+            position: relative;
+            left:3%;
+            top:1%;
+            height: 100px;
+            
+        }
+        
+       

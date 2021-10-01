@@ -1,0 +1,107 @@
+.form-control {
+
+    right: 40px;
+
+}
+
+
+
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+
+}
+
+@media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+    }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#menu {
+    /* position: fixed; */
+   
+    top: 20%;
+    left: 9%;
+    
+    height: 0;
+    width: 200px;
+
+    text-indent: 10px;
+    
+}
+
+ul#menu, ul#menu ul {
+    margin: 0;
+    padding: 0;
+    
+    list-style: none;
+
+}
+
+li.group {
+    margin-bottom: 8px;
+    padding: 0;
+    
+}
+
+div.title {
+	top : 50px;
+    height: 70px;
+    line-height: 70px;
+    padding: 0;
+    text-indent: 0px;
+    background: #48a2fc;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 15px;
+    font-family: "Noto Sans KR", sans-serif;
+    left : 50%;
+    position : relative;
+}
+
+ul.sub li a {
+	top : 50px;
+    display: block;
+    padding: 6px 0;
+    margin-top: 0;
+	width : 200px;
+	height : 50px;
+	text-align : center;
+    text-decoration: none;
+    color: #000;
+    text-indent: 0%;
+    font-family: "Noto Sans KR", sans-serif;
+     left : 50%;
+    position : relative;
+
+}
+
+ .title a{
+            text-decoration: none;
+            color: white;
+        }
+
+ul.sub li a:hover {
+    background: beige;
+    
+
+}
+
+
+.menu a {
+    cursor: pointer;
+}
+
+.menu .hide {
+    display: none;
+}

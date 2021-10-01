@@ -1,0 +1,115 @@
+ * {
+            margin: 0;
+            padding: 0;
+            font-family: "Noto Sans KR", sans-serif;
+        }
+
+        
+        
+   
+        
+      
+        row{
+            margin: 0;
+            padding: 0;
+        }
+       
+        
+        
+        
+        .at_list{
+            height: 800px;
+        }
+       
+        
+        h1{
+            width: 90%;
+        }
+        #cont-2{
+            width: 1000px;
+        }
+       
+        
+        .text_filed{
+            width: 100%;
+            height: 100%;
+            position: relative;
+            left: 0%;
+        }
+        .text_filed2{
+            width: 10px;
+            height: 100%;
+            text-align: left;
+        }
+        .inside_text{
+            width:100%;
+            height: 40px;
+        }
+        .bottom_text{
+            height: 465px;
+            width: 90%;
+        }
+        
+       
+        .middle{
+            height: 10px;
+        }
+        
+       
+        .a1{
+            width: 100%;
+        }
+        .a2{
+            width:100%;
+        }
+        .a3{
+            width:100%;
+        }
+        .re_writer{
+            height: 10px;
+            text-align: center;
+        }
+        #btn{
+            position: relative;
+           
+           top: 20px;
+        }
+      .inside_button{
+            height: 70%;
+            width: 100%;
+            position: relative;
+            top:0px;
+            right: 0%;
+        }
+        .inside_button_1{
+            position: relative;
+            width: 30%;
+            top:14%;
+            
+            
+        }
+        
+           .insert{
+           
+            text-align: left;
+            
+        }
+        .bottom_insert{
+            position: relative;
+            top:2%;
+            left:15%;
+            
+            
+        }
+        
+         .bottom_button{
+            height: 100px;
+            width:200px;
+            
+            position: absolute;
+            top:90%;
+            left:80%;
+            text-align: right;
+            
+        }
+       

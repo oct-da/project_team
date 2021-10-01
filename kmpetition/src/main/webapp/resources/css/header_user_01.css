@@ -1,0 +1,193 @@
+* {
+            margin: 0;
+            padding: 0;
+            font-family: "Noto Sans KR", sans-serif;
+
+        }
+
+
+
+
+        .layer {
+
+            z-index: 1;
+            display: none;
+            position: fixed;
+           top: 11.5%;
+            right: 10;
+            bottom: 10;
+            left: 22.9%;
+
+            justify-content: left;
+            align-items: top;
+        }
+
+        .layer_content {
+
+            display: block;
+            width: 600px;
+            height: 500px;
+
+        }
+
+        .layer .layer_content .month_button {
+            position: fixed;
+
+            
+            left: 25.5%;
+
+        }
+
+        .layer .layer_content .month_button .month {
+            float: left;
+            margin-right: 5px;
+        }
+
+
+
+
+        .layer .layer_content .checkbox_lang .checkbox2_lang {
+            position: absolute;
+            margin-right: 20px;
+            top: 15%;
+            right: 47%;
+            text-decoration: none;
+
+
+        }
+
+
+        .checkbox_lang {
+            width: 100px;
+            height: 50px;
+            position: absolute;
+            margin-right: 20px;
+            top: 9%;
+            right: 73%;
+            list-style: none;
+            float: left;
+        }
+
+        .checkbox2_lang {
+            list-style-position: inside;
+
+            position: absolute;
+            margin-right: 20px;
+            top: 14%;
+            right: 90%;
+            list-style: none;
+
+        }
+
+
+        .checkbox3_lang {
+            position: absolute;
+            width: 100px;
+            height: 50px;
+            margin-right: 20px;
+            top: 55%;
+            right: 73%;
+            list-style: none;
+            float: left;
+        }
+
+        .checkbox4_lang {
+            list-style-position: inside;
+            position: absolute;
+            margin-right: 20px;
+            top: 60%;
+            right: 90%;
+            list-style: none;
+
+
+        }
+
+
+        #boxWrap {
+            position: absolute;
+
+            width: 300px;
+            height: 100px;
+
+        }
+
+        #boxWrap2 {
+            position: absolute;
+            width: 300px;
+            height: 100px;
+
+        }
+
+        .serch {
+            position: absolute;
+            width: 30%;
+            top: 90%;
+            left: 75%;
+        }
+
+
+
+        #today1, #today {
+            color: black;
+        }
+      
+      
+
+
+
+        header {
+            width: 100%;
+            height: 100px;
+            
+        }
+
+        .cont-1 {
+
+            height: 74px;
+
+        }
+
+        .cont-3 {
+            height: 50px;
+
+        }
+
+        #aside {
+            float: left;
+        }
+
+        #cont {
+            float: left;
+        }
+
+        .row {
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        .img_jmt {
+            position: absolute;
+
+            height: 114px;
+            left: 62%;
+
+        }
+
+        .search_text1 {
+            position: absolute;
+            width: 50%;
+            left: 12%;
+            top: 2%;
+        }
+
+        .search_text {
+            width: 150%;
+        }
+
+        .text-end {
+            position: absolute;
+            left: 30%;
+            top: 0%;
+
+        }
+        
