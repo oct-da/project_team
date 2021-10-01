@@ -41,6 +41,21 @@ public class MyPageControllerImpl extends MainController implements MyPageContro
 //		return mav;
 //		
 //	}
+	
+	@Override
+	@RequestMapping(value="/modMemberForm.do", method = {RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView modMemberForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session=request.getSession();
+		System.out.println("modMemberForm 진입");
+		String viewName=(String) request.getAttribute("viewName");
+		System.out.println("modMemberForm의 viewName:"+viewName);
+		ModelAndView mav = new ModelAndView(viewName);
+		mav.addObject("user_side", true);
+		return mav;
+	}
+	
+		
+	
 
 	@Override
 	@RequestMapping(value="/modMember", method = RequestMethod.POST)
@@ -124,6 +139,7 @@ public class MyPageControllerImpl extends MainController implements MyPageContro
 			
 			String viewName = (String) request.getAttribute("viewName");
 			ModelAndView mav = new ModelAndView(viewName);
+			mav.addObject("user_side", true);
 			
 			Map articleMap = myPageService.viewList(pagingMap);
 			
@@ -154,6 +170,8 @@ public class MyPageControllerImpl extends MainController implements MyPageContro
 			pagingMap.put("id", id);
 			
 			ModelAndView mav = new ModelAndView(viewName);
+			mav.addObject("user_side", true);
+			
 			Map readContent = myPageService.readContent(pagingMap);
 			readContent.put("section", section);
 			readContent.put("pageNum", pageNum);

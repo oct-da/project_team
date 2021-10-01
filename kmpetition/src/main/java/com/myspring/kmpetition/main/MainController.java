@@ -91,7 +91,11 @@ public class MainController {
 
 			InputStream input = soc.getInputStream();
 			br = new BufferedReader(new InputStreamReader(input));
-
+			OutputStream output = soc.getOutputStream();
+			PrintWriter pw = new PrintWriter(output);
+			pw.print("메인 원형그래프");
+			pw.flush();
+			
 			String line = br.readLine();
 			String json_str = line.replace('"', '\"');
 			JSONParser parser = new JSONParser();

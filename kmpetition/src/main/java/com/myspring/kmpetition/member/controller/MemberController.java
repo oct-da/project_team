@@ -43,8 +43,9 @@ public interface MemberController {
 	public int checkLoginDate(Date loginDate);
 	public void checkSaveId(String saveId, Map loginMap, HttpServletResponse response) throws Exception;
 	
+	public ResponseEntity removeMember(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
 //	내가 열람한 페이지를 보여주기 위해 DB에 저장 목적
 	public @ResponseBody String saveVisit(@RequestParam Map visitMap, HttpServletRequest request,HttpServletResponse response) throws Exception;
 	
-	public void removeMember(HttpServletRequest request, HttpServletResponse response) throws Exception ;
 }

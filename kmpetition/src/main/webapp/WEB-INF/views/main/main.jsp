@@ -28,6 +28,8 @@
 		MainController에서 동작합니다.
 
 	</P>
+	
+	
 		<div class="chart" id="graph">
         <script>
         var graphs = ${json}

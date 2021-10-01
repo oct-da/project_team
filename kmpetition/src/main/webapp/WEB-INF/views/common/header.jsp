@@ -43,7 +43,7 @@ sessionStorage.setItem("contextpath", "${pageContext.request.contextPath}");
 	<div class="row">
         <div class="col-2 header">
             <div class="logo">
-                <img class="img_jmt" src="${contextPath}/resources/img/logo.jpg" href="${contextPath}/main/main.do">
+                <a href="${contextPath}/main/main.do"><img class="img_jmt" src="${contextPath}/resources/img/logo.jpg" ></a>
             </div>
         </div>
 
@@ -77,7 +77,7 @@ sessionStorage.setItem("contextpath", "${pageContext.request.contextPath}");
                                     <div class="text-end">
                                         <div>
                                             <button onclick="location.href = '${contextPath}/member/logout.do' " type="button" class="btn btn-primary">로그아웃</button>
-                                            <button onclick="location.href = '${contextPath}/mypage/modMember.do' " type="button" class="btn btn-primary">마이페이지</button>
+                                            <button onclick="location.href = '${contextPath}/mypage/modMemberForm.do' " type="button" class="btn btn-primary">마이페이지</button>
                                             
                                             <button onclick="location.href = '' " type="button" class="btn btn-primary">이용안내</button>
                                         </div>
@@ -107,7 +107,7 @@ sessionStorage.setItem("contextpath", "${pageContext.request.contextPath}");
 					</c:when>
 					<c:otherwise>
 					<!-- CSS -->
-    <link rel="stylesheet" href="${contextPath}/resources/css/header_user_02.css" type="text/css">
+    <link rel="stylesheet" href="${contextPath}/resources/css/header_user_01.css" type="text/css">
 						<div class="col-6 cont-3">
                                     <div class="text-end">
                                         <div>
@@ -119,66 +119,88 @@ sessionStorage.setItem("contextpath", "${pageContext.request.contextPath}");
 
                             </div>
                         </div>
-                        <div class="col-2">
-                        
-                    </div>
+                     
                     </div>
                     <div class="row">
 					</c:otherwise>
 				</c:choose>
 				
-                        <div class="col">
-                            <form class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto">
+				                     </div>
+                  </div>
+                  
+               </div>
+               <div class="row">
 
-                                <div class="layer" id="layer">
+                  <div class="col">
+                     <form class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto">
 
-                                    <div class="alert alert-primary layer_content">
-                                        <div class="month_button">
-                                            <a>
-                                            <a><input type="date" class="month" id="today1"></a>
-                                            <a><input type="date" class="month" id="today1"></a>
-                                            <li type="button" class="btn btn-secondary month" id="month1">1개월</li>
-                                            <li type="button" class="btn btn-secondary month" id="month2">2개월</li>
-                                            <li type="button" class="btn btn-secondary month" id="month3">3개월</li>
-                                            </a>
-                                        </div>
+                        <div class="layer" id="layer">
 
-                                        <div class="checkbox_lang">
-                                            <a><input type="checkbox" class="language">제외할 단어</a>
-                                        </div>
-
-                                        <div class="checkbox2_lang">
-                                            <ul>
-                                                <div id="boxWrap">
-
-                                                    <input type="text" class="original">
-                                                    <button type="button" class="btn btn-outline-primary button">추가</button>
-
-
-                                                </div>
-                                            </ul>
-                                        </div>
-
-                                        <div class="checkbox3_lang">
-                                            <a><input type="checkbox" class="language">포함할 단어</a>
-                                        </div>
-
-                                        <div class="checkbox4_lang">
-                                            <ul>
-                                                <div id="boxWrap2">
-                                                    <input type="text" class="original">
-                                                    <button type="button" class="btn btn-outline-primary button2">추가</button>
-                                                </div>
-                                            </ul>
-                                        </div>
-
-                                        <div class="serch">
-                                            <button class="btn btn btn-primary" type=" button" id="serch_serch">검색</button>
-                                            <button class="btn btn-secondary" type=" button" id="layer_close">닫기</button>
-                                        </div>
+                           <div class="alert alert-primary layer_content">
+                              <div class="month_button">
+                                 <div class="layer_content">
+                                    <div class="month_button">
+                                       <a><input type="date" class="month" id="today1"></a>
+                                       <a><input type="date" class="month" id="today"></a>
+                                       <li type="button" class="btn btn-secondary month" id="month1">1개월</li>
+                                       <li type="button" class="btn btn-secondary month" id="month2">2개월</li>
+                                       <li type="button" class="btn btn-secondary month" id="month3">3개월</li>
                                     </div>
-                                </div>
+                                 </div>
 
+                                 <div class="checkbox_lang">
+                                    <a><input type="checkbox" class="language">제외할
+                                       단어</a>
+                                 </div>
+
+                                 <div class="checkbox2_lang">
+                                    <ul>
+                                       <div id="boxWrap">
+
+                                          <input type="text" class="original">
+                                          <button type="button"
+                                             class="btn btn-outline-primary button">추가</button>
+
+
+                                       </div>
+                                    </ul>
+                                 </div>
+
+                                 <div class="checkbox3_lang">
+                                    <a><input type="checkbox" class="language">포함할
+                                       단어</a>
+                                 </div>
+
+                                 <div class="checkbox4_lang">
+                                    <ul>
+                                       <div id="boxWrap2">
+                                          <input type="text" class="original">
+                                          <button type="button"
+                                             class="btn btn-outline-primary button2">추가</button>
+                                       </div>
+                                    </ul>
+                                 </div>
+
+                                 <div class="serch">
+                                    <button class="btn btn btn-primary" type=" button"
+                                       id="serch_serch">검색</button>
+                                    <button class="btn btn-secondary" type=" button"
+                                       id="layer_close">닫기</button>
+                                 </div>
+                              </div>
+                           </div>
+                     </form>
+
+                  </div>
+
+               </div>
+
+            </div>
+         </div>
+
+      </div>
+   </div>
+				
                             </form>
 
                         </div>

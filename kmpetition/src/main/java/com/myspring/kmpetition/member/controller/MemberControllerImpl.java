@@ -199,29 +199,23 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		ResponseEntity resEntity = null;
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+		
+//		테스트용 출력
 		System.out.println("id : " + memberVO.getId());
 		System.out.println("pwd : " + memberVO.getPwd());
 		System.out.println("email : " + memberVO.getEmail());
 		System.out.println("name : " + memberVO.getName());
+		
 		try {
 			String result = memberService.awakeMember(memberVO);
 			if (result.equals("true")) {
-				message = "<script>";
-				message += " alert('계정을 활성화했습니다. 로그인 화면으로 이동합니다.');";
-				message += " location.href='" + request.getContextPath() + "/member/loginForm.do';";
-				message += " </script>";
+				message = "success";
 			} else {
-				message = "<script>";
-				message += " alert('조회된 회원이 없습니다. 다시 시도해 주세요.');";
-				message += " location.href='" + request.getContextPath() + "/member/awakeForm.do';";
-				message += " </script>";
+				message = "notExist";
 			}
 		} catch (Exception e) {
 
-			message = "<script>";
-			message += " alert('작업 중 오류가 발생했습니다. 다시 시도해 주세요');";
-			message += " location.href='" + request.getContextPath() + "/member/awakeForm.do';";
-			message += " </script>";
+			message = "error";
 			e.printStackTrace();
 		}
 		resEntity = new ResponseEntity(message, responseHeaders, HttpStatus.OK);
@@ -403,19 +397,32 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		return result;
 	}
 
+	@Override
 	@RequestMapping(value = "/removeMember.do", method = RequestMethod.DELETE)
-	public void removeMember(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+	public ResponseEntity removeMember(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		ResponseEntity resEntity = null;
 		HttpSession session = request.getSession();
+		String message=null;
+		
 		String id = (String) session.getAttribute("id");
 
 		Map<String, List<String>> deleteMap = memberService.allUploadList(id);
 		List<String> boardList = deleteMap.get("board");
 		List<String> replyList = deleteMap.get("reply");
-		memberService.removeMember(id);
-		deleteFile(boardList);
-		deleteFile(replyList);
-
+		
+		try {
+			memberService.removeMember(id);
+			deleteFile(boardList);
+			deleteFile(replyList);
+			message="success";
+		}catch (Exception e) {
+			message="error";
+			e.printStackTrace();
+		}
+		
+		resEntity = new ResponseEntity(message, HttpStatus.OK);
+		return resEntity;
 	}
 
 //	최종접속일 확인(휴면계정 판단)

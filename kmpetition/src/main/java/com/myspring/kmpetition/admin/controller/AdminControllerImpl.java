@@ -39,6 +39,7 @@ public class AdminControllerImpl extends MainController implements AdminControll
 	@RequestMapping(value = "/memberList.do")
 	public ModelAndView memberList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
+//		mav.addObject("", mav)
 		HttpSession session = request.getSession();
 		Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
 
