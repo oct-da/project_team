@@ -1,6 +1,10 @@
 $(function() {
+	/*검색 input*/
    const layer_button = document.getElementById("form_text");
+   /*감춰져있는 서치 박스 div. 처음엔 display: none; 상태 */
    const layer = document.getElementById("layer");
+   /*서치박스 div(layer) 안에 있는 닫기 버튼*/
+   const layer_close = document.getElementById("layer_close");
 
    layer_button.addEventListener("click", function(e) {
       layer.setAttribute("style", "display: flex");
@@ -10,7 +14,7 @@ $(function() {
 
    layer_close.addEventListener("click", function(e) {
       layer.setAttribute("style", "display: none");
-
+	 
    });
 });
 
@@ -27,7 +31,9 @@ $(function() {
       html += '</td></tr>';
 
       $("#boxWrap").append(html); //list라는 아이디에 html을 추가해라
+      cntAdd++;
    });
+   
 
    $("#boxWrap").on("click", ".btnDel", function() { //list안의 btnDel을 선택
       $(this).parent().parent().remove(); //this(btnDel)의 부모(td)의 부모(tr)를 삭제

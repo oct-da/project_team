@@ -48,14 +48,16 @@
 <script type="text/javascript">
    function backToList(obj) { // [리스트로 돌아가기] 나 [취소] 눌렀을 때 obj <- this.form(폼 객체 전체)
       obj.action = "${contextPath}/board/noticeList.do";
+      obj.setAttribute("method", "get");
       obj.submit();
    }
    var cnt = 1;
    function fn_addFile() {
-      if(cnt <= 3){
-      $("#d_file").append("<br>" + "<input type='file' name='file"+cnt+"' />");
-      cnt++;
-      }else{
+      if (cnt <= 3) {
+         $("#d_file").append(
+               "<br>" + "<input type='file' name='file"+cnt+"' />");
+         cnt++;
+      } else {
          return;
       }
    }
@@ -112,7 +114,8 @@
 
                            </div>
                            <div class="col-5 text_filed">
-                              <input type="text" class="inside_text" id="title_id" name = "title" value="">
+                              <input type="text" class="inside_text" id="title_id"
+                                 name="title" value="">
                            </div>
 
 
@@ -133,7 +136,8 @@
 
                            </div>
                            <div class="col text_filed2">
-                              <input type="text" class="bottom_text" id="story" name = "content" value="">
+                              <input type="text" class="bottom_text" id="story"
+                                 name="content" value="">
 
                            </div>
                         </div>
@@ -146,17 +150,18 @@
                                  onClick="fn_addFile()">파일 첨부</button>
                            </div>
                            <div id="d_file"></div>
-                           
-                        
-</div>
 
-                           <div class="row bottom_button">
+
+                        </div>
+
+                        <div class="row bottom_button">
                            <div class="col ">
-                              <button type="button" class=" btn btn-primary a3" onClick="backToList(this.form)">목록</button>
-                               
+                              <button type="button" class=" btn btn-primary a3"
+                                 onClick="backToList(this.form)">목록</button>
                            </div>
                            <div class="col ">
-                              <button type="button" class=" btn btn-primary a3" onClick="noticeChk(this.form)">확인</button>
+                              <button type="button" class=" btn btn-primary a3"
+                                 onClick="noticeChk(this.form)">확인</button>
                            </div>
                         </div>
 

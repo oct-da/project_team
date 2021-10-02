@@ -5,10 +5,6 @@
         }
 
         
-        
-       
-
-        
         .pagination{
             position: absolute;
             width: 100%;    
@@ -50,6 +46,10 @@
         .inside_text{
             width:100%;
             height: 40px;
+        }
+        .inside_text1{
+            width:100%;
+            height: 500px;
         }
         .bottom_text{
             height: 465px;

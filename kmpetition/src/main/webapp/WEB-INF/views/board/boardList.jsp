@@ -9,13 +9,18 @@
 <c:set  var="pageNum"  value="${articleMap.pageNum}" />
 <c:set  var="startNum"  value="${articleMap.startNum}" />
  <script  src="http://code.jquery.com/jquery-latest.min.js"></script> 
-<c:if test="${errMsg }">
+ 
+<!-- alert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+ 
+ 
+<c:if test="${message=='notVisible' }">
 
 	<script>
-	window.onload(function(){
+	window.onload=function(){
 		alert("비공개 게시글입니다.");
 		
-	});
+	}
 	
 	</script>
 
@@ -57,12 +62,12 @@
  <c:if test="${totBoard != null }" >
       <c:choose>
         <c:when test="${totBoard >100 }">  <!-- 글 개수가 100 초과인경우 -->
-	      <c:forEach   var="page" begin="1" end="10" step="1" >
+	      <c:forEach var="page" begin="1" end="${totBoard/(section*100) >= 1 ? 10 : totBoard%((section-1)*100)/10+1 }" step="1">
 	         <c:if test="${section >1 && page==1 }">
 	          <a class="no-uline" href="${contextPath }/board/boardList.do?section=${section-1}&pageNum=1">&nbsp; pre </a>
 	         </c:if>
 	          <a class="no-uline" href="${contextPath }/board/boardList.do?section=${section}&pageNum=${page}">${(section-1)*10 +page } </a>
-	         <c:if test="${page ==10 }">
+	         <c:if test="${page ==10 && totBoard > section*100 }">
 	          <a class="no-uline" href="${contextPath }/board/boardList.do?section=${section+1}&pageNum=1">&nbsp; next</a>
 	         </c:if>
 	      </c:forEach>

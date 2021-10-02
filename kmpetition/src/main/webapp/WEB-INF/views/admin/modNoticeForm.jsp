@@ -5,7 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <c:set var="now" value="<%=new Date()%>" />
-<c:set var="article" value="${articleMap.noticeVO}" />
+<c:set var="noticeVO" value="${articleMap.noticeVO}" />
 <c:set var="uploadList" value="${articleMap.uploadList}" />
 <head>
 <meta charset="utf-8">
@@ -35,10 +35,14 @@
    href="${contextPath}/resources/css/AD_Notice_4.css" type="text/css">
 <title>Insert title here</title>
 
+<!-- noti js-->
+<script src="${contextPath}/resources/js/notice.js"></script>
+
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
    function backToList(obj) { // [리스트로 돌아가기] 나 [취소] 눌렀을 때 obj <- this.form(폼 객체 전체)
       obj.action = "${contextPath}/board/noticeList.do";
+      obj.setAttribute("method", "get");
       obj.submit();
    }
 
@@ -61,107 +65,113 @@
    }
 </script>
 </head>
-
 <body>
-   <div class="row">
+   <form method="post" action="${contextPath}/admin/modNotice.do"
+      enctype="multipart/form-data" name="frmNotice">
+      <input type="hidden" name="articleNO" value="${articleMap.article.articleNO }">
+      <table border=0 align="center">
+         <div class="row">
 
-      <div class="col-8" id="cont">
+            <div class="col-8" id="cont">
 
-         <div class="g_header">
+               <div class="g_header">
 
-            <h1>관리자 페이지</h1>
-         </div>
+                  <h1>관리자 페이지</h1>
+               </div>
 
 
-         <div class="row ">
+               <div class="row ">
 
-            <div class="col-10 alert alert-primary layer_content at_list">
+                  <div class="col-10 alert alert-primary layer_content at_list">
 
-               <div class="row">
-                  <div class="col-12 little_header">
-                     <h1>공지사항 수정</h1>
-                     <hr align="left" style="border: solid 1px #0670D9; width: 100%;">
                      <div class="row">
-                        <div class="col-12 little_name">
-                           <h5>${noticeVO.articleNO }|${noticeVO.createdate }</h5>
+                        <div class="col-12 little_header">
+                           <h1>공지사항 수정</h1>
                            <hr align="left"
                               style="border: solid 1px #0670D9; width: 100%;">
+                           <div class="row">
+                              <div class="col-12 little_name">
+                                 <h5>글번호 : ${noticeVO.articleNO }  |  작성일자 : ${noticeVO.createdate }</h5>
+                                 <hr align="left"
+                                    style="border: solid 1px #0670D9; width: 100%;">
+                              </div>
+
+                           </div>
+
+                        </div>
+
+
+
+                     </div>
+
+                     <div class="row">
+                        <div class="col-1 text_filed2">
+                           <h5>제목</h5>
+
+                        </div>
+                        <div class="col-5 text_filed">
+                           <input type="text" class="inside_text"
+                              value="${noticeVO.title }" id="title_id" name="title">
+                        </div>
+
+
+                     </div>
+
+
+                     <div class="row">
+                        <div class="col-5 re_writer">
+                           <span></span>
                         </div>
 
                      </div>
 
-                  </div>
 
+                     <div class="row">
+                        <div class="col-1 text_filed2">
+                           <h5>내용</h5>
 
-
-               </div>
-
-               <div class="row">
-                  <div class="col-1 text_filed2">
-                     <h5>제목</h5>
-
-                  </div>
-                  <div class="col-5 text_filed">
-                     <input type="text" class="inside_text" value="">
-                  </div>
-
-
-               </div>
-
-
-               <div class="row">
-                  <div class="col-5 re_writer">
-                     <span></span>
-                  </div>
-
-               </div>
-
-
-               <div class="row">
-                  <div class="col-1 text_filed2">
-                     <h5>내용</h5>
-
-                  </div>
-                  <div class="col text_filed2">
-                     <input type="text" class="bottom_text" value="">
-
-                  </div>
-               </div>
+                        </div>
+                        <div class="col text_filed2">
+                           <textarea class="inside_text1" id="story" name="story" style="resize:none;">${noticeVO.content }</textarea>
+                        </div>
+                     </div>
 
 
 
 
 
-               <div class="row bottom_button">
-                  <div class="col-5">
-                     <bottom> </bottom>
-                  </div>
+                     <div class="row bottom_button">
+                        <div class="col-5">
+                           <bottom> </bottom>
+                        </div>
 
 
 
-                  <div class="col-1">
-                     <span></span>
-                  </div>
-                  <div class="col-2">
-                     <button type="button" class=" btn btn-primary a3">목록</button>
-                  </div>
-                  <div class="col-2">
-                     <button type="button" class=" btn btn-primary a3">확인</button>
+                        <div class="col-1">
+                           <span></span>
+                        </div>
+                        <div class="col-2">
+                           <button type="button" class=" btn btn-primary a3"
+                              onClick="backToList(this.form)">목록</button>
+                        </div>
+                        <div class="col-2">
+                           <button type="button" class=" btn btn-primary a3"
+                              onClick="noticeChk(this.form)">확인</button>
+                        </div>
+                     </div>
+
+
+
                   </div>
                </div>
-
-
-
             </div>
          </div>
-      </div>
-   </div>
 
 
 
-      
 
-<%-- 
+
+         <%-- 
 
    <form method="post" action="${contextPath}/admin/modNotice.do"
       enctype="multipart/form-data">
@@ -219,9 +229,9 @@
                onClick="backToList(this.form)"> <input type="submit"
                value="등록하기"></td>
 
-         </tr>
+         </tr> --%>
 
 
       </table>
-   </form> --%>
+   </form>
 </body>

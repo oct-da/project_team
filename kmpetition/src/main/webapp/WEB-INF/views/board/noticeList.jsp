@@ -166,6 +166,11 @@
                      </ul>
                   </div>
                </div>
+               </div>
+               </div>
+               </div>
+               </div>
+               
                <!--  왜인지 c 안에 작성한 코드가 반영이 안 돼서 일단 관리자검사 생략
 <div>
 <c:if test="${isAdmin } ">

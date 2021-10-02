@@ -39,6 +39,7 @@
 <script type="text/javascript">
    function backToList(obj) { // [리스트로 돌아가기] 나 [취소] 눌렀을 때 obj <- this.form(폼 객체 전체) / frmArticle
       obj.action = "${contextPath}/board/noticeList.do";
+      obj.setAttribute("method", "get");
       obj.submit();
    }
 
@@ -89,82 +90,78 @@
 </head>
 
 <body>
+   <form method="post" action="${contextPath}/admin/addNotice.do"
+      enctype="multipart/form-data" name="frmNotice">
+      <table border=0 align="center">
+         <div class="row">
 
+            <div class="col-8" id="cont">
 
+               <div class="g_header">
 
-   <div class="row">
-
-      <div class="col-8" id="cont">
-
-         <div class="g_header">
-
-            <h1>공지 사항</h1>
-         </div>
-
-         <div class="row ">
-
-            <div class="col-10 alert alert-primary layer_content at_list">
-
-               <div class="row">
-                  <div class="col-12 little_header">
-                     <h1>${noticeVO.title }</h1>
-
-                  </div>
-
-               </div>
-               <div class="row">
-                  <div class="col-12 little_name">
-                     <h5>${noticeVO.articleNO }|${noticeVO.createdate }</h5>
-                     <hr align="left" style="border: solid 1px #0670D9; width: 100%;">
-                  </div>
-
-
-               </div>
-               <div class="row">
-                  <div class="col-12 text_filed">
-                     <input type="text" class="inside_text"
-                        value="${noticeVO.content }">
-                  </div>
+                  <h1>공지 사항</h1>
                </div>
 
-               <c:if test="${not empty uploadList}">
-                  <c:forEach var="file" items="${uploadList }">
+               <div class="row ">
+
+                  <div class="col-10 alert alert-primary layer_content at_list">
+
+                     <div class="row">
+                        <div class="col-12 little_header">
+                           <h1>${noticeVO.title }</h1>
+
+                        </div>
+
+                     </div>
+                     <div class="row">
+                        <div class="col-12 little_name">
+                           <h5>글번호 : ${noticeVO.articleNO } | 작성일자 :
+                              ${noticeVO.createdate }</h5>
+                           <hr align="left"
+                              style="border: solid 1px #0670D9; width: 100%;">
+                        </div>
+
+
+                     </div>
+                     <div class="row">
+                        <div class="col-12 text_filed">
+                           <textarea class="inside_text" id="story" name="story" style="resize:none;">${noticeVO.content }</textarea>
+                        </div>
+                        
+                     </div>
+
+                     <c:if test="${not empty uploadList}">
+                        <c:forEach var="file" items="${uploadList }">
                ${file.uploadfile }      
                <div class="row bottom_download">
-                        <div class="col-12 a3-1">
-                           <button type="button" class=" btn btn-primary a3"
-                              onClick="fileDownload('${contextPath }/downloadFile.do','${file.uploadfile }')">첨부파일
-                              다운</button>
+                              <div class="col-12 a3-1">
+                                 <button type="button" class=" btn btn-primary a3"
+                                    onClick="fileDownload('${contextPath }/downloadFile.do','${file.uploadfile }')">첨부파일
+                                    다운</button>
+                              </div>
+                           </div>
+                        </c:forEach>
+                     </c:if>
+
+                     <div class="row bottom_button">
+                        <div class="col-2">
+                           <button type="button" class=" btn btn-primary a1"
+                              onClick="backToList(this.form)">목록</button>
+                        </div>
+                        <div class="col-2">
+                           <button type="button" class=" btn btn-secondary a2"
+                              onClick="modArticle('${noticeVO.articleNO}')">수정</button>
                         </div>
                      </div>
-                  </c:forEach>
-               </c:if>
-                  <%-- 
-
-            <div class="row bottom_download">
-               <div class="col-12 a3-1">
-                  <button type="button" class=" btn btn-primary a3" onClick="fileDownload('${contextPath }/downloadFile.do','${file.uploadfile }')">첨부파일 다운</button>
-               </div>
-            </div> --%>
-
-                  <div class="row bottom_button">
-                     <div class="col-2">
-                        <button type="button" class=" btn btn-primary a1" 
-                           onClick="backToList(this.form)">목록</button>
-                     </div>
-                     <div class="col-2">
-                        <button type="button" class=" btn btn-secondary a2"
-                           onClick="modArticle('${noticeVO.articleNO}')">수정</button>
-                     </div>
                   </div>
+               </div>
             </div>
          </div>
-      </div>
-   </div>
+         
 
+         <%-- 첨부파일 다운로드
 
-
-   <%--    <c:if test="${not empty uploadList}">
+      <c:if test="${not empty uploadList}">
       <tr>
          <td width="150" align="center" bgcolor="#FF9933">첨부파일</td>
          <td><c:forEach var="file" items="${uploadList }">
@@ -172,21 +169,9 @@
                <input type="button" value="파일다운로드"
                   onClick="fileDownload('${contextPath }/downloadFile.do','${file.uploadfile }')" />
                </br>
-
-
             </c:forEach></td>
       </tr>
    </c:if> --%>
-   <%-- 
-         <tr id="tr_btn">
-            <td colspan="2" align="center"><c:if test="${isAdmin==true }">
-                  <td><input type=button value="수정하기"
-                     onClick="modArticle('${noticeVO.articleNO}')"></td>
-                  <input type=button value="삭제하기" onClick="fn_delete(this.form)">
-               </c:if> <input type=button value="리스트로 돌아가기"
-               onClick="backToList(this.form)"> <input type=button
-               value="답글쓰기" /></td>
-         </tr>
       </table>
-   </form> --%>
+   </form>
 </body>

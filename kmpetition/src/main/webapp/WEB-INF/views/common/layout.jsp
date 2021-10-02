@@ -20,9 +20,9 @@ request.setCharacterEncoding("utf-8");
 <body>
 	<div id="outer_wrap">
 		<div id="wrap">
-			<header>
+			<!-- <header> -->
 				<tiles:insertAttribute name="header" />
-			</header>
+			<!-- </header> -->
 			<div class="clear"></div>
 			<aside>
 				<tiles:insertAttribute name="side" />

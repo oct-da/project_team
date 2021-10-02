@@ -52,7 +52,7 @@ public class MainController {
 		HttpSession session;
 		ModelAndView mav = new ModelAndView();
 		String viewName = "/main/main";
-		mav=networkGraph(mav);
+//		mav=networkGraph(mav);
 		mav.setViewName(viewName);
 		return mav;
 	}

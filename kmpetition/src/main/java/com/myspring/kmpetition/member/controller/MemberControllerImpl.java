@@ -141,7 +141,10 @@ public class MemberControllerImpl extends MainController implements MemberContro
 						enable.setId(id);
 						enable.setFailCount(failCount + 1);
 						memberService.setFailCount(enable);
-						message = "아이디나 비밀번호가 틀립니다. 다시 로그인해주세요.";
+						message = "<script>";
+		                message += " popAlert('로그인 실패', '아이디나 비밀번호가 틀립니다. 다시 로그인해 주세요.', 'info', '확인');";
+		                message += " location.href='" + request.getContextPath() + "/member/loginForm.do';";
+		                message += " </script>";
 						mav.addObject("message", message);
 						mav.setViewName("/member/loginForm");
 					}
@@ -165,7 +168,10 @@ public class MemberControllerImpl extends MainController implements MemberContro
 							enable.setId(id);
 							enable.setTime(disableTime);
 							memberService.setDisableTime(enable);
-							message = "로그인에 5회 이상 실패하셨습니다. 30초 후에 다시 시도해주세요.";
+                            message = "<script>";
+			                message += " popAlert('로그인 실패', '로그인에 5회 이상 실패하셨습니다. 30초 후에 다시 시도해 주세요.', 'info', '확인');";
+			                message += " location.href='" + request.getContextPath() + "/member/loginForm.do';";
+			                message += " </script>";
 							mav.addObject("message", message);
 							mav.setViewName("redirect:/member/loginForm.do");
 						}
@@ -252,13 +258,13 @@ public class MemberControllerImpl extends MainController implements MemberContro
 		try {
 			memberService.addMember(memberMap);
 			message = "<script>";
-			message += " alert('회원 가입을 마쳤습니다.로그인창으로 이동합니다.');";
+			message += " popAlert('회원가입 완료', '회원 가입을 마쳤습니다. 로그인창으로 이동합니다.', 'success', '확인');";
 			message += " location.href='" + request.getContextPath() + "/member/loginForm.do';";
 			message += " </script>";
 
 		} catch (Exception e) {
 			message = "<script>";
-			message += " alert('작업 중 오류가 발생했습니다. 다시 시도해 주세요');";
+			message += " popAlert('오류 발생', '작업 중 오류가 발생했습니다. 다시 시도해 주세요.', 'error', '확인');";
 			message += " location.href='" + request.getContextPath() + "/member/memberForm.do';";
 			message += " </script>";
 			e.printStackTrace();
@@ -343,13 +349,13 @@ public class MemberControllerImpl extends MainController implements MemberContro
 			memberService.modPwd(modMap);
 			System.out.println("modPwd 성공");
 			message = "<script>";
-			message += " alert('비밀번호 변경이 완료되었습니다. 로그인창으로 이동합니다.');";
+			message += " popAlert('비밀번호 변경 완료', '비밀번호 변경이 완료되었습니다. 로그인창으로 이동합니다.', 'success', '확인');";
 			message += " location.href='" + request.getContextPath() + "/member/loginForm.do';";
 			message += " </script>";
 
 		} catch (Exception e) {
 			message = "<script>";
-			message += " alert('작업 중 오류가 발생했습니다. 다시 시도해 주세요');";
+			message += " popAlert('오류 발생', '작업 중 오류가 발생했습니다. 다시 시도해 주세요.', 'error', '확인');";
 			message += " location.href='" + request.getContextPath() + "/member/findPwdForm.do';";
 			message += " </script>";
 			e.printStackTrace();

@@ -12,10 +12,11 @@
  <script  src="http://code.jquery.com/jquery-latest.min.js"></script> 
    <script type="text/javascript" >
 
-     function backToList(obj){   // [리스트로 돌아가기] 나 [취소] 눌렀을 때 obj <- this.form(폼 객체 전체) / frmArticle
-	    obj.action="${contextPath}/board/boardList.do";
-	    obj.submit();
-     }
+   function backToList(obj) { // [리스트로 돌아가기] 나 [취소] 눌렀을 때 obj <- this.form(폼 객체 전체) / frmArticle
+	      obj.setAttribute("action","${contextPath}/board/boardList.do");
+	      obj.setAttribute("method", "get");
+	      obj.submit();
+	   }
      
      /* 파일 다운로드 함수 */
      function fileDownload(url,fileName){
@@ -123,7 +124,97 @@
 	}
      
   </script>
+  
+<head>
+  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.87.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>Headers · Bootstrap v5.1</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/headers/">
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="${contextPath}/resources/css/list_onebyone_detail.css" type="text/css">
+</head>
 <body>
+<form name="frmboardVO" method="post" action="${contextPath}"
+		enctype="multipart/form-data">
+		<input type="hidden" name="noticeNO" value="${boardVO.articleNO}" />
+		
+    <div class="row">
+       
+        <div class="col-8" id="cont">
+            <div class="row">
+              <div class="col-4">  
+            
+                <h1>1:1문의</h1>
+                   </div>
+                  
+            </div>
+            
+            <div class="row ">
+                
+                <div class="col-10 alert alert-primary layer_content at_list">
+   
+                    <div class="row"> 
+                        <div class="col-12 little_header">
+                        <h1>이 홈페이지는 왜 있는 건가요?</h1>
+                            
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-12 little_name">
+                           <h5>${boardVO.id } | ${boardVO.createdate} </h5>
+                            <hr align="left" style="border: solid 1px #0670D9; width: 100%;">
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="row">
+                            <div class="col-12 text_filed">
+                                <textarea type="text" class="form-control search_text inside_text" style="width: 700px; height: 500px; resize: none;" >${boardVO.content }</textarea>
+                            </div>
+                        </div>
+                        
+                          
+                          
+                          <div class="row bottom_button">
+                          <div class="col-5 ">
+                              
+                          </div>
+                              
+                                <div class="col-2">
+                               <button type="button" class=" btn btn-primary a1">목록</button>
+                           </div>
+                           <div class="col-2">
+                               <button type="button" class=" btn btn-secondary a2">수정</button>
+                           </div>
+                           <div class="col-2">
+                               <button type="button" class=" btn btn-danger a3">삭제</button>
+                           </div>
+                       </div>
+                   
+                    
+                     
+                </div>
+                </div>    
+        </div>
+    </div>
+       
+
+
+
+
+<%-- 
+
+<!-- 아래는 이전에 쓰던 페이지 코드 -->
 	<form name="frmboardVO" method="post" action="${contextPath}"
 		enctype="multipart/form-data">
 		<table border=0 align="center">
@@ -228,7 +319,8 @@
 					<input type=button value="수정하기" onClick="modReply(this.form)">
 					<input type=button value="답글삭제" onClick="fn_replyDelete(this.form, '${boardVO.articleNO}')"></td>
 				</tr>
-			</c:if>
+				
+			</c:if> --%>
 			
 		</table>
 	</form>

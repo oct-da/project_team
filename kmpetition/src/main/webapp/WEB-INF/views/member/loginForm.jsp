@@ -1,13 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8" isELIgnored="false"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	pageEncoding="utf-8"
+	isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
-<!DOCTYPE html >
+
+<!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+
     <!-- 구글 웹폰트 -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 
@@ -44,11 +48,8 @@
     }
     
 %>
-<c:if test='${not empty message}'>
-        <script>
-            popAlert("something", "not empty message", "question", "확인");
 
-        </script>
+    <c:if test='${not empty message}'>
         <c:if test='${message == "notExist"}'>
             <script>
                 var msg = "${message}";
@@ -57,30 +58,17 @@
                 }
 
                 function result() {
-                    popAlert("알림 메시지", "존재하지 않는 회원입니다.", "info", "확인");
+                    popAlert("알림 메시지", "회원 정보를 찾을 수 없습니다.", "info", "확인");
                 }
 
             </script>
         </c:if>
     </c:if>
-    <%--
-    <c:if test='${empty message}'>
-        <script>
-            window.onload = function() {
-                result();
-            }
 
-            function result() {
-                popAlert("알림 메시지", "메시지가 없습니다.", "info", "확인");
-            }
-
-        </script>
-        
-    </c:if>
-     --%>
 </head>
+
 <body>
-	<form name="frmLogin" method="post" action="${contextPath}/member/login.do">
+    <form name="frmLogin" method="post" action="${contextPath}/member/login.do">
         <div class="wrap">
             <div class="login">
                 <h2>로그인</h2>
@@ -112,4 +100,5 @@
         </div>
     </form>
 </body>
+
 </html>

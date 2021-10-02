@@ -142,9 +142,9 @@ public class BoardControllerImpl extends MainController implements BoardControll
 //		게시글이 비공개이고 로그인한 회원이 게시글의 작성자가 아니면
 		if (boardVO.isVisible() != true && !loginId.equals(articleId)) {
 
-			String errMsg = "비공개 게시글";
-			mav.addObject(errMsg);
-			mav.setViewName("redirect:/board/boardList.do");
+			String message = "notVisible";
+			mav.addObject("message",message);
+			mav.setViewName("forward:/board/boardList.do");
 			System.out.println("비공개 게시글입니다.");
 		} else {
 			mav.addObject("articleMap", articleMap);

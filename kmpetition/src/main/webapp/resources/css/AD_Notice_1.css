@@ -1,54 +1,49 @@
  * {
-            margin: 0;
-            padding: 0;
-            font-family: "Noto Sans KR", sans-serif;
-        }
+   margin: 0;
+   padding: 0;
+   font-family: "Noto Sans KR", sans-serif;
+}
 
-        
-        
-       
-        #cont{
-            
-            
-            height: 100;
-            
-        }
-        .num{
-            
-            height: 40px;
-        }
+#cont {
+   height: 100;
+}
 
-        .bottom_button{
-            position: absolute;
-            left: 600px;
-        }
-       .pagination{
-            position: absolute;
-            left: 50%;
-            width: 600px;
-        }
-        
-       
-      
-        
-       
-        
-        .num{
-            text-align: center;
-        }
-        .write_day{
-            text-align: center;
-        }
-        .writer{
-            text-align: center;
-        }
-        .date{
-            text-align: center;
-        }
-        .user{
-            text-align: center;
-        }
-        .at_list{
-            height: 700px;
-        }
-        
+.num {
+   height: 40px;
+}
+
+.bottom_button {
+   position: absolute;
+   left: 250px;
+}
+
+.pagination {
+   top: 12;
+   position: relative;
+   left: 20%;
+   width: 600px;
+}
+
+.num {
+   text-align: center;
+}
+
+.write_day {
+   text-align: center;
+}
+
+.writer {
+   text-align: center;
+}
+
+.date {
+   text-align: center;
+}
+
+.user {
+   text-align: center;
+}
+
+.at_list {
+   height: 460px;
+}

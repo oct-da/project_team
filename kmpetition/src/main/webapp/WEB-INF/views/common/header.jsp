@@ -26,7 +26,7 @@ sessionStorage.setItem("contextpath", "${pageContext.request.contextPath}");
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <title>Headers · Bootstrap v5.1</title>
 
-
+<link rel="stylesheet" href="${contextPath}/resources/css/header.css" type="text/css">
     <!--폰트-->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 
@@ -41,13 +41,13 @@ sessionStorage.setItem("contextpath", "${pageContext.request.contextPath}");
 
 <body>
 	<div class="row">
-        <div class="col-2 header">
+        <div class="col-3 header">
             <div class="logo">
                 <a href="${contextPath}/main/main.do"><img class="img_jmt" src="${contextPath}/resources/img/logo.jpg" ></a>
             </div>
         </div>
 
-        <div class="col-10" id="cont">
+        <div class="col-9" id="cont">
 
             <div class="row">
                 <div class="col">
@@ -61,17 +61,14 @@ sessionStorage.setItem("contextpath", "${pageContext.request.contextPath}");
 
                             <div class="row">
 
-                                <div class="col-6 cont-3">
+                                <div class="col-5 cont-3">
                                     <div class="search_text1">
                                         <input type="search" class="form-control search_text" id="form_text" placeholder="Search...">
                                     </div>
                                 </div>
-
-
 				<c:choose>
 					<c:when test="${isLogOn==true and not empty memberInfo }">
 					<!-- CSS -->
-   					 <link rel="stylesheet" href="${contextPath}/resources/css/header_user_01.css" type="text/css">
 					
 						<div class="col-6 cont-3">
                                     <div class="text-end">
@@ -90,7 +87,6 @@ sessionStorage.setItem("contextpath", "${pageContext.request.contextPath}");
 					</c:when>
 					<c:when test="${isLogOn==true and isAdmin==true }">
 					<!-- CSS -->
-    <link rel="stylesheet" href="${contextPath}/resources/css/header_ad_01.css" type="text/css">
 						 <div class="col-6 cont-3">
                                     <div class="text-end">
                                         <div>
@@ -107,7 +103,6 @@ sessionStorage.setItem("contextpath", "${pageContext.request.contextPath}");
 					</c:when>
 					<c:otherwise>
 					<!-- CSS -->
-    <link rel="stylesheet" href="${contextPath}/resources/css/header_user_01.css" type="text/css">
 						<div class="col-6 cont-3">
                                     <div class="text-end">
                                         <div>
@@ -184,8 +179,10 @@ sessionStorage.setItem("contextpath", "${pageContext.request.contextPath}");
                                  <div class="serch">
                                     <button class="btn btn btn-primary" type=" button"
                                        id="serch_serch">검색</button>
-                                    <button class="btn btn-secondary" type=" button"
-                                       id="layer_close">닫기</button>
+                                       <input class="btn btn-secondary" type=" button"
+                                       id="layer_close" value="닫기Input" readonly="readonly"> 
+                                    <!-- <button class="btn btn-secondary" type=" button"
+                                       id="layer_close">닫기</button> -->
                                  </div>
                               </div>
                            </div>
